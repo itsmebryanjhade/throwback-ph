@@ -1,0 +1,13 @@
+.git/
+.next/
+node_modules/
+work/
+.superpowers/
+.taste-skill/
+tests/
+docs/
+coverage/
+playwright-report/
+test-results/
+.env*
+AGENTS.md

@@ -1,0 +1,60 @@
+.curatorCard {
+  max-width: 68ch;
+  padding: 14px 16px;
+  border: 1px solid #9b8f72;
+  border-left-width: 5px;
+  background: #fffaf0;
+  color: #28251f;
+  box-shadow: 2px 2px 0 rgb(79 65 39 / 16%);
+}
+
+.paper { border-left-color: #2c6795; }
+.notice { border-left-color: #b35a28; background: #fff4df; }
+
+.curatorLabel {
+  margin-bottom: 4px;
+  color: #5e5748;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.curatorTitle {
+  margin: 0;
+  font: 700 16px/1.25 Georgia, "Times New Roman", serif;
+}
+
+.curatorSummary {
+  margin: 7px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.curatorDetails {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px dotted #9b8f72;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.artifactIcon,
+.artifactFallback {
+  width: var(--artifact-icon-size);
+  height: var(--artifact-icon-size);
+  flex: 0 0 var(--artifact-icon-size);
+}
+
+.artifactIcon { display: block; object-fit: cover; }
+
+.artifactFallback {
+  display: inline-grid;
+  place-items: center;
+  border: 2px outset #f4f0df;
+  background: #d8d2bf;
+  color: #172033;
+  font-size: max(11px, calc(var(--artifact-icon-size) * 0.3));
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}

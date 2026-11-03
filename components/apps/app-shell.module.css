@@ -1,0 +1,402 @@
+/* ==========================================================================
+   Throwback PH — Phase 2 Registered App Shells & Room Folders
+   Authentic Y2K Windows aesthetic with clean, responsive containers
+   ========================================================================== */
+
+.appWindowContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #ece9d8;
+  color: #111827;
+  overflow: hidden;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  font-size: var(--text-body, 15px);
+  line-height: 1.45;
+}
+
+/* --- App Toolbar --- */
+.appToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: linear-gradient(180deg, #fbfbfb 0%, #ece9d8 100%);
+  border-bottom: 1px solid #b0bec5;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.roomBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: var(--text-caption, 12px);
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.roomBadgeTech {
+  background: #0f67c7;
+}
+
+.roomBadgePerf {
+  background: #d84a1b;
+}
+
+.roomBadgeGlobal {
+  background: #3f7c38;
+}
+
+.flagshipBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: linear-gradient(180deg, #ffc83b 0%, #e69d00 100%);
+  color: #4a2e00;
+  border-radius: 3px;
+  font-size: var(--text-caption, 12px);
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+/* --- Scrollable Content Area --- */
+.appScrollArea {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #b0bec5 #ece9d8;
+}
+
+.appScrollArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.appScrollArea::-webkit-scrollbar-track {
+  background: #ece9d8;
+}
+
+.appScrollArea::-webkit-scrollbar-thumb {
+  background: #b0bec5;
+  border: 1px solid #90a4ae;
+}
+
+/* --- App Hero / Registration Panel --- */
+.appHeroCard {
+  display: flex;
+  gap: 16px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #b0bec5;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.appHeroIconWrapper {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  border: 2px solid #9fb3c8;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: inset 1px 1px 0 #fff;
+}
+
+.appHeroContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.appHeroTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.appHeroTagline {
+  margin: 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.appHeroDescription {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* --- Museum Curatorial Info Section --- */
+.museumInfoPanel {
+  background: #fefce8;
+  border: 1px solid #fef08a;
+  border-left: 4px solid #ca8a04;
+  border-radius: 4px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.museumInfoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.museumInfoTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #854d0e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.museumInfoYears {
+  font-size: var(--text-caption, 12px);
+  font-weight: 700;
+  background: #fef08a;
+  color: #713f12;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.museumInfoSummary {
+  margin: 0;
+  font-size: 14px;
+  color: #713f12;
+  line-height: 1.5;
+}
+
+.museumInfoInsight {
+  margin: 0;
+  font-size: 14px;
+  color: #854d0e;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.sourcesList {
+  margin: 4px 0 0 0;
+  padding-left: 16px;
+  font-size: var(--text-caption, 12px);
+  color: #a16207;
+}
+
+/* --- Bottom Status Bar --- */
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: #ece9d8;
+  border-top: 1px solid #d4d0c8;
+  font-size: var(--text-caption, 12px);
+  color: #4b5563;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.statusBarPane {
+  padding: 2px 8px;
+  border: 1px inset #fff;
+  background: #f7f6f0;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.statusBarPaneGrow {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Room Folder Specific Styling
+   ========================================================================== */
+
+.folderHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #b0bec5;
+  border-radius: 4px;
+}
+
+.folderIconBadge {
+  width: 52px;
+  height: 52px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.folderHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.folderTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.folderDesc {
+  margin: 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.appCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.appCard {
+  background: #fff;
+  border: 2px solid #d4d0c8;
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: transform 0.1s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.appCard:hover {
+  border-color: #0054e3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.appCardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.appCardIcon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.appCardIcon img { object-fit: cover; }
+
+[data-layout-mode="maximized"] .appCardsGrid {
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+.appCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.appCardTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.appCardTagline {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.appCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+}
+
+.launchAppButton {
+  background: linear-gradient(180deg, #3d8bfd 0%, #0054e3 100%);
+  color: #fff;
+  border: 1px solid #003db3;
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.launchAppButton:hover,
+.launchAppButton:focus-visible {
+  background: linear-gradient(180deg, #539aff 0%, #1765e6 100%);
+  outline: 2px solid #0054e3;
+  outline-offset: 1px;
+}
+
+.launchAppButton:active {
+  background: #0045be;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.statusIndicator {
+  font-size: var(--text-caption, 12px);
+  color: #10b981;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

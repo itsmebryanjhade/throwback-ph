@@ -1,0 +1,801 @@
+/* Net Café Manager Module Styles */
+
+.netcafeContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  overflow: hidden;
+}
+
+/* Header & Till Bar */
+.cafeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-bottom: 2px solid #334155;
+  flex-shrink: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brandArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cafeLogo {
+  font-size: 20px;
+}
+
+.cafeTitle {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.cafeSub {
+  font-size: 11px;
+  color: #94a3b8;
+  display: block;
+}
+
+.tillBadgeArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tillBadge {
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cashAmount {
+  color: #4ade80;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+/* Nav Tabs */
+.navTabs {
+  display: flex;
+  background: #1e293b;
+  border-bottom: 2px solid #334155;
+  padding: 4px 8px 0;
+  gap: 4px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.navTab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.navTab:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navTab:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: -2px;
+}
+
+.navTabActive {
+  color: #38bdf8;
+  background: #0f172a;
+  border-color: #334155;
+  border-bottom: 2px solid #0f172a;
+  margin-bottom: -2px;
+  font-weight: 700;
+}
+
+.tabBadge {
+  background: #334155;
+  color: #f8fafc;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+/* Single Scroll Region */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+/* Time Simulation Control Bar */
+.simBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.simLabel {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.simButtonGroup {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.simBtn {
+  background: #334155;
+  color: #f1f5f9;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.simBtn:hover {
+  background: #475569;
+  border-color: #64748b;
+}
+
+.simBtn:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 1px;
+}
+
+/* Terminal Grid */
+.terminalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+/* Terminal Card */
+.terminalCard {
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.terminalCard:hover {
+  border-color: #475569;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.terminalCardSelected {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4);
+}
+
+.terminalCardLowTime {
+  border-color: #f59e0b;
+  animation: pulseAmber 1.8s infinite;
+}
+
+.terminalCardExpired {
+  border-color: #ef4444;
+  background: #1f1d24;
+}
+
+@keyframes pulseAmber {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+.terminalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.terminalNumber {
+  font-size: 14px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.terminalStatusBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusAvailable {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.statusOccupied {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.statusPaused {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.statusLowTime {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.statusExpired {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.terminalSpecs {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+.screenPreviewBox {
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timerDisplay {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 1px;
+}
+
+.timerLow {
+  color: #fbbf24;
+}
+
+.timerExpired {
+  color: #f87171;
+}
+
+.userLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #e2e8f0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activityLabel {
+  font-size: 10px;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardFooter {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.actionBtn {
+  flex: 1;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.actionBtn:hover {
+  background: #1d4ed8;
+}
+
+.actionBtn:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 1px;
+}
+
+.secondaryActionBtn {
+  background: #334155;
+  color: #f1f5f9;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.secondaryActionBtn:hover {
+  background: #475569;
+}
+
+.secondaryActionBtn:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 1px;
+}
+
+/* Panel Layouts */
+.panelCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panelTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tariffGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.tariffCard {
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.tariffCard:hover {
+  border-color: #475569;
+}
+
+.tariffCardSelected {
+  border-color: #38bdf8;
+  background: #14233c;
+}
+
+.tariffName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.tariffPrice {
+  font-size: 15px;
+  font-weight: 800;
+  color: #4ade80;
+  margin: 4px 0;
+  font-family: monospace;
+}
+
+.tariffDesc {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+
+/* Form Groups */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.formInput {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #f8fafc;
+  font-family: inherit;
+}
+
+.formInput:focus {
+  outline: 2px solid #38bdf8;
+  border-color: transparent;
+}
+
+.formSelect {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #f8fafc;
+  font-family: inherit;
+}
+
+.formSelect:focus {
+  outline: 2px solid #38bdf8;
+  border-color: transparent;
+}
+
+/* Table styles */
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.dataTable th {
+  background: #0f172a;
+  color: #94a3b8;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid #334155;
+}
+
+.dataTable td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.dataTable tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Snack Grid */
+.snackGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.snackBtn {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.snackBtn:hover {
+  background: #1e293b;
+  border-color: #475569;
+}
+
+.snackBtn:focus-visible {
+  outline: 2px solid #38bdf8;
+}
+
+.snackIcon {
+  font-size: 20px;
+}
+
+.snackName {
+  font-size: 11px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.snackPrice {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4ade80;
+  font-family: monospace;
+}
+
+/* Print progress */
+.printProgressContainer {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.progressBarTrack {
+  height: 8px;
+  background: #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8 0%, #4ade80 100%);
+  transition: width 0.3s ease;
+}
+
+/* Warning Banner */
+.warningBanner {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #fbbf24;
+}
+
+/* Museum Info Card */
+.museumInfoCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  line-height: 1.6;
+}
+
+.infoTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #38bdf8;
+  margin: 0;
+}
+
+.infoYears {
+  font-size: 11px;
+  font-weight: 700;
+  background: #334155;
+  color: #94a3b8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.infoParagraph {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.infoBlockquote {
+  border-left: 3px solid #38bdf8;
+  padding-left: 12px;
+  margin: 4px 0;
+  font-style: italic;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.reconstructionNotice {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #7dd3fc;
+}
+
+.sourceLink {
+  color: #38bdf8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sourceLink:hover {
+  color: #7dd3fc;
+}
+
+/* Phase 9: Windows XP-era cashier restoration */
+.netcafeContainer {
+  background: #d8d5c7;
+  color: #172033;
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+.cafeHeader {
+  align-items: stretch;
+  padding: 8px 10px;
+  background: #f2f0e6;
+  border-bottom: 1px solid #7d7a6d;
+  box-shadow: inset 0 -1px #fff;
+}
+
+.brandArea { min-width: 290px; }
+.brandArea .cafePhoto {
+  width: 128px;
+  height: 96px;
+  flex: 0 0 128px;
+  box-sizing: border-box;
+  border: 1px solid #716c5e;
+}
+.cafeTitle { color: #164b8f; font-size: 14px; }
+.cashierHeading { margin: 1px 0; font-size: 17px; color: #172033; }
+.cafeSub { color: #545044; font-size: 12px; }
+.tillBadgeArea { align-content: center; }
+.tillBadge {
+  background: #fffef7;
+  color: #172033;
+  border: 1px inset #b9b5a6;
+  border-radius: 0;
+  font-size: 13px;
+}
+.cashAmount { color: #164b36; }
+
+.navTabs {
+  background: #d4d0c8;
+  border-bottom-color: #7d7a6d;
+}
+.navTab { color: #26241e; border-radius: 3px 3px 0 0; font-size: 13px; }
+.navTab:hover { color: #111; background: #ece9d8; }
+.navTabActive { color: #103f7b; background: #f7f5ea; border-color: #7d7a6d; }
+.tabBadge { background: #164b8f; }
+.scrollArea { padding: 12px; background: #efede2; }
+
+.floorMap {
+  border: 1px solid #767267;
+  background: #f8f5e9;
+  padding: 10px;
+  min-height: 100%;
+}
+.floorMapHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 9px;
+  margin-bottom: 10px;
+  color: #fff;
+  background: #1f558f;
+  border: 1px solid #0d3159;
+}
+.floorMapHeading div { display: grid; }
+.floorMapHeading span { font-size: 12px; }
+.simBar { background: #e7e3d6; border-color: #aaa596; border-radius: 0; }
+.simLabel { color: #3f3b32; font-size: 13px; }
+.simBtn, .secondaryActionBtn {
+  background: #e4e1d5;
+  color: #172033;
+  border: 2px outset #fff;
+  border-radius: 0;
+  font-size: 13px;
+}
+.actionBtn {
+  background: #1f5dad;
+  border: 2px outset #dfeaff;
+  border-radius: 0;
+  font-size: 13px;
+}
+.terminalGrid { grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 9px; }
+.terminalCard {
+  background: #f4f1e6;
+  border: 1px solid #8f8a7b;
+  border-radius: 0;
+  box-shadow: inset 1px 1px #fff;
+}
+.terminalCardSelected { border: 2px solid #1f5dad; box-shadow: inset 0 0 0 1px #fff; }
+.terminalNumber { color: #172033; font-size: 15px; }
+.terminalStatusBadge { font-size: 12px; padding: 3px 7px; }
+.statusAvailable { background: #d8efcf; color: #124c30; border-color: #69966a; }
+.statusOccupied { background: #dbeafe; color: #164b8f; border-color: #6a8fba; }
+.statusPaused { background: #efe2f6; color: #603878; border-color: #a57bbb; }
+.statusLowTime { background: #fff1c2; color: #78500b; border-color: #c69224; }
+.statusExpired { background: #ffd9d0; color: #8c241a; border-color: #ba6153; }
+.terminalSpecs, .userLabel, .activityLabel { color: #302d27; font-size: 13px; line-height: 1.35; }
+.screenPreviewBox { background: #213327; border-color: #111; border-radius: 1px; }
+.timerDisplay { color: #d5ffad; }
+.screenPreviewBox :where(span, strong, div) { color: #d5ffad !important; }
+
+.panelCard, .museumInfoCard { background: #f8f5e9; color: #172033; border-color: #8f8a7b; border-radius: 0; }
+.panelTitle, .formLabel, .snackName, .dataTable td { color: #172033; }
+.formInput, .formSelect, .tariffCard, .snackBtn, .printProgressContainer { background: #fffef7; color: #172033; border-color: #8f8a7b; border-radius: 0; }
+.tariffName { color: #172033; }
+.tariffDesc, .infoParagraph, .infoBlockquote { color: #4b473e; }
+.dataTable th { background: #d9d5c8; color: #29261f; }
+.dataTable td { border-bottom-color: #c1bdaf; }
+
+:global([data-window-mode="maximized"]) .terminalGrid {
+  grid-template-columns: repeat(4, minmax(210px, 1fr));
+  max-width: 1180px;
+}
+
+:global([data-window-mode="maximized"]) .scrollArea > * {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+:global([data-window-mode="maximized"]) .netcafeContainer :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}

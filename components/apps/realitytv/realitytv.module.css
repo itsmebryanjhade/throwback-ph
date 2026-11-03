@@ -1,0 +1,575 @@
+/* Reality TV Vote Application Styling — Y2K Studio Broadcast Aesthetic */
+
+.tvContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 60%, #090d16 100%);
+  color: #f8fafc;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Phase 9: eviction-night broadcast restoration */
+.tvContainer { background: #e7e2d4; color: #181818; font-family: Tahoma, Verdana, sans-serif; }
+.tvHeader {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  gap: 8px 18px;
+  background: #183d75;
+  border-bottom: 5px solid #e8b733;
+}
+.tvTitle { color: #fff; font-family: Georgia, serif; font-size: 18px; }
+.tvSub { color: #e8edf6; font-size: 12px; }
+.broadcastLowerThird {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 9px;
+  background: #d7aa28;
+  color: #16120a;
+  border: 1px solid #fff0a0;
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+.headerMetrics { grid-column: 2; grid-row: 1; }
+.liveBadge, .loadMeter { border-radius: 0; }
+.navTabs { background: #d5d0c3; border-bottom: 1px solid #777267; }
+.navTab { color: #25211a; border-radius: 0; font-size: 13px; }
+.navTab:hover { color: #111; background: #eeeae0; }
+.navTabActive { color: #fff; background: #183d75; border-color: #0c294f; }
+.scrollArea { background: #ece8dc; padding: 12px; }
+.broadcastStage { max-width: 1180px; margin: 0 auto; }
+.nomineeCard {
+  background: #fffdf5;
+  color: #1b1b1b;
+  border: 1px solid #8d8779;
+  border-left-width: 7px;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #bdb7aa;
+}
+.nomineeCardSelected { outline: 3px solid #d7aa28; outline-offset: -3px; }
+.avatarBox { position: relative; width: 88px; height: 108px; border-radius: 0; overflow: hidden; background: #ded9cb; color: #312d26; font-size: 12px; }
+.portraitCrop { position: relative; display: block; height: 100%; aspect-ratio: 8 / 15; flex: 0 0 auto; overflow: hidden; }
+.nomineePortrait { position: absolute; top: 0; left: 0; width: 500%; max-width: none; height: 100%; }
+.portraitCrop[data-portrait="nom-kiko"] .nomineePortrait { left: -100%; }
+.portraitCrop[data-portrait="nom-joma"] .nomineePortrait { left: -200%; }
+.portraitCrop[data-portrait="nom-patty"] .nomineePortrait { left: -300%; }
+.portraitCrop[data-portrait="nom-chen"] .nomineePortrait { left: -400%; }
+.nomineeName { color: #142f59; font-size: 16px; }
+.nomineeTagline { color: #554f44; font-size: 12px; }
+.statusPill { border-radius: 0; }
+.actionBtn { border-radius: 0; background: #214f90; border-color: #123363; font-size: 13px; }
+.secondaryActionBtn { border-radius: 0; background: #e0ddd3; color: #201d17; border-color: #817b70; font-size: 13px; }
+:global([data-window-mode="maximized"]) .broadcastStage { max-width: 1240px; }
+
+/* Studio Broadcast Header */
+.tvHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  border-bottom: 2px solid #4338ca;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brandArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tvLogo {
+  font-size: 24px;
+  background: #4338ca;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #6366f1;
+}
+
+.tvTitle {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #e0e7ff;
+  text-transform: uppercase;
+  display: block;
+}
+
+.tvSub {
+  font-size: 11px;
+  color: #a5b4fc;
+  display: block;
+}
+
+.headerMetrics {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  animation: pulseLive 2s infinite ease-in-out;
+}
+
+@keyframes pulseLive {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+.loadMeter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f172a;
+  border: 1px solid #4338ca;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.loadAmount {
+  font-weight: 800;
+  color: #38bdf8;
+  font-family: monospace;
+}
+
+/* Tab Navigation */
+.navTabs {
+  display: flex;
+  background: #0f172a;
+  border-bottom: 2px solid #312e81;
+  padding: 0 10px;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.navTab {
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.navTab:hover {
+  color: #e0e7ff;
+  background: rgba(49, 46, 129, 0.25);
+}
+
+.navTab:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: -2px;
+}
+
+.navTabActive {
+  color: #ffffff;
+  border-bottom-color: #818cf8;
+  background: rgba(49, 46, 129, 0.5);
+  font-weight: 700;
+}
+
+.tabBadge {
+  background: #4338ca;
+  color: #c7d2fe;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 9999px;
+}
+
+/* Scroll Area */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #4338ca #0f172a;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: #4338ca;
+  border-radius: 3px;
+}
+
+/* Panels */
+.panelCard {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #312e81;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panelTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Nominee Grid */
+.nomineeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.nomineeCard {
+  background: #1e1b4b;
+  border: 2px solid #3730a3;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.nomineeCard:hover {
+  border-color: #6366f1;
+  transform: translateY(-1px);
+}
+
+.nomineeCardSelected {
+  border-color: #818cf8;
+  box-shadow: 0 0 12px rgba(129, 140, 248, 0.3);
+  background: #2e1065;
+}
+
+.nomineeHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatarBox {
+  width: 44px;
+  height: 44px;
+  background: #0f172a;
+  border: 2px solid #4338ca;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.nomineeMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.nomineeName {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nomineeTagline {
+  font-size: 11px;
+  color: #a5b4fc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusPill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.statusNominated {
+  background: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border: 1px solid #ef4444;
+}
+
+.statusSafe {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+}
+
+.statusImmune {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid #10b981;
+}
+
+/* Action Buttons */
+.actionBtn {
+  background: linear-gradient(180deg, #6366f1 0%, #4338ca 100%);
+  color: #ffffff;
+  border: 1px solid #818cf8;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.actionBtn:hover {
+  background: linear-gradient(180deg, #818cf8 0%, #4f46e5 100%);
+}
+
+.actionBtn:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryActionBtn {
+  background: #1e1b4b;
+  color: #c7d2fe;
+  border: 1px solid #4338ca;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.secondaryActionBtn:hover {
+  background: #312e81;
+  border-color: #6366f1;
+}
+
+.secondaryActionBtn:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+}
+
+/* Standings Progress Bar */
+.standingRow {
+  background: #1e1b4b;
+  border: 1px solid #3730a3;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.standingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.standingNominee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.standingPercentage {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.progressBarTrack {
+  height: 10px;
+  background: #0f172a;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #312e81;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* History Table */
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.dataTable th {
+  background: #1e1b4b;
+  padding: 8px 10px;
+  border-bottom: 2px solid #4338ca;
+  color: #c7d2fe;
+  font-weight: 700;
+}
+
+.dataTable td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #312e81;
+  color: #e2e8f0;
+}
+
+.dataTable tr:hover {
+  background: rgba(49, 46, 129, 0.3);
+}
+
+/* Museum Info Card */
+.museumInfoCard {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid #4338ca;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.infoYears {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  width: fit-content;
+}
+
+.infoParagraph {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.infoBlockquote {
+  border-left: 3px solid #818cf8;
+  padding-left: 12px;
+  margin: 4px 0;
+  font-size: 13px;
+  font-style: italic;
+  color: #e0e7ff;
+}
+
+.reconstructionNotice {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid #6366f1;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #c7d2fe;
+}
+
+.sourceLink {
+  color: #38bdf8;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.sourceLink:hover {
+  color: #93c5fd;
+}
+
+/* Final cascade for the Phase 9 broadcast treatment. */
+.tvHeader { display: grid; grid-template-columns: minmax(240px, 1fr) auto; align-items: center; background: #183d75; border-bottom: 5px solid #e8b733; }
+.tvTitle { color: #fff; font-family: Georgia, serif; font-size: 18px; }
+.tvSub { color: #e8edf6; font-size: 12px; }
+.headerMetrics { grid-column: 2; grid-row: 1; }
+.navTabs { background: #d5d0c3; border-bottom-color: #777267; }
+.navTab { color: #25211a; border-radius: 0; font-size: 13px; }
+.navTab:hover { color: #111; background: #eeeae0; }
+.navTabActive { color: #fff; background: #183d75; border-color: #0c294f; }
+.scrollArea { background: #ece8dc; overflow-x: hidden; }
+.nomineeCard { background: #fffdf5; color: #1b1b1b; border-color: #8d8779; border-radius: 0; box-shadow: 2px 2px 0 #bdb7aa; }
+.nomineeName { color: #142f59; font-size: 16px; }
+.nomineeTagline { color: #554f44; font-size: 12px; }
+.actionBtn { border-radius: 0; background: #214f90; border-color: #123363; font-size: 13px; }
+.secondaryActionBtn { border-radius: 0; background: #e0ddd3; color: #201d17; border-color: #817b70; font-size: 13px; }
+
+/* The legacy card markup carries dark-theme inline colors. Restore paper-legible
+   contrast without changing the reducer-backed voting flow. */
+.nomineeCard > div:nth-of-type(3) { color: #3f392f !important; }
+.nomineeCard > div:nth-of-type(4) { border-top-color: #b8ac96 !important; }
+.nomineeCard > div:nth-of-type(4) div { color: #5c5549 !important; }
+.nomineeCard > div:nth-of-type(4) strong { color: #172b49 !important; }
+.nomineeGridHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.nomineeGridHeader h4 { color: #172b49 !important; }
+.nomineeGridHeader span { color: #5c5549 !important; }
+
+:global([data-window-mode="maximized"]) .scrollArea > * {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+:global([data-window-mode="maximized"]) .tvContainer :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}

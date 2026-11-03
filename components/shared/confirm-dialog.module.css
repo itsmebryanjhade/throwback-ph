@@ -1,0 +1,8 @@
+.backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(7, 25, 54, .72); }
+.dialog { width: min(430px, 100%); border: 3px solid #0c55b8; background: #ece9d8; color: #172033; box-shadow: 8px 10px 0 rgba(9, 34, 76, .35); }
+.titleBar { padding: 8px 12px; background: #0c55b8; color: #fff; font-weight: 800; }
+.dialog p { margin: 0; padding: 22px; font-size: 15px; line-height: 1.5; }
+.actions { display: flex; justify-content: flex-end; gap: 8px; padding: 0 22px 20px; }
+.actions button { min-height: 40px; border: 2px outset #fff; padding: 0 16px; font-weight: 800; cursor: pointer; }
+.danger { background: #b42318; color: #fff; }
+.actions button:focus-visible { outline: 3px solid #f5a623; outline-offset: 2px; }

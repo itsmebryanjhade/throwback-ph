@@ -1,0 +1,292 @@
+import type {
+  CafeActivity,
+  CompletedSession,
+  NetCafeState,
+  PrintJob,
+  SessionTariff,
+  SnackItem,
+  Terminal,
+} from "./types";
+
+export const CAFE_TARIFFS: SessionTariff[] = [
+  {
+    id: "tariff-30m",
+    name: "30 Minutes Quick Surf",
+    minutes: 30,
+    pricePesos: 15,
+    description: "Check Friendster, send a fast email, or print homework.",
+  },
+  {
+    id: "tariff-1h",
+    name: "1 Hour Standard",
+    minutes: 60,
+    pricePesos: 20,
+    description: "Standard hourly computer shop rate for gaming or research.",
+  },
+  {
+    id: "tariff-2h",
+    name: "2 Hours Barkada Rate",
+    minutes: 120,
+    pricePesos: 35,
+    description: "Discounted session popular for Dota 5v5 and leveling grinding.",
+  },
+  {
+    id: "tariff-3h-promo",
+    name: "3 Hours Happy Hour Promo",
+    minutes: 180,
+    pricePesos: 50,
+    description: "After-school special discount for marathon LAN battles.",
+  },
+];
+
+export const CAFE_ACTIVITIES: CafeActivity[] = [
+  {
+    id: "act-dota",
+    name: "Dota: Defense of the Ancients (5v5 LAN)",
+    category: "gaming",
+    icon: "⚔️",
+    genre: "Warcraft III Custom Map",
+  },
+  {
+    id: "act-ragnarok",
+    name: "Ragnarok Online (Chaos / Loki Server)",
+    category: "gaming",
+    icon: "🗡️",
+    genre: "MMORPG Grinding & War of Emperium",
+  },
+  {
+    id: "act-cs",
+    name: "Counter-Strike 1.3 / 1.6 (de_dust)",
+    category: "gaming",
+    icon: "💣",
+    genre: "Local Area Network FPS",
+  },
+  {
+    id: "act-battlerealms",
+    name: "Battle Realms & Red Alert 2",
+    category: "gaming",
+    icon: "⛩️",
+    genre: "Real-Time Strategy",
+  },
+  {
+    id: "act-social",
+    name: "Friendster, Yahoo! Messenger & mIRC",
+    category: "social",
+    icon: "💬",
+    genre: "Chat Rooms & Profile Customization",
+  },
+  {
+    id: "act-research",
+    name: "School Research, Encarta & Wikipedia",
+    category: "productivity",
+    icon: "📚",
+    genre: "Word Processing & Homework Printing",
+  },
+  {
+    id: "act-mp3",
+    name: "Winamp MP3 Playlist & Kazaa Downloads",
+    category: "multimedia",
+    icon: "🎵",
+    genre: "Pinoy Rock & R&B Mixtape Creation",
+  },
+];
+
+export const CAFE_SNACKS: SnackItem[] = [
+  {
+    id: "snack-canton",
+    name: "Pancit Canton (Chili Mansi) with Hardboiled Egg",
+    category: "food",
+    pricePesos: 25,
+    icon: "🍜",
+  },
+  {
+    id: "snack-dew",
+    name: "Mountain Dew (8oz Ice-Cold Glass Bottle)",
+    category: "drink",
+    pricePesos: 15,
+    icon: "🥤",
+  },
+  {
+    id: "snack-sting",
+    name: "Sting Strawberry Energy Drink",
+    category: "drink",
+    pricePesos: 20,
+    icon: "⚡",
+  },
+  {
+    id: "snack-nagaraya",
+    name: "Nagaraya Garlic Cracker Nuts",
+    category: "food",
+    pricePesos: 12,
+    icon: "🥜",
+  },
+  {
+    id: "snack-c2",
+    name: "C2 Cool & Clean Green Tea (Apple)",
+    category: "drink",
+    pricePesos: 15,
+    icon: "🧃",
+  },
+];
+
+export const INITIAL_TERMINALS: Terminal[] = [
+  {
+    id: "pc-01",
+    number: 1,
+    name: "PC 01 - Cyber Barkada",
+    osName: "Windows 98 SE",
+    specs: "Intel Celeron 600MHz · 128MB RAM · CRT 15”",
+    status: "occupied",
+    session: {
+      terminalId: "pc-01",
+      customerName: "Jepoy_Dota",
+      tariffId: "tariff-1h",
+      activityId: "act-dota",
+      initialMinutes: 60,
+      extendedMinutes: 0,
+      remainingSeconds: 900, // 15 mins left
+      sessionFeePesos: 20,
+      snacks: [{ name: "Mountain Dew (8oz Ice-Cold Glass Bottle)", pricePesos: 15 }],
+      printJobIds: [],
+      startTime: "3:30 PM",
+      lowTimeWarned: false,
+      isPaused: false,
+    },
+  },
+  {
+    id: "pc-02",
+    number: 2,
+    name: "PC 02 - Net Champion",
+    osName: "Windows XP SP1",
+    specs: "AMD Athlon XP 1800+ · 256MB RAM · GeForce2 MX",
+    status: "available",
+  },
+  {
+    id: "pc-03",
+    number: 3,
+    name: "PC 03 - Research Station",
+    osName: "Windows 2000 Pro",
+    specs: "Intel Pentium III 800MHz · 256MB RAM · HP DeskJet",
+    status: "available",
+  },
+  {
+    id: "pc-04",
+    number: 4,
+    name: "PC 04 - Guild Master",
+    osName: "Windows XP Home",
+    specs: "Intel Pentium 4 1.7GHz · 512MB RAM · GeForce4 MX440",
+    status: "occupied",
+    session: {
+      terminalId: "pc-04",
+      customerName: "RagnarokKnight99",
+      tariffId: "tariff-2h",
+      activityId: "act-ragnarok",
+      initialMinutes: 120,
+      extendedMinutes: 0,
+      remainingSeconds: 2700, // 45 mins left
+      sessionFeePesos: 35,
+      snacks: [
+        {
+          name: "Pancit Canton (Chili Mansi) with Hardboiled Egg",
+          pricePesos: 25,
+        },
+      ],
+      printJobIds: [],
+      startTime: "2:45 PM",
+      lowTimeWarned: false,
+      isPaused: false,
+    },
+  },
+  {
+    id: "pc-05",
+    number: 5,
+    name: "PC 05 - Lan Striker",
+    osName: "Windows XP SP2",
+    specs: "Intel Pentium 4 2.4GHz · 512MB RAM · Sound Blaster Live!",
+    status: "available",
+  },
+  {
+    id: "pc-06",
+    number: 6,
+    name: "PC 06 - Cyber Tambayan",
+    osName: "Windows Millennium",
+    specs: "Intel Pentium III 733MHz · 128MB RAM · CRT 17”",
+    status: "available",
+  },
+  {
+    id: "pc-07",
+    number: 7,
+    name: "PC 07 - Student Special",
+    osName: "Windows XP SP1",
+    specs: "Intel Celeron D 2.13GHz · 256MB RAM · Optical Mouse",
+    status: "available",
+  },
+  {
+    id: "pc-08",
+    number: 8,
+    name: "PC 08 - Turbo Gamer",
+    osName: "Windows XP SP2",
+    specs: "Intel Pentium 4 2.8GHz · 1GB RAM · Radeon 9200",
+    status: "available",
+  },
+];
+
+export const INITIAL_COMPLETED_SESSIONS: CompletedSession[] = [
+  {
+    id: "sess-hist-1",
+    terminalId: "pc-02",
+    terminalName: "PC 02 - Net Champion",
+    customerName: "Ate_Michelle",
+    durationMinutes: 60,
+    activityName: "School Research, Encarta & Wikipedia",
+    sessionCostPesos: 20,
+    snackCostPesos: 15,
+    printCostPesos: 10,
+    totalBillPesos: 45,
+    completedAt: "2:15 PM",
+  },
+  {
+    id: "sess-hist-2",
+    terminalId: "pc-05",
+    terminalName: "PC 05 - Lan Striker",
+    customerName: "Kiko_Gamer",
+    durationMinutes: 120,
+    activityName: "Counter-Strike 1.3 / 1.6 (de_dust)",
+    sessionCostPesos: 35,
+    snackCostPesos: 25,
+    printCostPesos: 0,
+    totalBillPesos: 60,
+    completedAt: "3:00 PM",
+  },
+];
+
+export const INITIAL_PRINT_JOBS: PrintJob[] = [
+  {
+    id: "print-1",
+    terminalId: "pc-03",
+    documentName: "Philippine_History_Term_Paper.doc",
+    pageCount: 5,
+    isColor: false,
+    costPesos: 10,
+    status: "completed",
+    createdAt: "2:05 PM",
+  },
+];
+
+export const INITIAL_NETCAFE_STATE: NetCafeState = {
+  activeView: "terminals",
+  selectedTerminalId: "pc-02",
+  terminals: INITIAL_TERMINALS,
+  tariffs: CAFE_TARIFFS,
+  activities: CAFE_ACTIVITIES,
+  snacks: CAFE_SNACKS,
+  printJobs: INITIAL_PRINT_JOBS,
+  completedSessions: INITIAL_COMPLETED_SESSIONS,
+  cashierRegister: {
+    cashOnHand: 105,
+    totalSessionRevenue: 55,
+    totalPrintRevenue: 10,
+    totalSnackRevenue: 40,
+  },
+  isTimerRunning: true,
+};

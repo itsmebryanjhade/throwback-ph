@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.vercel/
+out/
+coverage/
+playwright-report/
+test-results/
+work/
+.superpowers/
+.taste-skill/inspect/
+.env*
+!.env.example
+*.log
+
+.vercel

@@ -1,0 +1,204 @@
+.windowFrame {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: #ece9d8;
+  color: #172033;
+  border: 3px solid #0c55b8;
+  box-shadow: 6px 8px 0 rgba(9, 34, 76, 0.28);
+  box-sizing: border-box;
+  overflow: hidden;
+  user-select: text;
+}
+
+.windowFrameActive {
+  border-color: #0c55b8;
+  box-shadow: 8px 10px 0 rgba(9, 34, 76, 0.35);
+}
+
+.windowFrameInactive {
+  border-color: #6c7c8c;
+  box-shadow: 5px 6px 0 rgba(9, 34, 76, 0.2);
+}
+
+.windowFrameMaximized {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.windowFrame[data-window-mode="maximized"] .windowBody {
+  min-width: 0;
+  min-height: 0;
+}
+
+.titleBar {
+  min-height: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 8px;
+  background: linear-gradient(to right, #073b88 0%, #0c55b8 35%, #2c7de0 70%, #0c55b8 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.titleBarInactive {
+  background: linear-gradient(to right, #5c6c7d 0%, #768697 50%, #5c6c7d 100%);
+  color: #dce4ed;
+}
+
+.titleBar:active {
+  cursor: grabbing;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.titleIcon {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+.windowControls {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.controlButton {
+  min-width: 25px;
+  width: 25px;
+  height: 23px;
+  border: 2px outset #ffffff;
+  background: #ece9d8;
+  color: #172033;
+  font-size: 13px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.controlButton:hover {
+  background: #fdfcf7;
+}
+
+.controlButton:active {
+  border-style: inset;
+  transform: translateY(1px);
+}
+
+.closeButton {
+  background: #d65337;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.closeButton:hover {
+  background: #e63c1a;
+  color: #ffffff;
+}
+
+.windowBody {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ece9d8;
+}
+
+/* Resize Handles */
+.handle {
+  position: absolute;
+  z-index: 10;
+  touch-action: none;
+}
+
+.handleN {
+  top: -3px;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.handleS {
+  bottom: -3px;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.handleE {
+  right: -3px;
+  top: 10px;
+  bottom: 10px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.handleW {
+  left: -3px;
+  top: 10px;
+  bottom: 10px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.handleNE {
+  top: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+}
+
+.handleNW {
+  top: -3px;
+  left: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}
+
+.handleSE {
+  bottom: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
+}
+
+.handleSW {
+  bottom: -3px;
+  left: -3px;
+  width: 12px;
+  height: 12px;
+  cursor: nesw-resize;
+}

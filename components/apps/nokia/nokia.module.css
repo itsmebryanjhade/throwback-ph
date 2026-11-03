@@ -1,0 +1,707 @@
+/* Nokia Messages Flagship Styling */
+
+.nokiaContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #2a313d;
+  color: #1e293b;
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Header & Phone Bezel */
+.phoneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #3d4655 0%, #29303c 100%);
+  border-bottom: 2px solid #1a202c;
+  color: #e2e8f0;
+}
+
+.brandBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.speakerGrille {
+  width: 48px;
+  height: 6px;
+  background: #111827;
+  border-radius: 3px;
+  border: 1px solid #4b5563;
+}
+
+.modelBadge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.balanceBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f172a;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  font-size: 12px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.lowBalance {
+  color: #f87171;
+  border-color: #ef4444;
+}
+
+/* Top Navigation Tabs */
+.navTabs {
+  display: flex;
+  overflow-x: auto;
+  background: #1e2430;
+  border-bottom: 2px solid #0f172a;
+  padding: 4px 8px 0;
+  gap: 2px;
+  scrollbar-width: none;
+}
+
+.navTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.navTab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: #2d3748;
+  border: 1px solid #4a5568;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.navTab:hover {
+  background: #3e4c64;
+  color: #ffffff;
+}
+
+.navTabActive {
+  background: #c8e6c9;
+  color: #1b5e20;
+  border-color: #81c784;
+  font-weight: 700;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.navBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  min-width: 16px;
+}
+
+/* Single Scrollable App Region */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  background: #f1f5f9;
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #e2e8f0;
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+/* Main Split / Responsive Layout */
+.mainLayout {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.2fr) minmax(240px, 0.8fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.handsetExhibit {
+  padding: 16px;
+  border: 1px solid #89929e;
+  border-radius: 24px 24px 38px 38px;
+  background:
+    radial-gradient(circle at 30% 12%, rgba(255,255,255,.42), transparent 22%),
+    repeating-linear-gradient(105deg, #aeb6bd 0 2px, #929ba4 2px 4px);
+  box-shadow: inset 0 0 0 3px #6c747d, 0 5px 0 #525a63;
+}
+
+.handsetLabel {
+  margin: 0 0 8px;
+  color: #17212b;
+  font: 700 11px/1.3 Tahoma, sans-serif;
+  letter-spacing: .04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+[data-layout-mode="maximized"] .mainLayout {
+  grid-template-columns: minmax(420px, 1fr) minmax(300px, 390px);
+  max-width: 1180px;
+  gap: 28px;
+}
+
+[data-layout-mode="maximized"] .lcdText,
+[data-layout-mode="maximized"] .messageItem { font-size: 14px; }
+
+@media (max-width: 640px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Retro Green LCD Screen Frame */
+.screenBezel {
+  background: #3b4252;
+  border: 3px solid #1a202c;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4), 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lcdScreen {
+  background: #b9d7a8;
+  border: 2px solid #5a7d4f;
+  border-radius: 6px;
+  color: #183313;
+  padding: 8px;
+  font-family: "Courier New", Courier, monospace, monospace;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.lcdStatusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed #5a7d4f;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lcdStatusItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lcdBody {
+  flex: 1;
+}
+
+.lcdTitle {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 6px 0;
+  border-bottom: 1px solid #5a7d4f;
+  padding-bottom: 2px;
+}
+
+.lcdText {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Keypad Section */
+.keypadBezel {
+  background: #2d3748;
+  border: 2px solid #1a202c;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keypadGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.keypadBtn {
+  background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+  border: 1px solid #718096;
+  border-bottom: 2px solid #1a202c;
+  border-radius: 8px;
+  color: #f8fafc;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  user-select: none;
+}
+
+.keypadBtn:hover {
+  background: linear-gradient(180deg, #5a667a 0%, #3a4659 100%);
+  border-color: #94a3b8;
+}
+
+.keypadBtn:active {
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  background: #242c3b;
+}
+
+.keyNumber {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.keySub {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.keypadActionRow {
+  display: flex;
+  gap: 6px;
+}
+
+.actionBtn {
+  flex: 1;
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-bottom: 2px solid #0f172a;
+  border-radius: 6px;
+  color: #cbd5e1;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.actionBtn:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+/* Message List Components */
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.messageItem {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #3b82f6;
+  border-radius: 6px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.messageItem:hover {
+  background: #f8fafc;
+  border-color: #93c5fd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.messageItemUnread {
+  border-left-color: #ef4444;
+  background: #fef2f2;
+}
+
+.messageHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.messageSender {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.messageTime {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.messagePreview {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.35;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.historicalBadge {
+  display: inline-block;
+  align-self: flex-start;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+/* Detail & Composer Forms */
+.formCard {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.formLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.formInput {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  font-family: inherit;
+}
+
+.formInput:focus {
+  outline: 2px solid #2563eb;
+  background: #ffffff;
+}
+
+.formTextarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  font-family: "Courier New", Courier, monospace;
+  resize: vertical;
+  min-height: 90px;
+}
+
+.formTextarea:focus {
+  outline: 2px solid #2563eb;
+  background: #ffffff;
+}
+
+.charCounter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Quick Replies */
+.presetContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.presetBtn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.presetBtn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Button groups */
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background: #2563eb;
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.primaryBtn:hover {
+  background: #1d4ed8;
+}
+
+.secondaryBtn {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.secondaryBtn:hover {
+  background: #e2e8f0;
+}
+
+.dangerBtn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dangerBtn:hover {
+  background: #fecaca;
+}
+
+/* EDSA Timeline Styles */
+.edsaHero {
+  background: #1e293b;
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-left: 6px solid #eab308;
+}
+
+.edsaHeroTitle {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  color: #fde047;
+}
+
+.edsaHeroDesc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #cbd5e1;
+  margin: 0 0 10px 0;
+}
+
+.edsaStepCard {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.edsaDirectQuote {
+  border-color: #ca8a04;
+  background: #fefce8;
+}
+
+.quotePill {
+  display: inline-block;
+  background: #854d0e;
+  color: #fef08a;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.edsaMessageText {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  margin: 8px 0;
+}
+
+/* Museum Info Section */
+.infoCard {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.infoTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.infoYears {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.infoParagraph {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #334155;
+  margin: 0 0 10px 0;
+}
+
+.infoBlockquote {
+  border-left: 4px solid #2563eb;
+  background: #f8fafc;
+  padding: 10px 14px;
+  font-style: italic;
+  font-size: 13px;
+  color: #1e293b;
+  margin: 10px 0;
+}
+
+.reconstructionNotice {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 12px;
+  color: #78350f;
+  margin: 12px 0;
+}
+
+.sourceList {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  font-size: 12px;
+}
+
+.sourceList li {
+  margin-bottom: 6px;
+}
+
+.sourceLink {
+  color: #2563eb;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.sourceLink:hover {
+  color: #1d4ed8;
+}
+
+/* Accessibility Focus Visible */
+.navTab:focus-visible,
+.keypadBtn:focus-visible,
+.actionBtn:focus-visible,
+.primaryBtn:focus-visible,
+.secondaryBtn:focus-visible,
+.dangerBtn:focus-visible,
+.formInput:focus-visible,
+.formTextarea:focus-visible,
+.presetBtn:focus-visible,
+.messageItem:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navTab,
+  .keypadBtn,
+  .messageItem,
+  .primaryBtn,
+  .secondaryBtn {
+    transition: none !important;
+  }
+}
+
+.nokiaContainer[data-layout-mode="maximized"] :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}

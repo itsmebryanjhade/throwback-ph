@@ -1,0 +1,596 @@
+/* OPM Media Player 2000s Desktop Styling */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #1f242e 0%, #11141a 100%);
+  color: #e2e8f0;
+  font-family: var(--font-chicago, "Segoe UI", -apple-system, sans-serif);
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Tab Navigation Bar */
+.tabBar {
+  display: flex;
+  background: #181c24;
+  border-bottom: 2px solid #0f1217;
+  padding: 4px 8px 0;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tabBtn {
+  background: #2a313d;
+  color: #94a3b8;
+  border: 1px solid #3e4856;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tabBtn:hover {
+  background: #384252;
+  color: #f1f5f9;
+}
+
+.tabBtnActive {
+  background: #0f172a;
+  color: #38bdf8;
+  border-color: #0284c7;
+  border-bottom: 1px solid #0f172a;
+}
+
+.badge {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* Scrollable Content Region */
+.scrollRegion {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #38bdf8 #181c24;
+}
+
+.scrollRegion::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollRegion::-webkit-scrollbar-track {
+  background: #181c24;
+}
+
+.scrollRegion::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 3px;
+}
+
+/* Main Deck Layout */
+.playerDeck {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* LCD Phosphor Screen */
+.lcdScreen {
+  background: #060e0a;
+  border: 3px inset #102217;
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 12px rgba(16, 185, 129, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lcdHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-family: monospace;
+  color: #34d399;
+  letter-spacing: 1px;
+}
+
+.lcdIndicators {
+  display: flex;
+  gap: 8px;
+}
+
+.indicator {
+  padding: 1px 4px;
+  border: 1px solid #064e3b;
+  border-radius: 2px;
+  color: #065f46;
+}
+
+.indicatorActive {
+  background: #065f46;
+  color: #6ee7b7;
+  border-color: #10b981;
+  text-shadow: 0 0 4px #34d399;
+}
+
+.marqueeContainer {
+  overflow: hidden;
+  white-space: nowrap;
+  background: #040907;
+  padding: 4px 6px;
+  border: 1px solid #064e3b;
+  border-radius: 3px;
+}
+
+.marqueeText {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #10b981;
+  text-shadow: 0 0 6px #10b981;
+}
+
+.lcdStatusRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: monospace;
+  font-size: 11px;
+  color: #34d399;
+}
+
+.timeDisplay {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #6ee7b7;
+  text-shadow: 0 0 8px #10b981;
+}
+
+/* Visualizer Container */
+.visualizerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #020604;
+  border: 2px solid #064e3b;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.visualizerBarContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 64px;
+  gap: 3px;
+  padding: 0 4px;
+}
+
+.vizBarCol {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+.vizSegment {
+  height: 4px;
+  border-radius: 1px;
+  background: #064e3b;
+  transition: background 0.08s ease;
+}
+
+.vizSegmentActiveLow {
+  background: #10b981;
+  box-shadow: 0 0 3px #10b981;
+}
+
+.vizSegmentActiveMid {
+  background: #facc15;
+  box-shadow: 0 0 3px #facc15;
+}
+
+.vizSegmentActiveHigh {
+  background: #ef4444;
+  box-shadow: 0 0 4px #ef4444;
+}
+
+.waveCanvas {
+  width: 100%;
+  height: 64px;
+  background: #020604;
+  display: block;
+}
+
+.visualizerControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: #6ee7b7;
+  font-family: monospace;
+}
+
+.modeSwitchBtn {
+  background: #064e3b;
+  color: #a7f3d0;
+  border: 1px solid #10b981;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.modeSwitchBtn:hover {
+  background: #047857;
+}
+
+/* Seek Bar */
+.seekbarContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seekBar {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #1e293b;
+  outline: none;
+  cursor: pointer;
+}
+
+.seekBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #38bdf8;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 6px #0284c7;
+}
+
+/* Transport Controls Panel */
+.transportPanel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: #181c24;
+  border: 2px outset #334155;
+  border-radius: 6px;
+  padding: 10px 14px;
+  gap: 10px;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.transportBtn {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  color: #f1f5f9;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  min-width: 36px;
+  height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.transportBtn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #475569 0%, #334155 100%);
+  border-color: #64748b;
+  color: #38bdf8;
+}
+
+.transportBtn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.transportBtnActive {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.volumeControl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.volSlider {
+  width: 80px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #334155;
+  outline: none;
+  cursor: pointer;
+}
+
+.volSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #38bdf8;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}
+
+/* Track Card Quick Info */
+.trackSummaryCard {
+  background: #181c24;
+  border: 1px solid #2d3748;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cdArtPlaceholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #334155 25%, #0f172a 70%);
+  border: 3px solid #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  animation: spinCd 4s linear infinite;
+  animation-play-state: paused;
+  flex-shrink: 0;
+}
+
+.albumCover {
+  width: 62px;
+  height: 62px;
+  flex: 0 0 62px;
+  border: 2px solid #475569;
+  border-radius: 3px;
+  object-fit: cover;
+  background: #0f172a;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 45%);
+}
+
+.cdPlaying {
+  animation-play-state: running;
+}
+
+@keyframes spinCd {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.trackSummaryMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.trackSummaryTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trackSummaryArtist {
+  font-size: 11px;
+  color: #38bdf8;
+  margin: 2px 0 4px;
+}
+
+.trackSummaryLyrics {
+  font-size: 11px;
+  color: #94a3b8;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Playlist Panel */
+.playlistTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.playlistTable th {
+  background: #181c24;
+  color: #94a3b8;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid #2d3748;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.playlistTable td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e293b;
+  color: #cbd5e1;
+}
+
+.playlistRowActive {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8 !important;
+  font-weight: 700;
+}
+
+.playlistRowActive td {
+  color: #38bdf8;
+}
+
+.favoriteBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #64748b;
+  padding: 2px 4px;
+  transition: transform 0.1s ease;
+}
+
+.favoriteBtn:hover {
+  transform: scale(1.2);
+}
+
+.favoriteActive {
+  color: #ef4444;
+}
+
+/* Liner Notes & Historical Interpretations */
+.linerNotesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linerNoteCard {
+  background: #181c24;
+  border: 1px solid #334155;
+  border-left: 4px solid #38bdf8;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.linerNoteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.linerNoteTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.linerNoteArtist {
+  font-size: 11px;
+  color: #38bdf8;
+}
+
+.linerNoteYear {
+  font-size: 10px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  padding: 1px 6px;
+  border-radius: 10px;
+  color: #94a3b8;
+}
+
+.linerNoteBody {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #cbd5e1;
+  margin: 4px 0;
+}
+
+.curatorialBox {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 14px;
+}
+
+.curatorialBox h4 {
+  font-size: 12px;
+  color: #38bdf8;
+  margin: 0 0 6px;
+}
+
+.curatorialBox p {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* Disclaimer & Museum Notices */
+.fictionalNotice {
+  background: #1e1b4b;
+  border: 1px solid #4338ca;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 10px;
+  color: #c7d2fe;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.unavailableNotice {
+  padding: 10px 12px;
+  border: 1px solid #a78bfa;
+  background: #211c3a;
+  color: #eee9ff;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+@media (min-width: 1100px) {
+  .container { font-size: 15px; }
+  .scrollRegion { padding: 16px; }
+}
+
+:global([data-window-mode="maximized"]) .scrollRegion > * {
+  width: min(100%, 960px);
+  margin-inline: auto;
+}
+
+:global([data-window-mode="maximized"]) .container :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}

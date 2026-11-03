@@ -1,0 +1,912 @@
+/* ==========================================================================
+   Throwback PH — Friendster PH Flagship Application Styles
+   Authentic early-to-mid 2000s Filipino social networking recreation
+   ========================================================================== */
+
+.friendsterRoot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--friendster-bg, #fff8f0);
+  color: var(--friendster-text, #2c1704);
+  font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+}
+
+/* --- Top Navigation Bar --- */
+.headerBar {
+  background: var(--friendster-primary, #ea6d00);
+  color: #fff;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.brandArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brandLogo {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.brandTitle {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: #fff;
+}
+
+.brandTagline {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notifButton {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notifButton:hover,
+.notifButton:focus-visible {
+  background: rgba(255, 255, 255, 0.35);
+  outline: 2px solid #fff;
+}
+
+.notifBadge {
+  background: #dc2626;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 10px;
+}
+
+/* --- Subnav Tabs --- */
+.subNavBar {
+  background: var(--friendster-surface, #ffffff);
+  border-bottom: 2px solid var(--friendster-border, #fcd7b2);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 4px;
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+
+.subNavBar::-webkit-scrollbar {
+  display: none;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--friendster-text, #2c1704);
+  opacity: 0.8;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.tabButton:hover,
+.tabButton:focus-visible {
+  opacity: 1;
+  color: var(--friendster-primary, #ea6d00);
+  background: rgba(234, 109, 0, 0.05);
+  outline: none;
+}
+
+.tabButtonActive {
+  opacity: 1;
+  color: var(--friendster-primary, #ea6d00);
+  border-bottom-color: var(--friendster-primary, #ea6d00);
+  background: rgba(234, 109, 0, 0.08);
+}
+
+.tabPill {
+  font-size: 10px;
+  background: var(--friendster-border, #fcd7b2);
+  color: var(--friendster-text, #2c1704);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+/* --- Scrollable Content Region --- */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--friendster-primary, #ea6d00) var(--friendster-bg, #fff8f0);
+}
+
+.scrollArea::-webkit-scrollbar {
+  width: 9px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: var(--friendster-bg, #fff8f0);
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: var(--friendster-primary, #ea6d00);
+  border-radius: 4px;
+}
+
+/* --- Responsive Layout Columns --- */
+.profileLayout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sidebarColumn {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mainColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Single column on narrow windows */
+@media (max-width: 760px) {
+  .profileLayout {
+    flex-direction: column;
+  }
+  .sidebarColumn {
+    width: 100%;
+  }
+}
+
+/* --- Retro Box Container --- */
+.cardBox {
+  background: var(--friendster-surface, #ffffff);
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.cardBoxHeader {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    var(--friendster-border, #fcd7b2) 100%
+  );
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--friendster-border, #fcd7b2);
+}
+
+.cardBoxBody {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- Primary Photo Box --- */
+.photoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: var(--friendster-surface, #ffffff);
+}
+
+.avatarFrame {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  border: 4px solid #fff;
+  outline: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.portraitImage,
+.portraitCompact {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #f4ead8;
+  background-repeat: no-repeat;
+}
+
+.portraitCompact { min-width: 32px; min-height: 32px; }
+
+.portraitFallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f4ead8;
+  color: #4b321d;
+  font-weight: 800;
+}
+
+[data-layout-mode="maximized"] .profileLayout {
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+[data-layout-mode="maximized"] .mainColumn { font-size: 15px; }
+
+.photoCaption {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--friendster-primary, #ea6d00);
+}
+
+/* --- Quick Details List --- */
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  border-bottom: 1px dashed var(--friendster-border, #fcd7b2);
+  padding-bottom: 4px;
+}
+
+.detailLabel {
+  font-weight: 700;
+  color: var(--friendster-text, #2c1704);
+  opacity: 0.8;
+}
+
+.detailValue {
+  font-weight: 600;
+  text-align: right;
+}
+
+/* --- Theme Picker --- */
+.themeList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.themeOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 4px;
+  background: var(--friendster-surface, #ffffff);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.themeOption:hover,
+.themeOption:focus-visible {
+  border-color: var(--friendster-primary, #ea6d00);
+  background: rgba(234, 109, 0, 0.05);
+  outline: none;
+}
+
+.themeOptionActive {
+  border-color: var(--friendster-primary, #ea6d00);
+  background: rgba(234, 109, 0, 0.1);
+  box-shadow: inset 2px 0 0 var(--friendster-primary, #ea6d00);
+}
+
+.themeSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+/* --- Profile Main Header & Status --- */
+.profileHero {
+  padding: 16px;
+  background: var(--friendster-surface, #ffffff);
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profileHeroTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.displayName {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--friendster-primary, #ea6d00);
+  letter-spacing: -0.5px;
+}
+
+.statusQuote {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--friendster-text, #2c1704);
+  background: rgba(234, 109, 0, 0.06);
+  border-left: 3px solid var(--friendster-primary, #ea6d00);
+  padding: 6px 10px;
+  border-radius: 0 4px 4px 0;
+  margin: 0;
+}
+
+.actionButtonPrimary {
+  background: var(--friendster-primary, #ea6d00);
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.actionButtonPrimary:hover,
+.actionButtonPrimary:focus-visible {
+  filter: brightness(1.1);
+  outline: 2px solid var(--friendster-primary, #ea6d00);
+  outline-offset: 1px;
+}
+
+.actionButtonSecondary {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actionButtonSecondary:hover,
+.actionButtonSecondary:focus-visible {
+  background: #e2e8f0;
+  outline: none;
+}
+
+/* --- Inline Edit Profile Form --- */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  background: rgba(234, 109, 0, 0.04);
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formLabel {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--friendster-text, #2c1704);
+}
+
+.formInput {
+  padding: 7px 10px;
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+  color: #111;
+}
+
+.formInput:focus {
+  outline: 2px solid var(--friendster-primary, #ea6d00);
+  border-color: var(--friendster-primary, #ea6d00);
+}
+
+.formTextarea {
+  min-height: 80px;
+  padding: 8px 10px;
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  background: #fff;
+  color: #111;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.formTextarea:focus {
+  outline: 2px solid var(--friendster-primary, #ea6d00);
+  border-color: var(--friendster-primary, #ea6d00);
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* --- About Me Box --- */
+.aboutContent {
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 0;
+}
+
+/* --- Testimonials List & Card --- */
+.testiList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.testiCard {
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+  padding: 12px;
+  background: var(--friendster-surface, #ffffff);
+  display: flex;
+  gap: 12px;
+}
+
+.testiCardPending {
+  background: #fffbeb;
+  border-color: #fde68a;
+  border-left: 4px solid #f59e0b;
+}
+
+.testiAvatar {
+  font-size: 28px;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fef3c7;
+  border-radius: 6px;
+}
+
+.testiContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.testiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.testiAuthor {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--friendster-primary, #ea6d00);
+}
+
+.testiDate {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.testiQuote {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.pendingNotice {
+  font-size: 11px;
+  color: #b45309;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.pendingActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.btnApprove {
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btnApprove:hover,
+.btnApprove:focus-visible {
+  background: #15803d;
+  outline: 2px solid #16a34a;
+}
+
+.btnReject {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btnReject:hover,
+.btnReject:focus-visible {
+  background: #b91c1c;
+  outline: 2px solid #dc2626;
+}
+
+/* --- Friends Grid --- */
+.friendsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.friendCard {
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+  padding: 12px;
+  background: var(--friendster-surface, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.friendAvatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.friendName {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--friendster-text, #2c1704);
+}
+
+.friendHandle {
+  font-size: 11px;
+  color: var(--friendster-primary, #ea6d00);
+  font-weight: 600;
+}
+
+.friendTagline {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.friendCardActions {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.btnViewFriend {
+  flex: 1;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+}
+
+.btnToggleFriend {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btnAddFriend {
+  background: var(--friendster-primary, #ea6d00);
+  color: #fff;
+}
+
+.btnRemoveFriend {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* --- Bulletins Board --- */
+.bulletinsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bulletinCard {
+  border: 1px solid var(--friendster-border, #fcd7b2);
+  border-radius: 6px;
+  padding: 14px;
+  background: var(--friendster-surface, #ffffff);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bulletinHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bulletinAvatar {
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fef3c7;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.bulletinMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bulletinAuthor {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--friendster-primary, #ea6d00);
+}
+
+.bulletinDate {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.bulletinTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--friendster-text, #2c1704);
+}
+
+.bulletinBody {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.bulletinDeleteBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.bulletinDeleteBtn:hover {
+  text-decoration: underline;
+}
+
+/* --- Museum Info Section Inside App --- */
+.museumInfoWrapper {
+  background: #fff;
+  border: 2px solid var(--friendster-border, #fcd7b2);
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.museumHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid #fcd7b2;
+  padding-bottom: 10px;
+}
+
+.museumExhibitTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--friendster-primary, #ea6d00);
+}
+
+.museumYearsTag {
+  background: var(--friendster-primary, #ea6d00);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.museumTextBlock {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1e293b;
+  margin: 0;
+}
+
+.museumQuoteBox {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #78350f;
+  margin: 0;
+}
+
+.reconstructionNoticeBox {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.sourceLinkItem {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.sourceLinkItem a {
+  color: var(--friendster-primary, #ea6d00);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* --- Status Bar --- */
+.statusBar {
+  background: var(--friendster-surface, #ffffff);
+  border-top: 1px solid var(--friendster-border, #fcd7b2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.statusPane {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Maximized profile pages keep their early-web proportions instead of
+   expanding every card across the monitor. */
+[data-layout-mode="maximized"] .scrollArea > * {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+.friendsterRoot[data-layout-mode="maximized"] :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}
+
+/* Dark skins previously inherited several light-theme gray declarations. */
+[data-theme="cyber-neon"] .scrollArea :where(p, span:not([aria-hidden="true"]), div, h2, h3, h4, label),
+[data-theme="glitter-star"] .scrollArea :where(p, span:not([aria-hidden="true"]), div, h2, h3, h4, label) {
+  color: var(--friendster-text) !important;
+}
+
+[data-theme="cyber-neon"] .subNavBar .tabButton,
+[data-theme="glitter-star"] .subNavBar .tabButton {
+  color: var(--friendster-text);
+  opacity: 0.82;
+}
+
+[data-theme="cyber-neon"] .subNavBar .tabButtonActive,
+[data-theme="glitter-star"] .subNavBar .tabButtonActive {
+  color: var(--friendster-accent);
+  opacity: 1;
+}

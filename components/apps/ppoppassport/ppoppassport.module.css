@@ -1,0 +1,615 @@
+/* Container & Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-retro, "Segoe UI", -apple-system, sans-serif);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Passport Brand Header */
+.headerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: #1e293b;
+  border-bottom: 2px solid #d97706;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.passportCrest {
+  font-size: 20px;
+}
+
+.headerTitle {
+  font-size: 13px;
+  font-weight: 800;
+  color: #f59e0b;
+  letter-spacing: 0.5px;
+}
+
+.headerSubtitle {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.progressBadge {
+  background: #0f172a;
+  border: 1px solid #d97706;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+/* Tab Navigation */
+.navTabs {
+  display: flex;
+  background: #090d16;
+  border-bottom: 1px solid #1e293b;
+  padding: 4px 10px 0 10px;
+  gap: 4px;
+}
+
+.navTab {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  border-bottom: none;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.navTab:hover {
+  background: #334155;
+  color: #f8fafc;
+}
+
+.navTab:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: -2px;
+}
+
+.navTabActive {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #ffffff;
+  border-bottom: 1px solid #1e3a8a;
+  margin-bottom: -1px;
+}
+
+/* Main Display Area */
+.mainArea {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+/* ========================================= */
+/* PASSPORT BOOKLET VIEW                     */
+/* ========================================= */
+.bookletContainer {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  padding: 12px;
+  gap: 12px;
+}
+
+/* Left Page: Traveler Identity Page */
+.idPage {
+  width: 260px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.idCoatOfArms {
+  text-align: center;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
+}
+
+.republicTitle {
+  font-size: 10px;
+  font-weight: 800;
+  color: #f59e0b;
+  letter-spacing: 1px;
+}
+
+.passportLabel {
+  font-size: 13px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.idPhotoRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.idPhotoBox {
+  width: 64px;
+  height: 74px;
+  background: #0f172a;
+  border: 2px solid #f59e0b;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.scrapbookPhoto {
+  width: 82px;
+  height: 92px;
+  object-fit: cover;
+  border: 3px solid #f8f0d8;
+  box-shadow: 1px 2px 4px rgb(63 45 25 / 35%);
+  transform: rotate(-2deg);
+}
+
+.curatorialTape {
+  align-self: flex-start;
+  padding: 4px 10px;
+  margin: -2px 0 8px;
+  background: #e3d19b;
+  color: #4a371c;
+  font: 700 11px/1.2 "Courier New", monospace;
+  letter-spacing: .06em;
+  transform: rotate(-1deg);
+}
+
+.idField {
+  font-size: 10px;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+}
+
+.idValue {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.idInput {
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 2px 6px;
+  font-size: 11px;
+  width: 100%;
+}
+
+.idInput:focus {
+  outline: 1px solid #f59e0b;
+}
+
+.resetBtn {
+  margin-top: auto;
+  background: #334155;
+  color: #cbd5e1;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.resetBtn:hover {
+  background: #475569;
+  color: #ffffff;
+}
+
+/* Right Page: Visa Stamp Gallery */
+.stampsPage {
+  flex: 1;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.stampsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.stampCard {
+  background: #0f172a;
+  border: 2px dashed #475569;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.stampCard:hover {
+  border-color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+.stampCardActive {
+  border: 2px solid #f59e0b;
+  background: #1e1b4b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+.stampCardCollected {
+  border-style: solid;
+  border-color: #10b981;
+}
+
+.stampTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stampIcon {
+  font-size: 24px;
+}
+
+.stampStatusSeal {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.sealCollected {
+  background: #064e3b;
+  color: #34d399;
+  border: 1px solid #059669;
+}
+
+.sealUncollected {
+  background: #334155;
+  color: #94a3b8;
+  border: 1px solid #475569;
+}
+
+.stampTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.stampMeta {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.stampCollectBtn {
+  background: #f59e0b;
+  color: #0f172a;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.1s;
+}
+
+.stampCollectBtn:hover {
+  background: #fbbf24;
+}
+
+/* ========================================= */
+/* STAMP DETAILS MODAL / DRAWER              */
+/* ========================================= */
+.stampDetailDrawer {
+  background: #0f172a;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* ========================================= */
+/* ROUTES & CULTURAL MAP VIEW                */
+/* ========================================= */
+.routesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.routeCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.routeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.routeTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: #38bdf8;
+  margin: 0;
+}
+
+.routeStopsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.stopChip {
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stopChipActive {
+  border-color: #10b981;
+  color: #34d399;
+}
+
+.completeRouteBtn {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.completeRouteBtn:hover {
+  background: #0369a1;
+}
+
+/* ========================================= */
+/* PANELS: TIMELINE, INSIGHTS, MUSEUM        */
+/* ========================================= */
+.scrollablePanel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.timelineGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timelineCard {
+  background: #1e293b;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 6px 6px 0;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.archetypeBox {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Cultural notes */
+.insightCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.insightTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin: 0 0 2px 0;
+}
+
+.insightSub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.insightText {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+/* Museum Info Card */
+.museumCard {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.museumTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #f59e0b;
+  margin: 0;
+}
+
+.museumYears {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.museumBlockquote {
+  background: #0f172a;
+  border-left: 4px solid #f59e0b;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-style: italic;
+  color: #f1f5f9;
+}
+
+.reconstructionNotice {
+  background: #451a03;
+  border: 1px solid #78350f;
+  border-left: 4px solid #f59e0b;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #fde68a;
+}
+
+.sourceLink {
+  color: #38bdf8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sourceLink:hover {
+  color: #7dd3fc;
+}
+
+/* Phase 9: open paper passport and cultural scrapbook restoration. */
+.container { background: #7b2f35; color: #30291d; font-family: Georgia, "Times New Roman", serif; }
+.headerBar { background: #5e2029; border-bottom: 2px solid #c9a761; }
+.headerTitle { color: #f4d98b; font-size: 15px; }
+.headerSubtitle { color: #f3e6ca; font-size: 12px; }
+.progressBadge { background: #f1e3bd; color: #5a3517; border-color: #8c642f; border-radius: 2px; }
+.navTabs { background: #6c2931; border-bottom-color: #3d171c; }
+.navTab { background: #eadfbd; color: #44351f; border-color: #80643d; border-radius: 3px 3px 0 0; font-size: 13px; }
+.navTab:hover { background: #fff4d3; color: #251b0e; }
+.navTabActive { background: #fff8df; color: #63232d; border-color: #8c642f; }
+.mainArea { background: #6f3c2b; }
+.bookletContainer { display: grid; grid-template-columns: minmax(235px, .78fr) minmax(0, 1.35fr); max-width: 1180px; margin: 0 auto; padding: 18px; gap: 0; background: #5f3425; }
+.idPage, .stampsPage { background-color: #f3e7c7; color: #30291d; border: 1px solid #876c45; border-radius: 2px; box-shadow: inset 0 0 28px rgb(116 86 45 / 16%), 2px 3px 8px rgb(30 14 5 / 35%); }
+.idPage { width: auto; min-width: 0; border-right: 6px double #ad9369; }
+.stampsPage { min-width: 0; border-left: 0; }
+.stampsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(126px, auto); }
+.stampCard:nth-child(1), .stampCard:nth-child(4) { grid-column: span 2; }
+.republicTitle, .passportLabel { color: #692832; }
+.idCoatOfArms { border-color: #b9a67d; }
+.idField { color: #685c48; font-size: 11px; }
+.idValue { color: #2f291e; font-size: 13px; }
+.idInput { background: transparent; color: #2f291e; border: 0; border-bottom: 1px solid #6f6049; border-radius: 0; font-family: "Courier New", monospace; font-size: 14px; }
+.stampCard { background: #f8efda; color: #2f291e; border-color: #9f7d4c; border-radius: 1px; box-shadow: 1px 2px 3px rgb(80 54 24 / 20%); }
+.stampCardActive { border-color: #7a2934; box-shadow: inset 0 0 0 2px #7a2934; }
+.stampTitle { color: #5d2530; font-size: 14px; }
+.purposeNote { margin: 8px 0 12px; padding: 8px 10px; background: #fff8df; border-left: 4px solid #7a2934; color: #493a25; font-size: 13px; line-height: 1.45; }
+.stampMeta { color: #675a47; font-size: 12px; }
+.stampDetailDrawer { background: #fff8e4; color: #332b1f; border-color: #98784d; border-radius: 1px; }
+.stampCollectBtn, .resetBtn { border-radius: 1px; font-size: 13px; }
+:global([data-window-mode="maximized"]) .bookletContainer { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(520px, 1.6fr); align-items: stretch; padding: 24px clamp(24px, 7vw, 110px); }
+:global([data-window-mode="maximized"]) .idPage,
+:global([data-window-mode="maximized"]) .stampsPage { width: auto; }
+:global([data-window-mode="maximized"]) .stampsGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(1) { grid-column: 1; grid-row: span 2; }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(2) { grid-column: 2; }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(3) { grid-column: 3; }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(4) { grid-column: 2; }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(5) { grid-column: 3; }
+:global([data-window-mode="maximized"]) .stampCard:nth-child(6) { grid-column: span 2; }
+
+:global([data-window-mode="maximized"]) .mainArea > * {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+:global([data-window-mode="maximized"]) .container :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
+  font-size: max(13px, 1em) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 680px) {
+  .bookletContainer {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+  .idPage {
+    width: auto;
+  }
+  .stampsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :global([data-window-mode="maximized"]) .stampsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .stampCard:nth-child(1), .stampCard:nth-child(4),
+  :global([data-window-mode="maximized"]) .stampCard:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}

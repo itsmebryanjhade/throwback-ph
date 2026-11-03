@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+:root {
+  --desktop-sky: #59a8e8;
+  --taskbar-blue: #184a9f;
+  --taskbar-dark: #103574;
+  --start-green: #2f7d32;
+  --window-surface: #ece9d8;
+  --window-paper: #fffdf3;
+  --title-blue: #0c55b8;
+  --accent-orange: #f08a24;
+  --ink: #172033;
+  --muted-ink: #4e5a70;
+  --focus: #ffbf2f;
+  --font-system: Tahoma, Verdana, "Segoe UI", sans-serif;
+  --text-body: 15px;
+  --text-supporting: 13px;
+  --text-caption: 12px;
+  --reading-width: 68ch;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #b0bec5 #ece9d8;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ece9d8;
+  border-left: 1px solid #d4d0c8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 1px outset #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+::-webkit-scrollbar-thumb:active {
+  border-style: inset;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  color: var(--ink);
+  background: var(--desktop-sky);
+  font-family: var(--font-system);
+  font-size: var(--text-body);
+  line-height: 1.45;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #154f9f;
+  color: #ffffff;
+}
+
+.desktop-only {
+  display: block;
+}
+
+.small-screen-only {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .small-screen-only {
+    display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

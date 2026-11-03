@@ -1,0 +1,417 @@
+/* Toast Container */
+.toastContainer {
+  position: fixed;
+  right: 16px;
+  bottom: 54px;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  width: min(340px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+/* Individual Toast */
+.toast {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  background: #fffdf3;
+  color: #172033;
+  border: 2px outset #ffffff;
+  border-left-width: 5px;
+  box-shadow: 4px 6px 0 rgba(9, 34, 76, 0.28);
+  overflow: hidden;
+  animation: toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.toast:hover {
+  box-shadow: 6px 8px 0 rgba(9, 34, 76, 0.35);
+}
+
+.toastSuccess {
+  border-left-color: #2f7d32;
+}
+
+.toastInfo {
+  border-left-color: #0c55b8;
+}
+
+.toastWarning {
+  border-left-color: #d97706;
+}
+
+.toastError {
+  border-left-color: #d65337;
+}
+
+.toastHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 4px 8px;
+  background: #ece9d8;
+  border-bottom: 1px solid #d4d0c8;
+  font-size: 11px;
+  font-weight: 800;
+  color: #374052;
+}
+
+.toastHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  font-weight: 900;
+  border-radius: 2px;
+  color: #ffffff;
+}
+
+.badgeSuccess {
+  background: #2f7d32;
+}
+
+.badgeInfo {
+  background: #0c55b8;
+}
+
+.badgeWarning {
+  background: #d97706;
+}
+
+.badgeError {
+  background: #d65337;
+}
+
+.appName {
+  font-weight: 700;
+  color: #172033;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+.dismissButton {
+  border: 1px outset #ffffff;
+  background: #ece9d8;
+  color: #172033;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 0;
+  line-height: 1;
+}
+
+.dismissButton:hover {
+  background: #d65337;
+  color: #ffffff;
+}
+
+.dismissButton:active {
+  border-style: inset;
+}
+
+.toastBody {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.toastTitle {
+  margin: 0 0 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #172033;
+  line-height: 1.25;
+}
+
+.toastMessage {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #434c5e;
+}
+
+.toastFooter {
+  padding: 4px 8px 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.openAppButton {
+  border: 1px outset #5a8bd8;
+  background: #275fba;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.openAppButton:hover {
+  background: #174288;
+}
+
+.openAppButton:active {
+  border-style: inset;
+}
+
+/* Notification History Panel */
+.historyPanel {
+  position: fixed;
+  right: 12px;
+  bottom: 52px;
+  z-index: 9995;
+  width: min(360px, calc(100vw - 24px));
+  max-height: 460px;
+  display: flex;
+  flex-direction: column;
+  background: #ece9d8;
+  border: 3px solid #0c55b8;
+  box-shadow: 6px 8px 0 rgba(9, 34, 76, 0.3);
+  animation: panel-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.historyTitleBar {
+  min-height: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px 0 10px;
+  background: linear-gradient(to right, #073b88 0%, #0c55b8 50%, #2c7de0 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.historyTitleLeft {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.unreadBadge {
+  padding: 1px 6px;
+  background: #f08a24;
+  color: #172033;
+  font-size: 10px;
+  font-weight: 900;
+  border-radius: 8px;
+}
+
+.historyControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.historyHeaderAction {
+  border: 1px outset #ffffff;
+  background: #ece9d8;
+  color: #172033;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  cursor: pointer;
+}
+
+.historyHeaderAction:hover {
+  background: #ffffff;
+}
+
+.historyCloseButton {
+  border: 1px outset #ffffff;
+  background: #d65337;
+  color: #ffffff;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.historyList {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.historyItem {
+  background: #fffdf3;
+  border: 1px solid #d4d0c8;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  transition: background 0.1s;
+}
+
+.historyItem:hover {
+  background: #ffffff;
+}
+
+.historyItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.historyItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.historyTimestamp {
+  color: #6a768c;
+  font-size: 10px;
+}
+
+.historyItemTitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: #172033;
+}
+
+.historyItemMessage {
+  margin: 0;
+  font-size: 12px;
+  color: #4a5468;
+  line-height: 1.35;
+}
+
+.historyItemFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.historyDismissBtn {
+  border: 0;
+  background: transparent;
+  color: #8a2010;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.historyDismissBtn:hover {
+  text-decoration: underline;
+}
+
+.emptyState {
+  padding: 36px 20px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #6a768c;
+  gap: 6px;
+}
+
+.emptyState span {
+  font-size: 24px;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* System Tray Notification Button */
+.trayNotificationBtn {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 1px outset #5283cf;
+  background: #1d4e9b;
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+.trayNotificationBtn:hover {
+  background: #2865c4;
+}
+
+.trayNotificationBtn:active {
+  border-style: inset;
+}
+
+.trayBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #f08a24;
+  color: #172033;
+  font-size: 9px;
+  font-weight: 900;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 2px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffffff;
+}
+
+/* Animations & Reduced Motion */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .historyPanel {
+    animation: none;
+    transition: none;
+  }
+}

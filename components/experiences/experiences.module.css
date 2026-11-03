@@ -1,0 +1,18 @@
+.phoneStage { min-height: 100%; display: grid; place-items: center; padding: 26px; background: #174fa4; }
+.phone { width: min(310px, 100%); padding: 24px 24px 28px; background: #d6d3c6; color: #172033; clip-path: polygon(10% 0, 90% 0, 100% 9%, 96% 92%, 86% 100%, 14% 100%, 4% 92%, 0 9%); }
+.phoneBrand { margin-bottom: 8px; text-align: center; font-weight: 900; letter-spacing: 2px; }
+.phoneScreen { min-height: 238px; padding: 10px; background: #b8cf83; border: 7px solid #555c5b; font-family: Tahoma, Verdana, sans-serif; }
+.phoneScreen header, .messageView > div { display: flex; justify-content: space-between; margin-bottom: 9px; font-size: 12px; }
+.messageList { display: grid; gap: 4px; }
+.messageList button { display: grid; grid-template-columns: 1fr auto; border: 0; padding: 7px; background: transparent; color: #1d2d20; text-align: left; cursor: pointer; }
+.messageList button:hover, .messageList button:focus-visible { background: #253b2a; color: #cfe0a2; }
+.messageList span { grid-column: 1 / -1; overflow: hidden; font-size: 12px; white-space: nowrap; text-overflow: ellipsis; }.messageList small { font-size: 10px; }
+.messageView p { min-height: 135px; line-height: 1.45; }.messageView button { border: 0; padding: 6px 12px; background: #253b2a; color: #d7e7ab; }
+.phoneKeys { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 8px; align-items: center; margin: 15px 0 10px; text-align: center; font-size: 11px; }.phoneKeys i { height: 20px; background: #8e918d; clip-path: polygon(0 20%, 100% 0, 90% 100%, 10% 100%); }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }.keypad span { padding: 5px; background: #777a77; color: #fff; text-align: center; font-size: 10px; clip-path: polygon(8% 0, 92% 0, 100% 30%, 88% 100%, 12% 100%, 0 30%); }
+.chatStage { min-height: 100%; display: grid; place-items: center; padding: 28px; background: #6b3fa0; }
+.chatWindow { width: min(490px, 100%); overflow: hidden; border: 3px solid #1e4e94; background: #f5f3e9; color: #172033; }
+.chatWindow > header { display: flex; justify-content: space-between; padding: 9px 12px; background: #164da0; color: #fff; }.chatWindow > header span { font-size: 12px; }
+.chatTabs { display: flex; background: #d9d6c9; }.chatTabs button { flex: 1; border: 0; padding: 12px; background: transparent; font-weight: 700; cursor: pointer; }.chatTabs button[aria-selected="true"] { background: #fff; color: #104c9b; }
+.transcript { min-height: 300px; padding: 20px; background: #fff; }.transcript h3 { margin: 0 0 22px; font-size: 22px; }.transcript p { display: grid; grid-template-columns: 58px 105px 1fr; gap: 8px; margin: 11px 0; font-size: 13px; }.transcript p span { color: #6a7180; }.transcript p strong { color: #19539e; }.transcript p em { font-style: normal; }
+.chatWindow footer { padding: 10px 14px; background: #e4e1d5; color: #596174; font-size: 11px; }
