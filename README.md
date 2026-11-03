@@ -33,7 +33,7 @@ Nine interactive applications run in overlapping, draggable, resizable windows: 
 
 ## Deployment
 
-Run `npx vercel` from this `throwback-ph` folder, sign in, and keep the detected Next.js defaults to create a preview. After reviewing the preview, run `npx vercel --prod` to publish the submission link. No application environment variables, database, or external media service is required.
+The GitHub repository is connected to Vercel. Commit your changes and push to `main`; Vercel automatically builds the project and updates [the live museum](https://throwback-ph.vercel.app/) after a successful build. No application environment variables, database, or external media service is required.
 
 `.vercelignore` excludes development tools, backups, build caches, and tests from the upload. Deployment copies of large videos are compressed to 360p with their aspect ratios preserved; the anime is a three-minute museum excerpt. The full originals are backed up locally in the ignored `work/media-originals` folder.
 
