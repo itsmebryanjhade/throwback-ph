@@ -21,12 +21,30 @@ export function BootScreen({ onFinish, onSkip, durationMs = 2500 }: BootScreenPr
   }, [durationMs, onFinish]);
 
   return (
-    <section className={styles.boot} aria-label="Throwback PH is starting">
+    <section className={styles.boot} aria-label="ASL: A tour of 2000–2010 is starting">
       <div className={styles.bootComposition}>
-        <div className={styles.bootMark} aria-hidden="true">
-          <span>THROW</span>
-          <span>BACK</span>
-          <span>PH</span>
+        <div className={styles.bootMark}>
+          <p className={styles.bootChat} aria-hidden="true">
+            <span className={styles.bootChatNick}>&lt;bisita_2004&gt;</span> asl?
+            <span className={styles.bootCursor} />
+          </p>
+          <h1 className={styles.bootTitle} aria-label="ASL: Archive, Share, Learn">
+            <span className={styles.bootLetter}>
+              <span>A</span>
+              <small>Archive</small>
+            </span>
+            <span className={styles.bootLetter}>
+              <span>S</span>
+              <small>Share</small>
+            </span>
+            <span className={styles.bootLetter}>
+              <span>L</span>
+              <small>Learn</small>
+            </span>
+          </h1>
+          <p className={styles.bootTagline}>
+            A tour of <strong>2000–2010</strong>
+          </p>
         </div>
         <div className={styles.bootObjects} aria-label="Four objects from the Filipino 2000s">
           <Image className={styles.bootObject} src="/museum/boot-txt.png" width={320} height={320} alt="A candy-bar mobile phone interface with one new text message" priority />

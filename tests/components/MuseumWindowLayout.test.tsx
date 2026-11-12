@@ -11,7 +11,7 @@ function renderMuseumWithWidth(width: number, height = 600) {
   const registrations: WindowRegistration[] = [
     {
       id: "museum",
-      title: "Throwback PH — Technology",
+      title: "ASL — Technology",
       icon: "🏛️",
       defaultBounds: { x: 50, y: 30, width, height },
       minSize: { width: 500, height: 380 },
@@ -94,7 +94,7 @@ describe("MuseumWindow Responsive Layout & Single Scroll Region", () => {
     const registrations: WindowRegistration[] = [
       {
         id: "museum",
-        title: "Throwback PH — Technology",
+        title: "ASL — Technology",
         defaultBounds: { x: 50, y: 30, width: 550, height: 500 },
         minSize: { width: 500, height: 380 },
       },

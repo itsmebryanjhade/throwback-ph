@@ -32,7 +32,7 @@ export function RealityTvMuseumInfo() {
 
       <div className={styles.reconstructionNotice}>
         <strong>Educational Reconstruction Notice:</strong> This application is an original educational simulation created
-        for the Throwback PH Virtual Museum. All program formats (&ldquo;Star Quest Pilipinas&rdquo;), contestant profiles,
+        for the ASL Virtual Museum. All program formats (&ldquo;Star Quest Pilipinas&rdquo;), contestant profiles,
         hometowns, biographies, voting keywords, the 2366 shortcode, the simulated ₱2.50 vote fee, standings, vote tallies,
         and eviction outcomes are fictional period-inspired simulation values. They are not presented as historical voting data,
         real television network records, or actual telecommunication service tariffs. No copyrighted broadcast footage or

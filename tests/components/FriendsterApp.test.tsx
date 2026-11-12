@@ -44,7 +44,7 @@ describe("Phase 3 — Friendster PH Flagship Application", () => {
     expect(windowDialog).toBeInTheDocument();
 
     // Check header and profile details
-    expect(within(windowDialog).getByText("Miguel (Throwback PH)")).toBeInTheDocument();
+    expect(within(windowDialog).getByText("Miguel (ASL)")).toBeInTheDocument();
     expect(within(windowDialog).getByText(/listening to Sponge Cola/i)).toBeInTheDocument();
     expect(within(windowDialog).getByText("Primary Photo")).toBeInTheDocument();
     expect(within(windowDialog).getByText("Quezon City, Philippines")).toBeInTheDocument();
@@ -173,7 +173,7 @@ describe("Phase 3 — Friendster PH Flagship Application", () => {
     const backBtn = within(windowDialog).getByRole("button", { name: "← Back to My Profile" });
     fireEvent.click(backBtn);
 
-    expect(within(windowDialog).getByText("Miguel (Throwback PH)")).toBeInTheDocument();
+    expect(within(windowDialog).getByText("Miguel (ASL)")).toBeInTheDocument();
   });
 
   it("manages testimonials: approves pending and writes new testimonial with presets", () => {
@@ -197,7 +197,7 @@ describe("Phase 3 — Friendster PH Flagship Application", () => {
     expect(screen.getAllByText("Testimonial Approved")[0]).toBeInTheDocument();
 
     // Write a new testimonial using period preset
-    const presetBtn = within(windowDialog).getByRole("button", { name: "Preset #1" });
+    const presetBtn = within(windowDialog).getByRole("button", { name: "Use example testimonial 1" });
     fireEvent.click(presetBtn);
 
     const submitTestiBtn = within(windowDialog).getByRole("button", {

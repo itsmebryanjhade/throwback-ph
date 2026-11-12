@@ -16,7 +16,7 @@ describe("Phase 6 — OPM Media Player Application", () => {
 
     // Check LCD screen marquee & time
     expect(within(windowDialog).getByTestId("lcd-track-title")).toHaveTextContent(
-      /Josh Woodward - Dizzy Spells/i
+      /Josh Woodward – Dizzy Spells/i
     );
     expect(within(windowDialog).getByTestId("lcd-time-display")).toHaveTextContent("00:00");
 
@@ -49,18 +49,16 @@ describe("Phase 6 — OPM Media Player Application", () => {
     fireEvent.click(nextBtn);
 
     expect(within(windowDialog).getByTestId("lcd-track-title")).toHaveTextContent(
-      /Hale - The Day You Said Goodnight/i
+      /Hale – The Day You Said Goodnight/i
     );
     expect(
       within(windowDialog)
         .getByRole("img", { name: /Hale album cover/i })
         .getAttribute("src"),
-    ).toContain(
-      "%2Fmuseum%2Fphase-9%2Fmedia%2Fopm%2Fcover%2Fhale-cover.jpg",
-    );
+    ).toContain("/museum/phase-9/media/opm/cover/hale-cover.jpg");
 
     // Toggle favorite
-    const favBtn = within(windowDialog).getByRole("button", { name: /favorite/i });
+    const favBtn = within(windowDialog).getByRole("button", { name: "Remove The Day You Said Goodnight from favorites" });
     fireEvent.click(favBtn);
 
     expect(screen.getByRole("heading", { name: /Favorites/i })).toBeInTheDocument();
@@ -75,7 +73,7 @@ describe("Phase 6 — OPM Media Player Application", () => {
     expect(within(windowDialog).getByTestId("visualizer-bars")).toBeInTheDocument();
 
     const toggleModeBtn = within(windowDialog).getByRole("button", {
-      name: /Toggle: Wave Mode/i,
+      name: /Visualizer: spectrum bars\. Click to switch\./i,
     });
     fireEvent.click(toggleModeBtn);
 
@@ -88,21 +86,23 @@ describe("Phase 6 — OPM Media Player Application", () => {
     fireEvent.click(screen.getByRole("button", { name: /Open OPM Media Player/i }));
     const windowDialog = screen.getByRole("dialog", { name: "OPM Media Player" });
 
-    // Switch to Playlist tab
-    const playlistTab = within(windowDialog).getByRole("tab", { name: /Playlist/i });
-    fireEvent.click(playlistTab);
-
-    // Check tracks in table
-    expect(within(windowDialog).getByText("Dizzy Spells")).toBeInTheDocument();
-    expect(within(windowDialog).getByText("The Day You Said Goodnight")).toBeInTheDocument();
-    expect(within(windowDialog).getByText("Narda")).toBeInTheDocument();
+    // The playlist editor sits on the player screen
+    const playlist = within(windowDialog).getByRole("region", { name: "Playlist editor" });
+    expect(within(playlist).getByRole("button", { name: "Play Josh Woodward – Dizzy Spells" })).toBeInTheDocument();
+    expect(within(playlist).getByRole("button", { name: "Play Kamikazee – Narda" })).toBeInTheDocument();
+    expect(within(playlist).getByText(/6 songs in playlist/)).toBeInTheDocument();
 
     // Filter by genre
-    const genreSelect = within(windowDialog).getByLabelText(/Genre:/i);
-    fireEvent.change(genreSelect, { target: { value: "Acoustic Pop" } });
+    fireEvent.change(within(playlist).getByLabelText(/Genre:/i), { target: { value: "Acoustic Pop" } });
+    expect(within(playlist).getByRole("button", { name: "Play Josh Woodward – Dizzy Spells" })).toBeInTheDocument();
+    expect(within(playlist).queryByRole("button", { name: "Play Kamikazee – Narda" })).not.toBeInTheDocument();
 
-    expect(within(windowDialog).getByText("Dizzy Spells")).toBeInTheDocument();
-    expect(within(windowDialog).queryByText("Narda")).not.toBeInTheDocument();
+    // Clicking a song plays it; removing it from the playlist updates the count
+    fireEvent.change(within(playlist).getByLabelText(/Genre:/i), { target: { value: "all" } });
+    fireEvent.click(within(playlist).getByRole("button", { name: "Play Kamikazee – Narda" }));
+    expect(within(windowDialog).getByTestId("lcd-track-title")).toHaveTextContent(/Kamikazee – Narda/);
+    fireEvent.click(within(playlist).getByRole("button", { name: "Remove Narda from playlist" }));
+    expect(within(playlist).getByText(/5 songs in playlist/)).toBeInTheDocument();
   });
 
   it("plays the supplied local listening copies as tracks change", () => {

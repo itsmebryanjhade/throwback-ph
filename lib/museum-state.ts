@@ -12,6 +12,8 @@ export type MuseumState = {
   museumVisibility: MuseumVisibility;
   startMenuOpen: boolean;
   soundEnabled: boolean;
+  /** Exhibits the visitor has opened this session, for "explored" checkmarks. */
+  visitedExhibitIds: readonly string[];
 };
 
 export type MuseumAction =
@@ -39,9 +41,15 @@ export const initialMuseumState: MuseumState = {
   museumVisibility: "closed",
   startMenuOpen: false,
   soundEnabled: false,
+  visitedExhibitIds: [],
 };
 
 const tourExhibits = museumRooms.flatMap((room) => room.exhibits);
+
+function withVisited(state: MuseumState, exhibitId: string | null | undefined): readonly string[] {
+  if (!exhibitId || state.visitedExhibitIds.includes(exhibitId)) return state.visitedExhibitIds;
+  return [...state.visitedExhibitIds, exhibitId];
+}
 
 function openRoom(state: MuseumState, roomId: RoomId): MuseumState {
   const room = museumRooms.find((candidate) => candidate.id === roomId);
@@ -51,6 +59,7 @@ function openRoom(state: MuseumState, roomId: RoomId): MuseumState {
     welcomeOpen: false,
     activeRoom: roomId,
     selectedExhibitId: room.exhibits[0]?.id ?? null,
+    visitedExhibitIds: withVisited(state, room.exhibits[0]?.id),
     tourStatus: "inactive",
     museumVisibility: "open",
     startMenuOpen: false,
@@ -70,6 +79,7 @@ export function museumReducer(state: MuseumState, action: MuseumAction): MuseumS
         welcomeOpen: false,
         activeRoom: first.room,
         selectedExhibitId: first.id,
+        visitedExhibitIds: withVisited(state, first.id),
         tourStatus: "active",
         museumVisibility: "open",
         startMenuOpen: false,
@@ -88,6 +98,7 @@ export function museumReducer(state: MuseumState, action: MuseumAction): MuseumS
         ...state,
         activeRoom: exhibit.room,
         selectedExhibitId: exhibit.id,
+        visitedExhibitIds: withVisited(state, exhibit.id),
         museumVisibility: "open",
       };
     }
@@ -97,14 +108,14 @@ export function museumReducer(state: MuseumState, action: MuseumAction): MuseumS
       if (index < 0) return state;
       if (index === tourExhibits.length - 1) return { ...state, tourStatus: "complete" };
       const next = tourExhibits[index + 1];
-      return { ...state, activeRoom: next.room, selectedExhibitId: next.id };
+      return { ...state, activeRoom: next.room, selectedExhibitId: next.id, visitedExhibitIds: withVisited(state, next.id) };
     }
     case "PREVIOUS": {
       if (state.tourStatus !== "active" || !state.selectedExhibitId) return state;
       const index = tourExhibits.findIndex((exhibit) => exhibit.id === state.selectedExhibitId);
       if (index <= 0) return state;
       const previous = tourExhibits[index - 1];
-      return { ...state, activeRoom: previous.room, selectedExhibitId: previous.id };
+      return { ...state, activeRoom: previous.room, selectedExhibitId: previous.id, visitedExhibitIds: withVisited(state, previous.id) };
     }
     case "MINIMIZE_MUSEUM":
       if (state.museumVisibility !== "open") return state;

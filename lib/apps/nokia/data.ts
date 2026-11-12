@@ -295,4 +295,5 @@ export const INITIAL_NOKIA_STATE: NokiaState = {
   composeReplyToId: null,
   edsaStepIndex: 0,
   keypadMode: "abc",
+  stats: { reloads: 0, snakeBest: 0 },
 };

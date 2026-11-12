@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { getExhibit, museumRooms } from "@/content/museum";
 import { getTourPosition, type MuseumAction, type MuseumState } from "@/lib/museum-state";
 import { useWindowManager } from "@/lib/window-system/WindowContext";
@@ -28,16 +29,24 @@ export function MuseumWindow({
   const room = museumRooms.find((candidate) => candidate.id === state.activeRoom);
   const exhibit = state.selectedExhibitId ? getExhibit(state.selectedExhibitId) : undefined;
   const windowManager = useSafeWindowManager();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Each exhibit starts at its hero, not wherever the previous one was scrolled.
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+  }, [state.selectedExhibitId]);
 
   if (!room || state.museumVisibility === "closed") return null;
   const position = getTourPosition(state);
+  const exhibitIndex = Math.max(0, room.exhibits.findIndex((item) => item.id === exhibit?.id));
+  const exploredCount = room.exhibits.filter((item) => state.visitedExhibitIds.includes(item.id)).length;
 
   const runtimeWin = windowManager?.state.windows["museum"];
   const bounds = runtimeWin?.bounds ?? {
     x: 100,
     y: 30,
-    width: 880,
-    height: 570,
+    width: 1040,
+    height: 660,
   };
 
   const isMinimized = state.museumVisibility === "minimized" || Boolean(runtimeWin?.isMinimized);
@@ -52,7 +61,7 @@ export function MuseumWindow({
   return (
     <WindowFrame
       id="museum"
-      title={`Throwback PH — ${room.shortTitle}`}
+      title={`ASL — ${room.shortTitle}`}
       ariaLabel={`${room.shortTitle} museum room`}
       icon="🏛️"
       bounds={bounds}
@@ -122,8 +131,20 @@ export function MuseumWindow({
               <aside className={styles.roomIntro}>
                 <h2>{room.shortTitle}</h2>
                 <p>{room.description}</p>
+                <p className={styles.exploredMeter} aria-live="polite">
+                  <span className={styles.exploredText}>
+                    Explored {exploredCount} of {room.exhibits.length}
+                  </span>
+                  <span className={styles.exploredTrack} aria-hidden="true">
+                    <span
+                      className={styles.exploredBar}
+                      style={{ width: `${(exploredCount / room.exhibits.length) * 100}%` }}
+                    />
+                  </span>
+                </p>
                 <ExhibitList
                   exhibits={room.exhibits}
+                  visitedIds={state.visitedExhibitIds}
                   selectedId={state.selectedExhibitId}
                   onSelect={(exhibitId) =>
                     dispatch({ type: "SELECT_EXHIBIT", exhibitId })
@@ -133,8 +154,20 @@ export function MuseumWindow({
             )}
 
             {/* Single unified scrollable content area */}
-            <div className={styles.viewerScrollArea} data-testid="museum-viewer-scroll">
-              {exhibit && <ExhibitViewer exhibit={exhibit} />}
+            <div ref={scrollRef} className={styles.viewerScrollArea} data-testid="museum-viewer-scroll">
+              {exhibit && (
+                <ExhibitViewer
+                  key={exhibit.id}
+                  exhibit={exhibit}
+                  position={{ index: exhibitIndex, total: room.exhibits.length }}
+                  nextExhibit={room.exhibits[exhibitIndex + 1]}
+                  onSelectExhibit={(exhibitId) => dispatch({ type: "SELECT_EXHIBIT", exhibitId })}
+                  onOpenApp={(appId) => {
+                    windowManager?.openWindow(appId);
+                    windowManager?.focusWindow(appId);
+                  }}
+                />
+              )}
             </div>
           </div>
         )}

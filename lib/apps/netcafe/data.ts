@@ -289,4 +289,5 @@ export const INITIAL_NETCAFE_STATE: NetCafeState = {
     totalSnackRevenue: 40,
   },
   isTimerRunning: true,
+  stats: { seated: 0, snacksSold: 0, extensions: 0, prints: 0, checkouts: 0 },
 };

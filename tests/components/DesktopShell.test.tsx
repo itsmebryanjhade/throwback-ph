@@ -12,7 +12,7 @@ describe("desktop arrival and navigation", () => {
     expect(screen.getByRole("button", { name: /skip intro/i })).toBeInTheDocument();
 
     act(() => vi.advanceTimersByTime(2500));
-    expect(screen.getByRole("dialog", { name: /welcome to throwback ph/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: /welcome to ASL/i })).toBeInTheDocument();
     expect(screen.getByText(/A desktop museum of Filipino life from 2000–2010/i)).toBeInTheDocument();
   });
 
@@ -49,7 +49,7 @@ describe("desktop arrival and navigation", () => {
 
     await user.click(screen.getByRole("button", { name: /minimize museum/i }));
     expect(screen.queryByRole("dialog", { name: /technology museum room/i })).not.toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: /restore throwback ph/i }));
+    await user.click(screen.getByRole("button", { name: /restore ASL/i }));
     expect(screen.getByRole("dialog", { name: /technology museum room/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /^start$/i }));
@@ -64,6 +64,6 @@ describe("desktop arrival and navigation", () => {
     });
     render(<MuseumApp />);
     fireEvent(window, new Event("load"));
-    expect(screen.getByRole("dialog", { name: /welcome to throwback ph/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: /welcome to ASL/i })).toBeInTheDocument();
   });
 });

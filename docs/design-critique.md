@@ -1,4 +1,4 @@
-# Throwback PH — Final Design Critique
+# ASL — Final Design Critique
 
 ROUND 1
 Seen in one second: a Filipino Y2K computer booting into a museum.

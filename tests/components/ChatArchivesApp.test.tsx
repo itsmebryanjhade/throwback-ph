@@ -1,6 +1,6 @@
 import React from "react";
-import { describe, expect, it } from "vitest";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { act, render, screen, fireEvent, within } from "@testing-library/react";
 import { WindowManagerProvider } from "@/lib/window-system/WindowContext";
 import { NotificationProvider } from "@/lib/notification-system/NotificationContext";
 import { allAppRegistrations } from "@/lib/apps/catalog";
@@ -193,5 +193,37 @@ describe("Phase 8 — Chat Archives Application", () => {
     fireEvent.click(ofwTranscript);
     expect(screen.queryByText(/Families booked computer shop sessions specifically to coincide/i)).not.toBeInTheDocument();
     expect(screen.getByText(/In community recollections, internet café visits were frequently arranged/i)).toBeInTheDocument();
+  });
+
+  it("has friends type back, BUZZ you back, and mIRC channels answer", () => {
+    vi.useFakeTimers();
+    renderWithProviders();
+
+    fireEvent.change(screen.getByLabelText("Type a message"), { target: { value: "uy hello!" } });
+    fireEvent.keyDown(screen.getByLabelText("Type a message"), { key: "Enter" });
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+    expect(screen.getByText(/xX_angel_Xx is typing…/)).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(1300);
+    });
+    expect(screen.queryByText(/is typing…/)).not.toBeInTheDocument();
+    expect(screen.getByText(/nagda-download pa ko ng kanta sa Limewire/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /⚡ BUZZ!/i }));
+    act(() => {
+      vi.advanceTimersByTime(1700);
+    });
+    expect(screen.getByText(/xX_angel_Xx sent you a BUZZ! \*\*\* Uy! bakit\?\?/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /🔵 mIRC Client/i }));
+    fireEvent.change(screen.getByLabelText("IRC command input"), { target: { value: "hello po" } });
+    fireEvent.keyDown(screen.getByLabelText("IRC command input"), { key: "Enter" });
+    act(() => {
+      vi.advanceTimersByTime(1400);
+    });
+    expect(screen.getByText("asl? :)")).toBeInTheDocument();
+    vi.useRealTimers();
   });
 });

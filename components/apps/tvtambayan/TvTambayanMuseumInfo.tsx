@@ -35,7 +35,7 @@ export function TvTambayanMuseumInfo() {
 
       <div className={styles.reconstructionNotice}>
         <strong>Educational Reconstruction Notice:</strong> TV Tambayan is an original educational simulation
-        created for the Throwback PH Virtual Museum. All television channels (Asianovela Prime, Hapon Anime Block,
+        created for the ASL Virtual Museum. All television channels (Asianovela Prime, Hapon Anime Block,
         Karaoke Tambayan, Weekend Mall Tour), program titles (such as &ldquo;Pag-ibig sa Tag-ulan&rdquo; and
         &ldquo;Voltech Guardians&rdquo;), character names, voice artist references, broadcast timeslots, and dialogue
         excerpts are fictional period-inspired reconstructions. They are designed to illustrate localization and

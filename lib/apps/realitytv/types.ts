@@ -57,4 +57,7 @@ export type RealityTvAction =
   | { type: "RELOAD_PREPAID"; amount: number }
   | { type: "SIMULATE_CROWD_SURGE" }
   | { type: "CLEAR_HISTORY" }
-  | { type: "RESET_VOTES" };
+  | { type: "RESET_VOTES" }
+  | { type: "ADD_CROWD_VOTES"; votes: Record<string, number> }
+  | { type: "SEND_GM"; nomineeId: string; bonusVotes: number; costPesos: number }
+  | { type: "NEW_EPISODE" };

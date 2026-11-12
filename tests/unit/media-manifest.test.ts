@@ -6,7 +6,7 @@ const validAsset: MuseumMediaAsset = {
   id: "sample-artifact",
   kind: "image",
   title: "Sample artifact",
-  creator: "Throwback PH",
+  creator: "ASL",
   license: "Original educational reconstruction",
   sourceUrl: "https://example.com/source",
   localSrc: "/museum/sample-artifact.webp",

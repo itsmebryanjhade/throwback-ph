@@ -8,7 +8,7 @@ async function openWelcome(page: import("@playwright/test").Page) {
   } catch {
     // Boot sequence already finished or transitioned
   }
-  await expect(page.getByRole("dialog", { name: /Welcome to Throwback PH/i })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole("dialog", { name: /Welcome to ASL/i })).toBeVisible({ timeout: 10000 });
 }
 
 async function expectNoDocumentOverflow(page: import("@playwright/test").Page) {
@@ -62,7 +62,7 @@ test("free exploration preserves a minimized room and exposes signature interact
   await page.getByRole("button", { name: /Forwarded: EDSA update/ }).click();
   await expect(page.getByText(/people are gathering at EDSA/i)).toBeVisible();
   await page.getByRole("button", { name: "Minimize museum" }).click();
-  await page.getByRole("button", { name: "Restore Throwback PH" }).click();
+  await page.getByRole("button", { name: "Restore ASL" }).click();
   await expect(page.getByText(/people are gathering at EDSA/i)).toBeVisible();
 
   await page.getByRole("tab", { name: "Globalization" }).click();
@@ -116,10 +116,10 @@ test("visitor opens Nokia Messages, composes an SMS, triggers toast, and explore
   // Check prepaid balance badge
   await expect(nokiaWindow.getByText(/Load: ₱35.00/i)).toBeVisible();
 
-  // Switch to Write tab and use quick reply preset
-  await nokiaWindow.getByRole("tab", { name: /Write/i }).click();
-  await nokiaWindow.getByLabel(/To \/ Recipient/i).fill("Kiko Reyes");
+  // Start a message from a classic text, address it, then Options → Send
   await nokiaWindow.getByRole("button", { name: /\+ “Wer u na\? D2 na me\.”/i }).click();
+  await nokiaWindow.getByLabel(/To \/ Recipient/i).fill("Kiko Reyes");
+  await nokiaWindow.getByRole("button", { name: "Select: Options" }).click();
   await nokiaWindow.getByRole("button", { name: /Send SMS to Kiko Reyes/i }).click();
 
   // Toast confirmation
@@ -144,22 +144,18 @@ test("visitor opens Net Café Manager, rents a PC, advances simulated time, and 
   const netcafeWindow = page.getByRole("dialog", { name: "Net Café Manager" });
   await expect(netcafeWindow).toBeVisible();
 
-  // Verify header and cashier till
+  // Shop header and cash drawer
   await expect(netcafeWindow.getByText(/Net Café Manager v3.2/i)).toBeVisible();
-  await expect(netcafeWindow.getByText(/Cash Register:/i)).toBeVisible();
+  await expect(netcafeWindow.getByTestId("cash-drawer")).toBeVisible();
 
-  // Rent available PC 02
-  await netcafeWindow.getByRole("button", { name: /Start Session on PC 02 - Net Champion/i }).click();
-  await netcafeWindow.getByLabel(/Customer Name \/ Gamer Tag/i).fill("Dota_Master_PH");
-  await netcafeWindow.getByRole("button", { name: /Confirm Rental & Start Session on PC 02 - Net Champion/i }).click();
-
-  // Toast confirmation
+  // Seat the waiting customer on PC 02
+  await netcafeWindow.getByRole("button", { name: "Seat Jun-Jun" }).click();
+  await netcafeWindow.getByRole("button", { name: /PC 02 Net Champion: vacant/ }).click();
   await expect(page.getByRole("heading", { name: "Session Started" })).toBeVisible();
-  await expect(netcafeWindow.getByText(/User: Dota_Master_PH/i)).toBeVisible();
+  await expect(netcafeWindow.getByRole("button", { name: /PC 02 Net Champion: .* left, Jun-Jun/ })).toBeVisible();
 
-  // Return to Terminals tab and test deterministic time simulation
-  await netcafeWindow.getByRole("tab", { name: /Terminals/i }).click();
-  await netcafeWindow.getByRole("button", { name: /Advance simulated time by 15 minutes/i }).click();
+  // Skip shop time ahead
+  await netcafeWindow.getByRole("button", { name: "Skip ahead 15 minutes" }).click();
 
   // View Museum Info tab
   await netcafeWindow.getByRole("tab", { name: /Museum Info/i }).click();
@@ -184,15 +180,14 @@ test("visitor opens Reality TV Vote, casts simulated SMS vote, inspects standing
   await expect(tvWindow.getByText(/WEEK 7 EVICTION NIGHT IS LIVE!/i)).toBeVisible();
   await expect(tvWindow.getByText("₱45.00").first()).toBeVisible();
 
-  // Cast 1 vote
+  // Open the lines, cast 1 vote, rally textmates, then watch the reveal
+  await tvWindow.getByRole("button", { name: "📺 Open the voting lines" }).click();
   await tvWindow.getByRole("button", { name: /Cast 1 vote for Bea Valderama/i }).click();
   await expect(page.getByRole("heading", { name: "Vote Cast" })).toBeVisible();
   await expect(tvWindow.getByText("₱42.50").first()).toBeVisible();
-
-  // Live standings tab & crowd surge
-  await tvWindow.getByRole("tab", { name: /Live Standings/i }).click();
-  await tvWindow.getByRole("button", { name: /Simulate incoming crowd surge votes/i }).click();
-  await expect(page.getByRole("heading", { name: "Crowd Surge Simulated" })).toBeVisible();
+  await tvWindow.getByRole("button", { name: /GM your phonebook/ }).click();
+  await tvWindow.getByRole("button", { name: "Close the lines now" }).click();
+  await expect(tvWindow.getByText(/you must now leave the house/)).toBeVisible({ timeout: 6000 });
   await tvWindow.getByRole("button", { name: "Maximize Reality TV Vote" }).click();
   await expect(tvWindow).toHaveAttribute("data-window-mode", "maximized");
   await expectNoDocumentOverflow(page);
@@ -222,12 +217,11 @@ test("visitor opens OPM Media Player, plays track, switches visualizer, inspects
   await expect(page.getByRole("heading", { name: "Now Playing" })).toBeVisible();
 
   // Toggle visualizer mode
-  await opmWindow.getByRole("button", { name: /Toggle: Wave Mode/i }).click();
+  await opmWindow.getByRole("button", { name: /Visualizer: spectrum bars/i }).click();
   await expect(opmWindow.getByTestId("visualizer-wave")).toBeVisible();
 
-  // Switch to Playlist tab
-  await opmWindow.getByRole("tab", { name: /Playlist/i }).click();
-  await expect(opmWindow.getByText("Dizzy Spells")).toBeVisible();
+  // Playlist editor is on the same screen
+  await expect(opmWindow.getByRole("button", { name: "Play Kamikazee – Narda" })).toBeVisible();
 
   // Switch to Liner Notes tab
   await opmWindow.getByRole("tab", { name: /Liner Notes/i }).click();
@@ -245,7 +239,7 @@ test("visitor opens PinoyTube, rates video, browses categories, and views grassr
   await expect(tubeWindow).toBeVisible();
 
   // Verify header and initial video
-  await expect(tubeWindow.getByText(/PinoyTube Broadcast/i)).toBeVisible();
+  await expect(tubeWindow.getByText(/Broadcast Yourself · PH Edition/i)).toBeVisible();
   await expect(tubeWindow.getByRole("heading", { name: "Campus Dance Practice" })).toBeVisible();
   await expect(tubeWindow.getByLabel(/Play 8D Digital/i)).toHaveAttribute(
     "src",
@@ -371,6 +365,7 @@ test("visitor opens P-pop Passport, inspects identity, stamps visa, completes ex
   // Select Asianovela Mandopop Wave and stamp passport
   await passportWindow.getByText("Asianovela Mandopop Wave").first().click();
   await passportWindow.getByRole("button", { name: /🔖 Stamp This Landmark in My Passport/i }).click();
+  await passportWindow.getByRole("button", { name: "Meteor Garden" }).click();
   await expect(page.getByRole("heading", { name: /🔖 Visa Stamp Claimed/i })).toBeVisible();
 
   // Exploration Trails tab

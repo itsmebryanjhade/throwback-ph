@@ -3,303 +3,202 @@ import { render, screen, fireEvent, within } from "@testing-library/react";
 import React from "react";
 import { DesktopShell } from "@/components/desktop/DesktopShell";
 import { initialMuseumState } from "@/lib/museum-state";
+import { advanceSnake, SNAKE_COLS } from "@/components/apps/nokia/SnakeGame";
 
-describe("Phase 4 — Nokia Messages Flagship Application", () => {
-  it("presents the functional phone as a textured exhibit in standard and maximized layouts", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-    expect(within(windowDialog).getByTestId("nokia-handset-exhibit")).toBeInTheDocument();
-    expect(within(windowDialog).getByTestId("app-shell-nokia-messages")).toHaveAttribute("data-layout-mode", "standard");
-    fireEvent.click(within(windowDialog).getByRole("button", { name: "Maximize Nokia Messages" }));
-    expect(within(windowDialog).getByTestId("app-shell-nokia-messages")).toHaveAttribute("data-layout-mode", "maximized");
+function openPhone() {
+  render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+  fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
+  const win = screen.getByRole("dialog", { name: "Nokia Messages" });
+  const lcd = within(win).getByTestId("nokia-lcd");
+  const press = (name: string | RegExp) => fireEvent.click(within(win).getByRole("button", { name }));
+  return { win, lcd, press };
+}
+
+describe("Nokia Messages — playable phone", () => {
+  it("presents the phone as the exhibit in standard and maximized layouts", () => {
+    const { win } = openPhone();
+    expect(within(win).getByTestId("nokia-handset-exhibit")).toBeInTheDocument();
+    expect(within(win).getByTestId("app-shell-nokia-messages")).toHaveAttribute("data-layout-mode", "standard");
+    fireEvent.click(within(win).getByRole("button", { name: "Maximize Nokia Messages" }));
+    expect(within(win).getByTestId("app-shell-nokia-messages")).toHaveAttribute("data-layout-mode", "maximized");
   });
 
-  it("opens Nokia Messages from desktop, renders phone bezel, and shows prepaid load balance", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
-
-    // Open Nokia Messages from desktop icon
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-    expect(windowDialog).toBeInTheDocument();
-
-    // Check phone model badge and prepaid balance
-    expect(within(windowDialog).getByText(/Retro SMS Handset · 3310 Series/i)).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/Load: ₱35.00/i)).toBeInTheDocument();
-
-    // Verify taskbar button
+  it("boots to a home screen with carrier, load, and new-message alert", () => {
+    const { win, lcd } = openPhone();
+    expect(within(win).getByText(/Retro SMS Handset · 3310 Series/i)).toBeInTheDocument();
+    expect(within(win).getByText(/Load: ₱35.00/i)).toBeInTheDocument();
+    expect(within(lcd).getAllByText("SMART").length).toBeGreaterThan(0);
+    expect(within(lcd).getByText("Load ₱35.00")).toBeInTheDocument();
+    expect(within(lcd).getByText(/2 messages/)).toBeInTheDocument();
+    expect(within(win).getByRole("button", { name: "Select: Read" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Nokia Messages" })).toBeInTheDocument();
   });
 
-  it("browses inbox, opens an unread message to read details, and marks it as read", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+  it("reads an unread message from the inbox and ticks the mission", () => {
+    const { win, lcd, press } = openPhone();
+    press("Select: Read");
+    expect(within(lcd).getByRole("heading", { name: "Inbox (5)" })).toBeInTheDocument();
+    press(/Unread message from Nanay/);
+    expect(within(lcd).getByRole("heading", { name: "From: Nanay" })).toBeInTheDocument();
+    expect(within(lcd).getByText(/GM lang, no reply needed :\)/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Initial inbox has unread GM from Nanay
-    expect(within(windowDialog).getByText("Nanay")).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/Gud morning! Smile ka today/i)).toBeInTheDocument();
-
-    // Open message
-    fireEvent.click(
-      within(windowDialog).getByRole("button", {
-        name: /Open message from Nanay/i,
-      })
-    );
-
-    // Detail view is open
-    expect(within(windowDialog).getByText(/From: Nanay/i)).toBeInTheDocument();
-    expect(within(windowDialog).getAllByText(/GM lang, no reply needed :\)/i)[0]).toBeInTheDocument();
-
-    // Return to list
-    const backBtn = within(windowDialog).getByRole("button", { name: /Back to messages list/i });
-    fireEvent.click(backBtn);
-
-    // Nanay should still be listed
-    expect(within(windowDialog).getByText("Nanay")).toBeInTheDocument();
+    press("C: back or delete");
+    expect(within(lcd).getByRole("button", { name: /^Message from Nanay/ })).toBeInTheDocument();
+    expect(within(win).getByText("1 of 6 done")).toBeInTheDocument();
   });
 
-  it("composes an SMS using preset quick reply, deducts prepaid load, and triggers toast notification", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+  it("composes from a classic text, sends it via Options, and deducts load", () => {
+    const { win, lcd, press } = openPhone();
+    press("+ “Wer u na? D2 na me.”");
+    expect(within(win).getByLabelText(/Message Body/i)).toHaveValue("Wer u na? D2 na me.");
+    fireEvent.change(within(win).getByLabelText(/To \/ Recipient/i), { target: { value: "Kiko Reyes" } });
 
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Navigate to Write tab
-    const writeTab = within(windowDialog).getByRole("tab", { name: /Write/i });
-    fireEvent.click(writeTab);
-
-    // Fill in recipient
-    const recipientInput = within(windowDialog).getByLabelText(/To \/ Recipient/i);
-    fireEvent.change(recipientInput, { target: { value: "Kiko Reyes" } });
-
-    // Click preset quick reply
-    const presetBtn = within(windowDialog).getByRole("button", {
-      name: /\+ “Wer u na\? D2 na me\.”/i,
-    });
-    fireEvent.click(presetBtn);
-
-    // Verify textarea populated
-    const bodyTextarea = within(windowDialog).getByLabelText(/Message Body/i);
-    expect(bodyTextarea).toHaveValue("Wer u na? D2 na me.");
-
-    // Send SMS
-    const sendBtn = within(windowDialog).getByRole("button", {
-      name: /Send SMS to Kiko Reyes/i,
-    });
-    fireEvent.click(sendBtn);
-
-    // Sent tab opens with the new message
-    expect(within(windowDialog).getByText(/Sent Messages/i)).toBeInTheDocument();
-    expect(within(windowDialog).getAllByText(/To: Kiko Reyes/i)[0]).toBeInTheDocument();
-
-    // Balance deducted from ₱35 to ₱34
-    expect(within(windowDialog).getByText(/Load: ₱34.00/i)).toBeInTheDocument();
-
-    // OS Toast Notification triggered
+    press("Select: Options");
+    press("Send SMS to Kiko Reyes");
+    expect(within(lcd).getByRole("heading", { name: "Message sent ✓" })).toBeInTheDocument();
+    expect(within(win).getByText(/Load: ₱34.00/i)).toBeInTheDocument();
     expect(screen.getAllByText("SMS Sent")[0]).toBeInTheDocument();
   });
 
-  it("supports simplified multi-tap text entry via tactile keypad", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
-
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Navigate to Write tab
-    fireEvent.click(within(windowDialog).getByRole("tab", { name: /Write/i }));
-
-    // Press Key 8 (T) and Key 2 (A)
-    const key8 = within(windowDialog).getByRole("button", { name: /Key 8 T U V/i });
-    const key2 = within(windowDialog).getByRole("button", { name: /Key 2 A B C/i });
-
-    fireEvent.click(key8);
-    fireEvent.click(key2);
-
-    const bodyTextarea = within(windowDialog).getByLabelText(/Message Body/i);
-    expect((bodyTextarea as HTMLTextAreaElement).value.length).toBeGreaterThan(0);
+  it("asks who to send to when no recipient is set", () => {
+    const { win, lcd, press } = openPhone();
+    press("+ “Copy, kita-kits later!”");
+    press("Select: Options");
+    press("Send SMS to recipient");
+    expect(within(lcd).getByRole("heading", { name: "Send to:" })).toBeInTheDocument();
+    press("Send to Bea Gonzales");
+    expect(within(lcd).getByRole("heading", { name: "Message sent ✓" })).toBeInTheDocument();
+    expect(within(lcd).getByText("To: Bea Gonzales")).toBeInTheDocument();
+    expect(within(win).getByText(/Load: ₱34.00/i)).toBeInTheDocument();
   });
 
-  it("saves a draft text and deletes an existing message", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+  it("types with multi-tap: tapping 2 twice makes a 'b'", () => {
+    const { win, press } = openPhone();
+    press("Select: Read");
+    press("C: back or delete");
+    press("Write message");
+    press(/Key 8 T U V/);
+    press(/Key 2 A B C/);
+    press(/Key 2 A B C/);
+    expect(within(win).getByLabelText(/Message Body/i)).toHaveValue("tb");
+    press("C: back or delete");
+    expect(within(win).getByLabelText(/Message Body/i)).toHaveValue("t");
+  });
 
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Navigate to Write tab
-    fireEvent.click(within(windowDialog).getByRole("tab", { name: /Write/i }));
-
-    const bodyTextarea = within(windowDialog).getByLabelText(/Message Body/i);
-    fireEvent.change(bodyTextarea, { target: { value: "Draft message to save for later." } });
-
-    // Save as draft
-    const draftBtn = within(windowDialog).getByRole("button", {
-      name: /Save current text as draft/i,
-    });
-    fireEvent.click(draftBtn);
-
-    // Redirects to Drafts folder
-    expect(within(windowDialog).getByText("Drafts (2)")).toBeInTheDocument();
+  it("saves a draft and deletes a message through Options", () => {
+    const { win, lcd, press } = openPhone();
+    press("+ “Pass load 5 pls, emergency lang po.”");
+    press("Select: Options");
+    press("Save current text as draft");
+    expect(within(lcd).getByRole("heading", { name: "Drafts (2)" })).toBeInTheDocument();
     expect(screen.getAllByText("Draft Saved")[0]).toBeInTheDocument();
 
-    // Open existing draft
-    const draftItem = within(windowDialog).getByRole("button", {
-      name: /Open message from To: Bea Gonzales/i,
-    });
-    fireEvent.click(draftItem);
-
-    // Delete message
-    const deleteBtn = within(windowDialog).getByRole("button", { name: "Delete message" });
-    fireEvent.click(deleteBtn);
-
+    press(/Message to Unaddressed/);
+    press("Select: Options");
+    press("Delete message");
     expect(screen.getAllByText("Message Deleted")[0]).toBeInTheDocument();
+    expect(within(lcd).getByRole("heading", { name: "Drafts (1)" })).toBeInTheDocument();
+    expect(within(lcd).queryByText(/Pass load 5/)).not.toBeInTheDocument();
   });
 
-  it("manages phone profiles, ringtones, and prepaid scratch cards", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
-
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Navigate to Profiles & Load tab
-    const settingsTab = within(windowDialog).getByRole("tab", { name: /Profiles & Load/i });
-    fireEvent.click(settingsTab);
-
-    // Switch to Silent Profile
-    const silentBtn = within(windowDialog).getByRole("button", {
-      name: /Silent \(Vibrate Only\)/i,
-    });
-    fireEvent.click(silentBtn);
-
+  it("changes profile, ringtone, and buys load from the Menu", () => {
+    const { win, lcd, press } = openPhone();
+    press("or open Menu");
+    press("🔔 Profiles");
+    press("Set profile Silent");
     expect(screen.getAllByText("Profile Updated")[0]).toBeInTheDocument();
 
-    // Select Pinoy Rock Riff ringtone
-    const selectToneBtn = within(windowDialog).getByRole("button", {
-      name: /Select Pinoy Rock Riff as active ringtone/i,
-    });
-    fireEvent.click(selectToneBtn);
-
+    press("C: back or delete");
+    press("♪ Tones");
+    press("Select ringtone Pinoy Rock Riff");
     expect(screen.getAllByText("Ringtone Selected")[0]).toBeInTheDocument();
 
-    // Top up ₱30 scratch card
-    const reloadBtn = within(windowDialog).getByRole("button", {
-      name: /Top up 30 pesos load/i,
-    });
-    fireEvent.click(reloadBtn);
-
+    press("C: back or delete");
+    press("₱ Prepaid load");
+    press("Load scratch card ₱30");
     expect(screen.getAllByText("Prepaid Load Added")[0]).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/Load: ₱65.00/i)).toBeInTheDocument();
+    expect(within(win).getByText(/Load: ₱65.00/i)).toBeInTheDocument();
+    expect(within(lcd).getByRole("heading", { name: "Load added!" })).toBeInTheDocument();
   });
 
-  it("explores the EDSA II historical SMS sequence and broadcasts urgent text to inbox", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+  it("navigates menus with the keyboard like the hardware keys", () => {
+    const { win, lcd } = openPhone();
+    const phone = within(win).getByTestId("nokia-handset-exhibit");
+    fireEvent.click(within(lcd).getByRole("button", { name: "or open Menu" }));
+    fireEvent.keyDown(phone, { key: "ArrowDown" });
+    fireEvent.keyDown(phone, { key: "Enter" });
+    expect(within(lcd).getByRole("heading", { name: "Contacts" })).toBeInTheDocument();
+    fireEvent.keyDown(phone, { key: "Escape" });
+    expect(within(lcd).getByRole("heading", { name: "Menu" })).toBeInTheDocument();
+  });
 
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
+  it("jumps the phone to the right screen from a mission's Show me button", () => {
+    const { lcd, press } = openPhone();
+    press("Show me: Buy a ₱30 scratch card");
+    expect(within(lcd).getByRole("heading", { name: "Load ₱35.00" })).toBeInTheDocument();
+    press("Show me: Eat 1 dot in Snake II");
+    expect(within(lcd).getByRole("img", { name: /Snake game board/ })).toBeInTheDocument();
+    expect(within(lcd).getByText(/Press Start/)).toBeInTheDocument();
+  });
 
-    // Navigate to EDSA II tab
-    const edsaTab = within(windowDialog).getByRole("tab", { name: /EDSA II/i });
-    fireEvent.click(edsaTab);
+  it("makes Snake steering obvious: arrow hints on 2/4/6/8, keyboard arrows from anywhere, and pause", () => {
+    const { win, lcd, press } = openPhone();
+    press("Show me: Eat 1 dot in Snake II");
+    expect(within(lcd).getByText(/Steer: ◀ 4/)).toBeInTheDocument();
+    expect(within(win).getByRole("button", { name: /Key 4 G H I \(steer left\)/ })).toBeInTheDocument();
+    expect(within(win).getByRole("button", { name: /Key 6 M N O \(steer right\)/ })).toBeInTheDocument();
 
-    // Step 1: Senate trial walkout with Reconstructed educational context label
-    expect(within(windowDialog).getByText(/The World’s First “Coup de Text”/i)).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/Step 1 of 4/i)).toBeInTheDocument();
-    expect(within(windowDialog).getByText("Reconstructed educational context")).toBeInTheDocument();
+    // An arrow key pressed anywhere on the page starts the game.
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(within(win).getByRole("button", { name: "Select: Pause" })).toBeInTheDocument();
+    press("Select: Pause");
+    expect(within(lcd).getByText("Paused")).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: " " });
+    expect(within(win).getByRole("button", { name: "Select: Pause" })).toBeInTheDocument();
+  });
 
-    // Step to Step 2: The direct quote
-    const nextBtn = within(windowDialog).getByRole("button", { name: "Next timeline step" });
-    fireEvent.click(nextBtn);
+  it("explores the EDSA II sequence and receives the text on the phone", () => {
+    const { win, lcd } = openPhone();
+    fireEvent.click(within(win).getByRole("tab", { name: /EDSA II/i }));
+    expect(within(win).getByText(/The World’s First “Coup de Text”/i)).toBeInTheDocument();
+    expect(within(win).getByText(/Step 1 of 4/i)).toBeInTheDocument();
+    expect(within(win).getByText("Reconstructed educational context")).toBeInTheDocument();
 
-    expect(within(windowDialog).getByText(/Step 2 of 4/i)).toBeInTheDocument();
-    expect(within(windowDialog).getByText("★ Widely Reported SMS Wording")).toBeInTheDocument();
-    expect(within(windowDialog).getAllByText(/Go 2 EDSA Wear blk/i)[0]).toBeInTheDocument();
+    fireEvent.click(within(win).getByRole("button", { name: "Next timeline step" }));
+    expect(within(win).getByText(/Step 2 of 4/i)).toBeInTheDocument();
+    expect(within(win).getByText("★ Widely Reported SMS Wording")).toBeInTheDocument();
+    expect(within(win).getAllByText(/Go 2 EDSA Wear blk/i)[0]).toBeInTheDocument();
 
-    // Broadcast urgent text into phone inbox
-    const broadcastBtn = within(windowDialog).getByRole("button", {
-      name: /Receive Historical Broadcast in Phone Inbox/i,
-    });
-    fireEvent.click(broadcastBtn);
-
-    // Toast triggered and forwarded to inbox
+    fireEvent.click(within(win).getByRole("button", { name: /Receive Historical Broadcast in Phone Inbox/i }));
     expect(screen.getAllByText("Urgent SMS Broadcast")[0]).toBeInTheDocument();
-
-    // Verify inbox message detail shows Widely Reported SMS Wording and separate Reconstructed context
-    const inboxTab = within(windowDialog).getByRole("tab", { name: /Inbox/i });
-    fireEvent.click(inboxTab);
-
-    const edsaMsgItem = within(windowDialog).getAllByRole("button", {
-      name: /Open message from Forwarded Broadcast/i,
-    })[0];
-    fireEvent.click(edsaMsgItem);
-
-    expect(within(windowDialog).getByText("Widely Reported SMS Wording:")).toBeInTheDocument();
-    expect(within(windowDialog).getByText("Reconstructed educational context:")).toBeInTheDocument();
+    expect(within(lcd).getByRole("heading", { name: "From: Forwarded Broadcast" })).toBeInTheDocument();
+    expect(within(win).getByText("Widely Reported SMS Wording:")).toBeInTheDocument();
+    expect(within(win).getByText("Reconstructed educational context:")).toBeInTheDocument();
   });
 
-  it("displays integrated Museum Info with historical interpretation and source citations", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
-
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
-
-    // Navigate to Museum Info tab
-    const infoTab = within(windowDialog).getByRole("tab", { name: /Museum Info/i });
-    fireEvent.click(infoTab);
-
-    // Check curatorial details
-    expect(within(windowDialog).getByText("Nokia & SMS Culture in the Philippines")).toBeInTheDocument();
-    expect(within(windowDialog).getByText("2000–2010")).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/internationally recognized texting hub/i)).toBeInTheDocument();
-    expect(within(windowDialog).getByText(/Educational Reconstruction Notice:/i)).toBeInTheDocument();
-
-    // Check citations
-    const ituLink = within(windowDialog).getByRole("link", {
-      name: /Digital development dashboard: Philippines/i,
-    });
-    expect(ituLink).toHaveAttribute(
-      "href",
-      "https://www.itu.int/en/ITU-D/Statistics/Dashboards/Pages/Digital-Development.aspx"
-    );
-
-    const edsaLink = within(windowDialog).getByRole("link", {
-      name: /People Power II and the role of mobile communication/i,
-    });
-    expect(edsaLink).toHaveAttribute(
-      "href",
-      "https://www.britannica.com/place/Philippines/The-downfall-of-Estrada-and-arroyo-of-Macapagal-Arroyo"
-    );
-
-    const cidobLink = within(windowDialog).getByRole("link", {
-      name: /The Text-messaging Revolutions/i,
-    });
-    expect(cidobLink).toHaveAttribute(
-      "href",
-      "https://www.cidob.org/publicaciones/text-messaging-revolutions"
-    );
+  it("displays integrated Museum Info with interpretation and source citations", () => {
+    const { win } = openPhone();
+    fireEvent.click(within(win).getByRole("tab", { name: /Museum Info/i }));
+    expect(within(win).getByText("Nokia & SMS Culture in the Philippines")).toBeInTheDocument();
+    expect(within(win).getByText("2000–2010")).toBeInTheDocument();
+    expect(within(win).getByText(/internationally recognized texting hub/i)).toBeInTheDocument();
+    expect(within(win).getByText(/Educational Reconstruction Notice:/i)).toBeInTheDocument();
+    expect(within(win).getByRole("link", { name: /Digital development dashboard/i })).toBeInTheDocument();
   });
+});
 
-  it("supports keyboard tab navigation and responsive layout resizing", () => {
-    render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
+describe("Snake II rules", () => {
+  it("wraps around the edges, grows when eating, and crashes into itself", () => {
+    const edge = [{ x: SNAKE_COLS - 1, y: 2 }, { x: SNAKE_COLS - 2, y: 2 }];
+    const wrapped = advanceSnake(edge, "right", { x: 9, y: 9 });
+    expect(wrapped.snake[0]).toEqual({ x: 0, y: 2 });
+    expect(wrapped.snake).toHaveLength(2);
 
-    fireEvent.click(screen.getByRole("button", { name: /Open Nokia Messages/i }));
-    const windowDialog = screen.getByRole("dialog", { name: "Nokia Messages" });
+    const eat = advanceSnake([{ x: 3, y: 3 }, { x: 2, y: 3 }], "right", { x: 4, y: 3 });
+    expect(eat.ate).toBe(true);
+    expect(eat.snake).toHaveLength(3);
 
-    // Check tab accessibility
-    const tabs = within(windowDialog).getAllByRole("tab");
-    expect(tabs.length).toBe(8);
-    expect(tabs[0]).toHaveAttribute("aria-selected", "true");
-
-    // Switching tab via keyboard activation
-    fireEvent.click(tabs[4]); // Contacts tab
-    expect(tabs[4]).toHaveAttribute("aria-selected", "true");
-    expect(tabs[0]).toHaveAttribute("aria-selected", "false");
-
-    // Maximize window
-    const maxBtn = within(windowDialog).getByRole("button", { name: "Maximize Nokia Messages" });
-    fireEvent.click(maxBtn);
-
-    expect(within(windowDialog).getByRole("button", { name: "Restore Nokia Messages" })).toBeInTheDocument();
+    const loop = [{ x: 5, y: 5 }, { x: 5, y: 6 }, { x: 4, y: 6 }, { x: 4, y: 5 }, { x: 4, y: 4 }];
+    expect(advanceSnake(loop, "left", { x: 0, y: 0 }).crashed).toBe(true);
   });
 });

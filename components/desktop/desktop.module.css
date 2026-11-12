@@ -1,9 +1,17 @@
 .boot { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 22px; padding: 30px; background: #071936; color: #fff; }
 .bootComposition { display: grid; grid-template-columns: minmax(520px, 1.1fr) minmax(360px, .9fr); align-items: center; gap: 54px; width: min(1120px, 92vw); }
-.bootMark { display: grid; grid-template-columns: 1fr; align-items: end; gap: 8px; font-size: clamp(88px, 10vw, 150px); font-weight: 900; letter-spacing: -10px; line-height: .8; }
-.bootMark span { animation: boot-word-in .55s both; }.bootMark span:nth-child(2) { animation-delay: 70ms; }.bootMark span:nth-child(3) { animation-delay: 140ms; }
-.bootMark span:nth-child(2) { color: #60b6f2; }
-.bootMark span:last-child { color: #f5a623; font-size: 34px; letter-spacing: 0; margin: 22px 0 0 8px; }
+.bootMark { display: grid; gap: 18px; justify-items: start; }
+.boot .bootChat { margin: 0; padding: 6px 12px; border: 1px solid #2c4a7a; background: #0d2449; font-family: "Courier New", monospace; font-size: 18px; color: #c9dbef; animation: boot-word-in .45s both; }
+.bootChatNick { color: #f5a623; font-weight: 700; }
+.bootCursor { display: inline-block; width: 9px; height: 18px; margin-left: 4px; vertical-align: -3px; background: #c9dbef; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.bootTitle { display: flex; gap: clamp(14px, 2vw, 28px); margin: 0; font-size: clamp(110px, 13vw, 190px); font-weight: 900; line-height: .82; letter-spacing: -4px; }
+.bootLetter { display: grid; justify-items: center; gap: 12px; animation: boot-word-in .55s both; }
+.bootLetter:nth-child(2) { animation-delay: 90ms; color: #60b6f2; }
+.bootLetter:nth-child(3) { animation-delay: 180ms; color: #f5a623; }
+.bootLetter small { font-size: 15px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: #c9dbef; line-height: 1; }
+.boot .bootTagline { margin: 4px 0 0; padding-top: 14px; border-top: 3px solid #f5a623; font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; color: #fff; animation: boot-word-in .55s .27s both; }
+.bootTagline strong { color: #f5a623; }
 .bootObjects { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; transform: rotate(2deg); }
 .bootObject { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; animation: boot-object-in .6s both; }
 .bootObject:nth-child(2) { animation-delay: 80ms; }.bootObject:nth-child(3) { animation-delay: 160ms; }.bootObject:nth-child(4) { animation-delay: 240ms; }
@@ -14,40 +22,14 @@
 @keyframes load { from { transform: translateX(0); } to { transform: translateX(180%); } }
 @keyframes boot-object-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes boot-word-in { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: translateX(0); } }
-.desktop { position: relative; min-height: 100svh; overflow: hidden; padding: 28px 28px 64px; background: #4b9bd5; color: #fff; }
 .skipLink { position: absolute; z-index: 20; left: 18px; top: -70px; padding: 12px 16px; background: #fffdf3; color: #172033; font-weight: 800; }
 .skipLink:focus { top: 16px; }
-.desktop::after { content: ""; position: absolute; inset: auto -10vw 44px -10vw; height: 34vh; background: #5e9d4b; clip-path: ellipse(70% 70% at 50% 100%); z-index: 0; }
-.brandStamp { position: absolute; right: 34px; top: 28px; z-index: 1; display: grid; text-align: right; }
-.brandStamp strong { font-size: 35px; letter-spacing: -2px; }
-.brandStamp span { font-size: 13px; }
-.icons { position: relative; z-index: 1; display: grid; align-content: start; gap: 14px; width: 110px; }
-.appsGrid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, 110px); align-content: start; gap: 12px; }
-.desktopIcon { display: grid; justify-items: center; gap: 7px; width: 110px; border: 0; padding: 6px; background: transparent; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }
-.desktopIcon:hover, .desktopIcon:focus-visible { background: rgba(20,68,135,.42); }
-.iconTile { position: relative; display: grid; place-items: center; width: 54px; height: 48px; overflow: hidden; border: 3px solid #fff; background: #f39a2f; color: #123a68; font-size: 12px; font-weight: 900; }
-.iconTile img { object-fit: cover; filter: saturate(.9) contrast(1.04); }
 .window { position: absolute; z-index: 3; overflow: hidden; background: #ece9d8; color: #172033; border: 3px solid #0c55b8; box-shadow: 8px 10px 0 rgba(9,34,76,.25); /* taste-skill-ignore shadow: floating dialog */ }
-.welcome { width: min(760px, calc(100vw - 260px)); min-height: 410px; left: 50%; top: 48%; transform: translate(-50%, -50%); }
 .titleBar { min-height: 36px; display: flex; align-items: center; justify-content: space-between; padding: 4px 5px 4px 12px; background: #0c55b8; color: #fff; font-weight: 700; }
 .titleBar button { min-width: 29px; height: 27px; border: 2px outset #fff; background: #d65337; color: #fff; font-weight: 900; cursor: pointer; }
 .windowControls { display: flex; gap: 3px; }
 .windowControls button:first-child { background: #e8e5d5; color: #162238; }
-.welcomeBody { display: grid; grid-template-columns: .82fr 1.18fr; min-height: 374px; }
-.postcard { position: relative; min-height: 374px; overflow: hidden; background: #183868; color: #fff; }
-.postcard img { object-fit: cover; filter: saturate(.82) contrast(1.08); }
-.postcard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 48%, rgba(7,25,54,.86)); }
-.postcardStamp { position: absolute; z-index: 1; left: 20px; bottom: 18px; border: 2px solid #fff; padding: 7px 10px; font-size: 15px; font-weight: 900; letter-spacing: .08em; }
-.welcomeBody > div:last-child { align-self: center; padding: 42px; }
-.introLine { margin: 0 0 8px; font-weight: 700; color: #b14222; }
-.museumKicker { margin: -6px 0 12px; font-size: 15px; font-weight: 800; color: #174288; }
-.welcome h2 { margin: 0 0 16px; max-width: 390px; font-size: clamp(34px, 4vw, 56px); line-height: .94; letter-spacing: -2px; }
-.welcome p { line-height: 1.55; }
-.welcomeActions { display: flex; gap: 10px; margin-top: 28px; }
-.primaryButton, .secondaryButton { min-height: 42px; border: 2px outset #fff; padding: 0 18px; font-weight: 700; cursor: pointer; }
-.primaryButton { background: #2f7d32; color: #fff; }
-.primaryButton:active, .startButton:active, .taskItem:active { transform: translateY(2px); }
-.secondaryButton { background: #e8e5d5; color: #172033; }
+.startButton:active, .taskItem:active { transform: translateY(2px); }
 .roomPlaceholder { inset: 6vh 7vw 82px 15vw; }
 .placeholderBody { height: calc(100% - 36px); min-height: 450px; display: grid; place-content: center; padding: 70px; color: #fff; }
 .placeholderBody p { margin: 0; font-size: 18px; }
@@ -66,8 +48,6 @@
 .trayButton:hover { background: #2865c4; }
 .trayButton:active { border-style: inset; transform: translateY(1px); }
 .clock { align-self: stretch; display: grid; place-items: center; min-width: 90px; background: #2c77bd; font-size: 13px; }
-.desktopGrid { position: relative; z-index: 1; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; max-height: calc(100vh - 112px); overflow-y: auto; padding-bottom: 22px; scrollbar-width: none; }
-.desktopGrid::-webkit-scrollbar { display: none; }
 .startMenuDivider { height: 1px; background: #c6d6ea; margin: 4px 0; }
 .startMenu { position: absolute; z-index: 9; left: 0; bottom: 46px; width: 310px; max-height: calc(100vh - 60px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: #b0bec5 #ece9d8; padding: 8px 8px 8px 58px; background: #fff; color: #172033; border: 3px solid #1b4a9a; box-shadow: 6px -6px 0 rgba(9,34,76,.2); /* taste-skill-ignore shadow: floating menu */ }
 .startMenu::before { content: "2000–2010"; position: absolute; inset: 0 auto 0 0; width: 48px; display: grid; place-items: end center; padding-bottom: 14px; background: #17428d; color: #fff; writing-mode: vertical-rl; transform: rotate(180deg); font-weight: 800; }
@@ -78,7 +58,52 @@
 .startMenuIcon { font-size: 15px; width: 18px; display: inline-flex; justify-content: center; flex-shrink: 0; }
 @media (max-width: 1000px) and (min-width: 768px) {
   .bootComposition { grid-template-columns: 1fr 300px; gap: 24px; width: 94vw; }
-  .bootMark { font-size: 82px; }
+  .bootTitle { font-size: 100px; }
   .window { width: calc(100vw - 160px); }
 }
-@media (prefers-reduced-motion: reduce) { .loadingTrack span, .bootObject, .bootMark span { animation: none; }.loadingTrack span { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .loadingTrack span, .bootObject, .bootLetter, .bootChat, .bootTagline, .bootCursor { animation: none; }.loadingTrack span { width: 100%; } }
+
+/* ---- Desktop: Windows XP–style wallpaper ---- */
+.desktop { position: relative; min-height: 100svh; overflow: clip; padding: 18px 18px 64px; color: #fff; background:
+  radial-gradient(ellipse 22% 7% at 72% 22%, rgba(255,255,255,.75), transparent 70%),
+  radial-gradient(ellipse 16% 5% at 80% 26%, rgba(255,255,255,.6), transparent 70%),
+  radial-gradient(ellipse 26% 8% at 40% 12%, rgba(255,255,255,.45), transparent 70%),
+  linear-gradient(180deg, #1f5fc4 0%, #4f97e0 45%, #9fd0f5 72%, #cfe8fa 100%); }
+.desktop::after { content: ""; position: absolute; inset: auto -10vw 44px -10vw; height: 36vh; z-index: 0; clip-path: ellipse(70% 70% at 45% 100%); background:
+  radial-gradient(ellipse 60% 50% at 35% 20%, rgba(170,220,90,.55), transparent 70%),
+  linear-gradient(180deg, #6fb43f 0%, #4f9a2e 45%, #3a7d22 100%); }
+.brandStamp { position: absolute; right: 30px; top: 22px; z-index: 1; display: grid; text-align: right; text-shadow: 1px 2px 3px rgba(0,0,0,.35); }
+.brandStamp strong { font-size: 35px; letter-spacing: -2px; font-style: italic; }
+.brandStamp span { font-size: 13px; font-weight: 700; }
+.brandStamp span:last-child { font-size: 12px; font-weight: 400; opacity: .9; }
+
+/* Post-it guide */
+.stickyNote { position: absolute; right: 30px; top: 132px; z-index: 1; width: 236px; padding: 14px 16px 12px; background: linear-gradient(180deg, #fff9b0, #fff27a); color: #3b3418; font-family: "Comic Sans MS", "Comic Neue", "Segoe Print", cursive; font-size: 13px; line-height: 1.4; transform: rotate(1.6deg); box-shadow: 2px 6px 10px rgba(0,0,0,.28); /* taste-skill-ignore shadow: paper note */ }
+.stickyNote::before { content: ""; position: absolute; top: -9px; left: 50%; width: 70px; height: 18px; transform: translateX(-50%) rotate(-3deg); background: rgba(255,255,255,.55); border: 1px solid rgba(0,0,0,.06); }
+.stickyNote ol { margin: 6px 0 8px; padding-left: 20px; }
+.stickyNote li { margin-bottom: 3px; }
+.stickyTitle { margin: 0; font-size: 16px; font-weight: 700; }
+.stickyFoot { margin: 0; font-size: 12px; opacity: .8; }
+
+/* Icon layout: one row per museum room */
+.desktopGrid { position: relative; z-index: 1; display: grid; gap: 10px; justify-items: start; max-height: calc(100svh - 82px); overflow-y: auto; padding-bottom: 12px; scrollbar-width: none; }
+.desktopGrid::-webkit-scrollbar { display: none; }
+.startRow { padding-left: 8px; }
+.roomRow { display: grid; gap: 2px; padding: 4px 8px 6px; border: 1px solid rgba(255,255,255,.22); border-radius: 6px; background: rgba(10,40,100,.12); }
+.roomRowLabel { display: flex; align-items: center; gap: 7px; margin: 0; padding: 2px 4px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; text-shadow: 1px 1px 1px rgba(0,0,0,.6); }
+.roomRowSwatch { width: 10px; height: 10px; border: 1px solid #fff; }
+.roomRowIcons { display: flex; align-items: flex-start; gap: 2px; }
+.roomRowDivider { align-self: center; width: 0; height: 58px; margin: 0 6px; border-left: 1px dashed rgba(255,255,255,.55); }
+
+/* XP-style icon: glyph + white label with shadow, blue selection when focused */
+.desktopIcon { display: grid; justify-items: center; align-content: start; gap: 4px; width: 92px; min-height: 86px; border: 1px solid transparent; border-radius: 3px; padding: 5px 3px; background: transparent; color: #fff; font: inherit; cursor: pointer; }
+.desktopIcon:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.35); }
+.desktopIcon:hover .iconGlyph { transform: translateY(-1px); }
+.desktopIcon:focus-visible { outline: none; }
+.desktopIcon:focus-visible .iconLabel { background: #316ac5; outline: 1px dotted #fff; text-shadow: none; }
+.desktopIcon:focus-visible .iconGlyph { filter: drop-shadow(1px 2px 1px rgba(0,0,0,.35)) brightness(.85) sepia(.3) hue-rotate(180deg) saturate(1.6); }
+.desktopIcon:active .iconGlyph { transform: translateY(1px); }
+.iconGlyph { display: grid; place-items: center; width: 48px; height: 48px; filter: drop-shadow(1px 2px 1px rgba(0,0,0,.35)); transition: transform .12s; }
+.iconLabel { padding: 1px 3px; font-size: 12px; font-weight: 700; line-height: 1.25; text-align: center; text-shadow: 1px 1px 1px #000, 0 0 3px rgba(0,0,0,.5); }
+@media (prefers-reduced-motion: reduce) { .iconGlyph { transition: none; } }
+@media (max-width: 1180px) { .stickyNote { display: none; } }

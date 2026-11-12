@@ -8,9 +8,7 @@ import { opmReducer } from "@/lib/apps/opm/reducer";
 import { INITIAL_OPM_STATE } from "@/lib/apps/opm/data";
 import { getMediaAsset } from "@/content/media";
 import { LicensedAudio } from "@/components/shared/LicensedAudio";
-import { VisualizerDisplay } from "./VisualizerDisplay";
-import { PlayerControls } from "./PlayerControls";
-import { PlaylistPanel } from "./PlaylistPanel";
+import { PinoyAmp, type AmpHandlers } from "./PinoyAmp";
 import { LinerNotesPanel } from "./LinerNotesPanel";
 import { OpmMuseumInfo } from "./OpmMuseumInfo";
 import styles from "./opm.module.css";
@@ -117,8 +115,27 @@ export function OpmMediaPlayerApp() {
     }
   };
 
+  const ampHandlers: AmpHandlers = {
+    play: handlePlay,
+    pause: handlePause,
+    stop: handleStop,
+    next: handleNext,
+    prev: handlePrev,
+    seek: handleSeek,
+    volume: (volume) => dispatch({ type: "SET_VOLUME", volume }),
+    mute: () => dispatch({ type: "TOGGLE_MUTE" }),
+    shuffle: () => dispatch({ type: "TOGGLE_SHUFFLE" }),
+    repeat: () => dispatch({ type: "TOGGLE_REPEAT" }),
+    favorite: handleToggleFavorite,
+    visualizer: () =>
+      dispatch({ type: "SET_VISUALIZER_MODE", mode: state.visualizerMode === "bars" ? "wave" : "bars" }),
+    togglePlaylist: (trackId) =>
+      state.playlistTrackIds.includes(trackId) ? handleRemoveFromPlaylist(trackId) : handleAddToPlaylist(trackId),
+    openNotes: () => dispatch({ type: "SET_TAB", tab: "linernotes" }),
+  };
+
   const win = windowManager.state.windows["opm-media-player"];
-  const bounds = win?.bounds || { x: 210, y: 70, width: 640, height: 480 };
+  const bounds = win?.bounds || { x: 110, y: 20, width: 980, height: 690 };
   const zIndex = win?.zIndex || 1;
   const isActive = windowManager.state.activeWindowId === "opm-media-player";
   const isMinimized = !!win?.isMinimized;
@@ -161,27 +178,15 @@ export function OpmMediaPlayerApp() {
           <button
             type="button"
             role="tab"
-            aria-selected={state.activeTab === "player"}
+            aria-selected={state.activeTab === "player" || state.activeTab === "playlist"}
             className={`${styles.tabBtn} ${
-              state.activeTab === "player" ? styles.tabBtnActive : ""
+              state.activeTab === "player" || state.activeTab === "playlist" ? styles.tabBtnActive : ""
             }`}
             onClick={() => dispatch({ type: "SET_TAB", tab: "player" })}
           >
-            <span>🎛️ Player</span>
+            <span>🎧 Player</span>
           </button>
 
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeTab === "playlist"}
-            className={`${styles.tabBtn} ${
-              state.activeTab === "playlist" ? styles.tabBtnActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_TAB", tab: "playlist" })}
-          >
-            <span>📜 Playlist</span>
-            <span className={styles.badge}>{state.playlistTrackIds.length}</span>
-          </button>
 
           <button
             type="button"
@@ -210,40 +215,10 @@ export function OpmMediaPlayerApp() {
 
         {/* Scrollable Single Region */}
         <div className={styles.scrollRegion}>
-          {state.activeTab === "player" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <VisualizerDisplay
-                playbackState={state.playbackState}
-                visualizerMode={state.visualizerMode}
-                onToggleMode={() =>
-                  dispatch({
-                    type: "SET_VISUALIZER_MODE",
-                    mode: state.visualizerMode === "bars" ? "wave" : "bars",
-                  })
-                }
-              />
-              <PlayerControls
-                currentTrack={currentTrack}
-                playbackState={state.playbackState}
-                currentTimeSeconds={state.currentTimeSeconds}
-                volume={state.volume}
-                isMuted={state.isMuted}
-                isShuffle={state.isShuffle}
-                isRepeat={state.isRepeat}
-                onPlay={() => handlePlay()}
-                onPause={handlePause}
-                onStop={handleStop}
-                onNext={handleNext}
-                onPrev={handlePrev}
-                onSeek={handleSeek}
-                onVolumeChange={(vol) =>
-                  dispatch({ type: "SET_VOLUME", volume: vol })
-                }
-                onToggleMute={() => dispatch({ type: "TOGGLE_MUTE" })}
-                onToggleShuffle={() => dispatch({ type: "TOGGLE_SHUFFLE" })}
-                onToggleRepeat={() => dispatch({ type: "TOGGLE_REPEAT" })}
-                onToggleFavorite={handleToggleFavorite}
-              />
+          {(state.activeTab === "player" || state.activeTab === "playlist") && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <PinoyAmp state={state} handlers={ampHandlers} />
+              <div className={styles.audioSource}>
               {currentAsset ? (
                 <LicensedAudio
                   asset={currentAsset}
@@ -259,20 +234,8 @@ export function OpmMediaPlayerApp() {
                   <strong>Museum listening copy unavailable.</strong> This catalog entry is a fictional reconstruction; no substitute audio is presented as the original.
                 </div>
               )}
+              </div>
             </div>
-          )}
-
-          {state.activeTab === "playlist" && (
-            <PlaylistPanel
-              tracks={state.tracks}
-              playlistTrackIds={state.playlistTrackIds}
-              currentTrackId={state.currentTrackId}
-              playbackState={state.playbackState}
-              onSelectTrack={(id) => handlePlay(id)}
-              onToggleFavorite={handleToggleFavorite}
-              onRemoveFromPlaylist={handleRemoveFromPlaylist}
-              onAddToPlaylist={handleAddToPlaylist}
-            />
           )}
 
           {state.activeTab === "linernotes" && (

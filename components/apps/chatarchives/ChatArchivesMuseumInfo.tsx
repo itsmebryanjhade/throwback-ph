@@ -36,7 +36,7 @@ export function ChatArchivesMuseumInfo() {
 
         <div className={styles.reconstructionNotice}>
           <strong>Educational Reconstruction Notice:</strong> Chat Archives is an original educational simulation
-          created for the Throwback PH Virtual Museum. All usernames, contact lists, channel logs, status messages,
+          created for the ASL Virtual Museum. All usernames, contact lists, channel logs, status messages,
           conversation threads, and interface themes are fictional period-inspired simulation values. Chat transcripts,
           BUZZ interactions, and community recollections are educational reconstructions illustrating 2000s cyberculture
           rather than verified transcripts or proprietary Yahoo! and mIRC software assets.

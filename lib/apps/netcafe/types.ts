@@ -98,6 +98,8 @@ export type NetCafeState = {
     totalSnackRevenue: number;
   };
   isTimerRunning: boolean;
+  /** Counts the Missions checklist reads from. */
+  stats: { seated: number; snacksSold: number; extensions: number; prints: number; checkouts: number };
 };
 
 export type NetCafeAction =

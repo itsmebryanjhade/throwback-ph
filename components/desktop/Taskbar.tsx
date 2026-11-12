@@ -93,7 +93,7 @@ export function Taskbar({
     <>
       {state.startMenuOpen && (
         <div className={styles.startMenu} role="menu" aria-label="Start menu">
-          <div className={styles.startMenuName}>Throwback PH</div>
+          <div className={styles.startMenuName}>ASL</div>
 
           <div className={styles.startMenuSectionHeader}>Museum Experience</div>
           <button
@@ -249,7 +249,7 @@ export function Taskbar({
             const isMuseum = win.id === "museum" || win.id.startsWith("museum-");
             const accessibleLabel = win.isMinimized
               ? isMuseum
-                ? "Restore Throwback PH"
+                ? "Restore ASL"
                 : `Restore ${win.title}`
               : win.title;
 
@@ -280,7 +280,7 @@ export function Taskbar({
             state.museumVisibility !== "closed" && (
               <button
                 type="button"
-                aria-label="Restore Throwback PH"
+                aria-label="Restore ASL"
                 className={`${styles.taskItem} ${
                   state.museumVisibility === "open" ? styles.taskItemActive : styles.taskItemMinimized
                 }`}
@@ -294,7 +294,7 @@ export function Taskbar({
               >
                 <span className={styles.taskItemIcon} aria-hidden="true">🏛️</span>
                 <span className={styles.taskItemText}>
-                  Throwback PH — {state.activeRoom}
+                  ASL — {state.activeRoom}
                 </span>
               </button>
             )}

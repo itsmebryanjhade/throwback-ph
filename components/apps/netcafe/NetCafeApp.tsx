@@ -1,27 +1,27 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useToast } from "@/lib/notification-system/NotificationContext";
 import { useWindowManager } from "@/lib/window-system/WindowContext";
 import { WindowFrame } from "@/components/desktop/WindowFrame";
 import { netCafeReducer, INITIAL_NETCAFE_STATE } from "@/lib/apps/netcafe/reducer";
 import type { SnackItem } from "@/lib/apps/netcafe/types";
-import { TerminalList } from "./TerminalList";
-import { ActiveSessionPanel } from "./ActiveSessionPanel";
+import { ShopFloor, type FloorHandlers } from "./ShopFloor";
 import { PrintServicesPanel } from "./PrintServicesPanel";
 import { SessionHistoryPanel } from "./SessionHistoryPanel";
 import { NetCafeMuseumInfo } from "./NetCafeMuseumInfo";
-import { ArtifactIcon } from "@/components/shared/ArtifactIcon";
 import styles from "./netcafe.module.css";
+import floor from "./floor.module.css";
 import { matchesStateShape, usePersistentReducer } from "@/lib/persistence/usePersistentReducer";
 
 export function NetCafeApp() {
   const [state, dispatch] = usePersistentReducer(netCafeReducer, INITIAL_NETCAFE_STATE, {
-    key: "throwback-ph:app:net-cafe", version: 1, validate: matchesStateShape(INITIAL_NETCAFE_STATE),
+    key: "throwback-ph:app:net-cafe", version: 2, validate: matchesStateShape(INITIAL_NETCAFE_STATE),
   });
   const windowManager = useWindowManager();
   const toast = useToast();
 
+  const [queueIndex, setQueueIndex] = useState(0);
   const warnedTerminalsRef = useRef<Set<string>>(new Set());
   const expiredTerminalsRef = useRef<Set<string>>(new Set());
 
@@ -176,12 +176,24 @@ export function NetCafeApp() {
     );
   };
 
+  const floorHandlers: FloorHandlers = {
+    select: (terminalId) => dispatch({ type: "SELECT_TERMINAL", terminalId }),
+    start: handleStartSession,
+    extend: handleExtendSession,
+    snack: handleOrderSnack,
+    print: handleQueuePrint,
+    end: handleEndSession,
+    pause: (terminalId) => dispatch({ type: "PAUSE_SESSION", terminalId }),
+    resume: (terminalId) => dispatch({ type: "RESUME_SESSION", terminalId }),
+    changeActivity: (terminalId, activityId) => dispatch({ type: "CHANGE_ACTIVITY", terminalId, activityId }),
+  };
+
   const occupiedCount = state.terminals.filter(
     (t) => t.status === "occupied" || t.status === "expired" || t.status === "paused",
   ).length;
 
   const win = windowManager.state.windows["net-cafe"];
-  const bounds = win?.bounds || { x: 170, y: 60, width: 760, height: 540 };
+  const bounds = win?.bounds || { x: 90, y: 20, width: 1040, height: 690 };
   const zIndex = win?.zIndex || 1;
   const isActive = windowManager.state.activeWindowId === "net-cafe";
   const isMinimized = !!win?.isMinimized;
@@ -210,163 +222,76 @@ export function NetCafeApp() {
       closeLabel="Close Net Café Manager"
     >
       <div className={styles.netcafeContainer} data-testid="app-shell-net-cafe">
-        {/* Cashier Till & Header Bar */}
-        <header className={styles.cafeHeader}>
-          <div className={styles.brandArea}>
-            <ArtifactIcon
-              src="/museum/phase-9/images/net-cafe-interior.jpg"
-              alt="Reconstructed Philippine computer shop interior"
-              fallback="Image unavailable"
-              size={128}
-              className={styles.cafePhoto}
-            />
-            <div>
-              <span className={styles.cafeTitle}>Net Café Manager v3.2</span>
-              <h2 className={styles.cashierHeading}>Counter 01 · Session Cashier</h2>
-              <span className={styles.cafeSub}>Barangay internet café floor and receipt ledger</span>
-            </div>
+        <header className={floor.shopHeader}>
+          <div className={floor.sign}>
+            <span className={floor.neon}>KANTO CYBER CAFÉ</span>
+            <span className={floor.signSub}>Net Café Manager v3.2 · Ikaw ang bantay ngayon!</span>
           </div>
-
-          <div className={styles.tillBadgeArea}>
-            <div className={styles.tillBadge}>
-              <span>Active Terminals:</span>
-              <span style={{ color: "#38bdf8", fontWeight: "700" }}>
-                {occupiedCount} / {state.terminals.length} PCs
-              </span>
-            </div>
-
-            <div className={styles.tillBadge}>
-              <span>Cash Register:</span>
-              <span className={styles.cashAmount}>
-                ₱{state.cashierRegister.cashOnHand.toFixed(2)}
-              </span>
+          <div className={floor.priceBoard} aria-label="Price board">
+            <b>RATES</b>
+            <span>30 min ₱15</span>
+            <span>1 hr ₱20</span>
+            <span>Print ₱2/pg</span>
+          </div>
+          <div className={floor.drawer}>
+            <span>Cash drawer</span>
+            <strong data-testid="cash-drawer">₱{state.cashierRegister.cashOnHand.toFixed(2)}</strong>
+            <span>
+              {occupiedCount}/{state.terminals.length} PCs in use
+            </span>
+          </div>
+          <div className={floor.clockBox}>
+            <span>Shop clock {state.isTimerRunning ? "▶ running" : "⏸ paused"}</span>
+            <div>
+              <button
+                type="button"
+                onClick={() => dispatch({ type: "SET_TIMER_RUNNING", isRunning: !state.isTimerRunning })}
+              >
+                {state.isTimerRunning ? "⏸ Pause clock" : "▶ Start clock"}
+              </button>
+              <button
+                type="button"
+                onClick={() => dispatch({ type: "SIMULATE_TIME_PASS", minutes: 15 })}
+                aria-label="Skip ahead 15 minutes"
+              >
+                ⏩ +15 min
+              </button>
             </div>
           </div>
         </header>
 
-        {/* Navigation Tabs */}
-        <nav
-          className={styles.navTabs}
-          role="tablist"
-          aria-label="Net Café Manager application modules"
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeView === "terminals"}
-            className={`${styles.navTab} ${
-              state.activeView === "terminals" ? styles.navTabActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_VIEW", view: "terminals" })}
-          >
-            🖥 Terminals
-            <span className={styles.tabBadge}>{state.terminals.length}</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeView === "active-session"}
-            className={`${styles.navTab} ${
-              state.activeView === "active-session" ? styles.navTabActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_VIEW", view: "active-session" })}
-          >
-            ⏱ Session Desk
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeView === "print-services"}
-            className={`${styles.navTab} ${
-              state.activeView === "print-services" ? styles.navTabActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_VIEW", view: "print-services" })}
-          >
-            🖨 Print & Services
-            {state.printJobs.length > 0 && (
-              <span className={styles.tabBadge}>{state.printJobs.length}</span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeView === "history"}
-            className={`${styles.navTab} ${
-              state.activeView === "history" ? styles.navTabActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_VIEW", view: "history" })}
-          >
-            📜 Billing History
-            <span className={styles.tabBadge}>{state.completedSessions.length}</span>
-          </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeView === "museum-info"}
-            className={`${styles.navTab} ${
-              state.activeView === "museum-info" ? styles.navTabActive : ""
-            }`}
-            onClick={() => dispatch({ type: "SET_VIEW", view: "museum-info" })}
-          >
-            🏛 Museum Info
-          </button>
+        <nav className={styles.navTabs} role="tablist" aria-label="Net Café Manager sections">
+          {(
+            [
+              { view: "terminals", label: "🖥 Shop Floor" },
+              { view: "print-services", label: "🖨 Printer", badge: state.printJobs.filter((job) => job.status !== "completed").length || undefined },
+              { view: "history", label: "📒 Ledger", badge: state.completedSessions.length },
+              { view: "museum-info", label: "🏛 Museum Info" },
+            ] as const
+          ).map((tab) => (
+            <button
+              key={tab.view}
+              type="button"
+              role="tab"
+              aria-selected={state.activeView === tab.view || (tab.view === "terminals" && state.activeView === "active-session")}
+              className={`${styles.navTab} ${
+                state.activeView === tab.view || (tab.view === "terminals" && state.activeView === "active-session") ? styles.navTabActive : ""
+              }`}
+              onClick={() => dispatch({ type: "SET_VIEW", view: tab.view })}
+            >
+              {tab.label}
+              {"badge" in tab && tab.badge ? <span className={styles.tabBadge}>{tab.badge}</span> : null}
+            </button>
+          ))}
         </nav>
 
-        {/* Single Scrollable Main Area */}
         <div className={styles.scrollArea}>
-          {state.activeView === "terminals" && (
-            <TerminalList
-              terminals={state.terminals}
-              activities={state.activities}
-              selectedTerminalId={state.selectedTerminalId}
-              isTimerRunning={state.isTimerRunning}
-              onSelectTerminal={(terminalId) =>
-                dispatch({ type: "SELECT_TERMINAL", terminalId })
-              }
-              onOpenSession={(terminalId) => {
-                dispatch({ type: "SELECT_TERMINAL", terminalId });
-                dispatch({ type: "SET_VIEW", view: "active-session" });
-              }}
-              onSimulateTimePass={(minutes) =>
-                dispatch({ type: "SIMULATE_TIME_PASS", minutes })
-              }
-              onToggleTimer={(isRunning) =>
-                dispatch({ type: "SET_TIMER_RUNNING", isRunning })
-              }
-            />
-          )}
-
-          {state.activeView === "active-session" && (
-            <ActiveSessionPanel
-              terminals={state.terminals}
-              selectedTerminalId={state.selectedTerminalId}
-              tariffs={state.tariffs}
-              activities={state.activities}
-              snacks={state.snacks}
-              printJobs={state.printJobs}
-              onSelectTerminal={(terminalId) =>
-                dispatch({ type: "SELECT_TERMINAL", terminalId })
-              }
-              onStartSession={handleStartSession}
-              onExtendSession={handleExtendSession}
-              onChangeActivity={(terminalId, activityId) =>
-                dispatch({ type: "CHANGE_ACTIVITY", terminalId, activityId })
-              }
-              onOrderSnack={handleOrderSnack}
-              onPauseSession={(terminalId) =>
-                dispatch({ type: "PAUSE_SESSION", terminalId })
-              }
-              onResumeSession={(terminalId) =>
-                dispatch({ type: "RESUME_SESSION", terminalId })
-              }
-              onEndSession={handleEndSession}
-              onDismissWarning={(terminalId) =>
-                dispatch({ type: "DISMISS_WARNING", terminalId })
-              }
+          {(state.activeView === "terminals" || state.activeView === "active-session") && (
+            <ShopFloor
+              state={state}
+              handlers={floorHandlers}
+              queueIndex={queueIndex}
+              onCustomerSeated={() => setQueueIndex((value) => value + 1)}
             />
           )}
 

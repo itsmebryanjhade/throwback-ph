@@ -883,3 +883,13 @@
 .container[data-layout-mode="maximized"] :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
   font-size: max(13px, 1em) !important;
 }
+
+/* Friends typing + "Try this" strip */
+.typingLine { padding: 4px 8px; color: #6b3fa0; font-size: 12px; font-style: italic; animation: typingPulse 1.2s ease-in-out infinite; }
+@keyframes typingPulse { 50% { opacity: 0.45; } }
+.tryStrip { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; padding: 0; list-style: none; }
+.tryStrip li { padding: 3px 9px; border: 1px solid #d9c6f2; border-radius: 12px; background: #f7f1ff; color: #4b2a7a; font-size: 11px; }
+@media (prefers-reduced-motion: reduce) { .typingLine { animation: none; } }
+.chatStack { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.chatStack > .tryStrip { flex: none; }
+.chatStack > :last-child { flex: 1; min-height: 0; }

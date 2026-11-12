@@ -19,4 +19,6 @@ export type PersistentReducerOptions<T> = {
   version: number;
   validate: (value: unknown) => value is T;
   onStorageError?: () => void;
+  /** Adjusts a restored record before first render (e.g. refresh labels from code). */
+  hydrate?: (restored: T) => T;
 };

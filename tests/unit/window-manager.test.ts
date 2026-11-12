@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   calculateCascadeBounds,
+  centerBounds,
   clampBounds,
   resizeFromHandle,
 } from "@/lib/window-system/geometry";
@@ -282,5 +283,21 @@ describe("Window System — Reducer Lifecycle & Stacking", () => {
     expect(winBounds.width).toBeLessThanOrEqual(500);
     expect(winBounds.height).toBeLessThanOrEqual(400);
     expect(winBounds.y).toBeLessThanOrEqual(400 - 36);
+  });
+});
+
+describe("centerBounds", () => {
+  it("centres the preferred size inside a large desktop", () => {
+    expect(
+      centerBounds({ width: 760, height: 540 }, { width: 1440, height: 854 }, { width: 360, height: 320 }),
+    ).toEqual({ x: 340, y: 157, width: 760, height: 540 });
+  });
+
+  it("shrinks to keep a margin on small desktops but never below min size", () => {
+    const small = centerBounds({ width: 760, height: 540 }, { width: 800, height: 500 }, { width: 360, height: 320 });
+    expect(small).toEqual({ x: 24, y: 24, width: 752, height: 452 });
+    const tiny = centerBounds({ width: 760, height: 540 }, { width: 380, height: 330 }, { width: 360, height: 320 });
+    expect(tiny.width).toBe(360);
+    expect(tiny.height).toBe(320);
   });
 });

@@ -594,3 +594,8 @@
 :global([data-window-mode="maximized"]) .container :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
   font-size: max(13px, 1em) !important;
 }
+
+/* The PinoyAmp skin drives playback; keep the real audio element (and its
+   license credit) but hide its duplicate native controls. */
+.audioSource audio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.audioSource figure { margin: 0; }

@@ -1,13 +1,12 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import type { RoomFolderMetadata } from "@/lib/apps/types";
 import { getApp } from "@/lib/apps/catalog";
 import { useWindowManager } from "@/lib/window-system/WindowContext";
 import { WindowFrame } from "@/components/desktop/WindowFrame";
 import styles from "./app-shell.module.css";
-import { getAppArtwork } from "@/lib/apps/artwork";
+import { DesktopGlyph } from "@/components/desktop/DesktopGlyph";
 
 export function RoomFolderWindow({ folder }: { folder: RoomFolderMetadata }) {
   const windowManager = useWindowManager();
@@ -66,7 +65,7 @@ export function RoomFolderWindow({ folder }: { folder: RoomFolderMetadata }) {
               style={{ borderColor: folder.color }}
               aria-hidden="true"
             >
-              {folder.icon}
+              <DesktopGlyph kind="folder" room={folder.roomId} size={40} />
             </div>
             <div className={styles.folderHeaderText}>
               <h2 className={styles.folderTitle}>{folder.title}</h2>
@@ -83,12 +82,7 @@ export function RoomFolderWindow({ folder }: { folder: RoomFolderMetadata }) {
               <article key={app.id} className={styles.appCard}>
                 <div className={styles.appCardTop}>
                   <div className={styles.appCardIcon}>
-                    <Image
-                      src={getAppArtwork(app.id)}
-                      alt={`${app.title} artifact icon`}
-                      fill
-                      sizes="54px"
-                    />
+                    <DesktopGlyph kind={app.id} room={folder.roomId} size={40} />
                   </div>
                   <div className={styles.appCardInfo}>
                     <h3 className={styles.appCardTitle}>{app.title}</h3>

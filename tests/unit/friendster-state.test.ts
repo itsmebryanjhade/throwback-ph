@@ -6,7 +6,7 @@ import {
 
 describe("Friendster State Reducer", () => {
   it("provides initial state with 4 default friends and 1 pending testimonial", () => {
-    expect(initialFriendsterState.userProfile.displayName).toBe("Miguel (Throwback PH)");
+    expect(initialFriendsterState.userProfile.displayName).toBe("Miguel (ASL)");
     expect(initialFriendsterState.userProfile.themeId).toBe("classic-orange");
     expect(initialFriendsterState.friendIds).toHaveLength(4);
 
@@ -27,7 +27,7 @@ describe("Friendster State Reducer", () => {
       type: "START_EDIT_PROFILE",
     });
     expect(state.isEditingProfile).toBe(true);
-    expect(state.editFormData.displayName).toBe("Miguel (Throwback PH)");
+    expect(state.editFormData.displayName).toBe("Miguel (ASL)");
 
     state = friendsterReducer(state, {
       type: "UPDATE_EDIT_FIELD",
