@@ -723,7 +723,7 @@
 .navTab:hover { color: #111; background: #ece9d8; }
 .navTabActive { color: #103f7b; background: #f7f5ea; border-color: #7d7a6d; }
 .tabBadge { background: #164b8f; }
-.scrollArea { padding: 12px; background: #efede2; }
+.scrollArea { padding: 12px; background: #efede2; container-type: inline-size; min-height: 0; }
 
 .floorMap {
   border: 1px solid #767267;

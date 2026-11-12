@@ -57,6 +57,15 @@ export function WindowManagerProvider({
     key: "throwback-ph:windows",
     version: 1,
     validate: matchesStateShape(initialState),
+    // Saved layouts keep their positions, but titles, icons, and sizes always
+    // come from the current registrations (so renamed windows update for
+    // returning visitors).
+    hydrate: (restored) =>
+      registrations.reduce(
+        (next, registration) =>
+          windowManagerReducer(next, { type: "REGISTER_WINDOW", registration }),
+        restored,
+      ),
   });
 
   useEffect(() => {

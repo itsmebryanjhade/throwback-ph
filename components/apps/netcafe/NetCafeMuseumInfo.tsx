@@ -32,7 +32,7 @@ export function NetCafeMuseumInfo() {
 
       <div className={styles.reconstructionNotice}>
         <strong>Educational Reconstruction Notice:</strong> This application is an original
-        educational simulation created for the Throwback PH Virtual Museum. All computer shop
+        educational simulation created for the ASL Virtual Museum. All computer shop
         tariffs, extension rates, canteen snack costs, and printing fees are fictional
         period-inspired simulation values and are not presented as sourced nationwide historical
         averages. All computer terminals, customer sessions, gamer tags, customer names, and

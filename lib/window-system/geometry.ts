@@ -123,3 +123,34 @@ export function resizeFromHandle(
 
   return clampBounds({ x, y, width, height }, minSize, desktopArea);
 }
+
+/**
+ * Returns bounds of the given size centred in the desktop area, shrinking the
+ * size (never below `minSize`) so the window keeps a margin on small screens.
+ */
+export function centerBounds(
+  preferred: WindowSize,
+  desktopArea: DesktopArea,
+  minSize: WindowSize = DEFAULT_MIN_SIZE,
+  margin = 24,
+): WindowBounds {
+  const width = Math.max(
+    minSize.width,
+    Math.min(preferred.width, desktopArea.width - margin * 2),
+  );
+  const height = Math.max(
+    minSize.height,
+    Math.min(preferred.height, desktopArea.height - margin * 2),
+  );
+
+  return clampBounds(
+    {
+      x: (desktopArea.width - width) / 2,
+      y: (desktopArea.height - height) / 2,
+      width,
+      height,
+    },
+    minSize,
+    desktopArea,
+  );
+}

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { IMMIGRATION_QUESTIONS } from "@/lib/apps/ppoppassport/immigration";
 import type {
   PassportStamp,
   PpopPassportAction,
@@ -24,9 +25,35 @@ export function PassportBookletPanel({
   const collectedCount = state.stamps.filter((s) => s.isCollected).length;
   const totalCount = state.stamps.length;
 
+  // Stamps are earned at the immigration desk: answer one question about the era.
+  const [checkId, setCheckId] = useState<string | null>(null);
+  const [wrongAnswer, setWrongAnswer] = useState<string | null>(null);
+  const [justStamped, setJustStamped] = useState<string | null>(null);
+  const checkStamp = state.stamps.find((s) => s.id === checkId) ?? null;
+  const checkQuestion = checkId ? IMMIGRATION_QUESTIONS[checkId] : undefined;
+
   const handleCollect = (stamp: PassportStamp) => {
-    dispatch({ type: "COLLECT_STAMP", stampId: stamp.id });
-    onCollectToast(stamp.title);
+    if (!IMMIGRATION_QUESTIONS[stamp.id]) {
+      dispatch({ type: "COLLECT_STAMP", stampId: stamp.id });
+      onCollectToast(stamp.title);
+      return;
+    }
+    dispatch({ type: "SELECT_STAMP", stampId: stamp.id });
+    setWrongAnswer(null);
+    setCheckId(stamp.id);
+  };
+
+  const answer = (choice: string) => {
+    if (!checkStamp || !checkQuestion) return;
+    if (choice !== checkQuestion.answer) {
+      setWrongAnswer(choice);
+      return;
+    }
+    dispatch({ type: "COLLECT_STAMP", stampId: checkStamp.id });
+    onCollectToast(checkStamp.title);
+    setJustStamped(checkStamp.id);
+    setCheckId(null);
+    setWrongAnswer(null);
   };
 
   return (
@@ -119,6 +146,41 @@ export function PassportBookletPanel({
           </span>
         </div>
 
+        {checkStamp && checkQuestion && (
+          <section className={styles.immigration} aria-label="Immigration check">
+            <div className={styles.officer} aria-hidden="true">
+              🧑‍✈️
+            </div>
+            <div className={styles.immigrationBody}>
+              <p className={styles.immigrationKicker}>
+                IMMIGRATION · {checkStamp.icon} {checkStamp.title}
+              </p>
+              <p className={styles.immigrationQ}>“{checkQuestion.question}”</p>
+              <div className={styles.answerRow}>
+                {checkQuestion.options.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    className={styles.answerBtn}
+                    data-wrong={wrongAnswer === option}
+                    onClick={() => answer(option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+              {wrongAnswer && (
+                <p className={styles.immigrationHint} role="status">
+                  Hmm, check your notes first. Hint: {checkQuestion.hint}
+                </p>
+              )}
+              <button type="button" className={styles.cancelCheck} onClick={() => setCheckId(null)}>
+                Not now
+              </button>
+            </div>
+          </section>
+        )}
+
         <div className={styles.stampsGrid} role="listbox" aria-label="Passport stamps">
           {state.stamps.map((stamp) => {
             const isSelected = stamp.id === state.selectedStampId;
@@ -130,6 +192,7 @@ export function PassportBookletPanel({
                 aria-selected={isSelected}
                 tabIndex={0}
                 className={`${styles.stampCard} ${isSelected ? styles.stampCardActive : ""} ${stamp.isCollected ? styles.stampCardCollected : ""}`}
+                style={{ "--stamp-ink": stamp.accentColor } as React.CSSProperties}
                 onClick={() =>
                   dispatch({ type: "SELECT_STAMP", stampId: stamp.id })
                 }
@@ -142,13 +205,23 @@ export function PassportBookletPanel({
               >
                 <div className={styles.stampTopRow}>
                   <span className={styles.stampIcon}>{stamp.icon}</span>
-                  <span
-                    className={`${styles.stampStatusSeal} ${stamp.isCollected ? styles.sealCollected : styles.sealUncollected}`}
-                  >
-                    {stamp.isCollected ? "✓ COLLECTED" : "UNCOLLECTED"}
-                  </span>
+                  {stamp.isCollected ? (
+                    <span className={styles.srOnlyText}>Collected</span>
+                  ) : (
+                    <span className={`${styles.stampStatusSeal} ${styles.sealUncollected}`}>NOT YET STAMPED</span>
+                  )}
                 </div>
 
+                {stamp.isCollected && (
+                  <span
+                    className={`${styles.inkStamp} ${justStamped === stamp.id ? styles.inkStampFresh : ""}`}
+                    aria-hidden="true"
+                  >
+                    <b>{stamp.icon}</b>
+                    ADMITTED
+                    <small>{stamp.yearRange}</small>
+                  </span>
+                )}
                 <div className={styles.stampTitle}>{stamp.title}</div>
                 <div className={styles.stampMeta}>{stamp.yearRange}</div>
                 <div style={{ fontSize: "10px", color: "#38bdf8" }}>{stamp.genre}</div>

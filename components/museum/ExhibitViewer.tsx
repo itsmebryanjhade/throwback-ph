@@ -3,6 +3,8 @@ import { sourceCredits } from "@/content/sources";
 import { chatThreads, smsMessages } from "@/content/messages";
 import { NokiaInbox } from "@/components/experiences/NokiaInbox";
 import { ChatArchives } from "@/components/experiences/ChatArchives";
+import { getExhibitStory } from "@/content/exhibit-stories";
+import { ExhibitStoryView, type ExhibitStoryViewProps } from "./story/ExhibitStoryView";
 import styles from "./museum.module.css";
 
 const visualMarks: Record<Exhibit["visualKind"], readonly string[]> = {
@@ -20,7 +22,25 @@ const visualMarks: Record<Exhibit["visualKind"], readonly string[]> = {
   passport: ["PH", "ARRIVAL", "P-POP"],
 };
 
-export function ExhibitViewer({ exhibit, children }: { exhibit: Exhibit; children?: React.ReactNode }) {
+type StoryProps = Partial<Omit<ExhibitStoryViewProps, "exhibit" | "story">>;
+
+export function ExhibitViewer({
+  exhibit,
+  children,
+  position,
+  ...storyProps
+}: { exhibit: Exhibit; children?: React.ReactNode } & StoryProps) {
+  const story = getExhibitStory(exhibit.id);
+  if (story) {
+    return (
+      <ExhibitStoryView
+        exhibit={exhibit}
+        story={story}
+        position={position ?? { index: 0, total: 1 }}
+        {...storyProps}
+      />
+    );
+  }
   const sources = sourceCredits.filter((source) => exhibit.sourceIds.includes(source.id));
   return (
     <article className={styles.viewer}>

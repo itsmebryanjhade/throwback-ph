@@ -9,11 +9,14 @@ export function usePersistentReducer<S, A>(
   initialState: S,
   options: PersistentReducerOptions<S>,
 ) {
-  const { key, version, validate, onStorageError } = options;
+  const { key, version, validate, onStorageError, hydrate } = options;
   const [state, reducerDispatch] = useReducer(
     reducer,
     initialState,
-    (fallback) => loadRecord(key, version, validate, fallback).value,
+    (fallback) => {
+      const restored = loadRecord(key, version, validate, fallback).value;
+      return hydrate ? hydrate(restored) : restored;
+    },
   );
   const dispatch = useCallback(
     (action: A) => reducerDispatch(action),

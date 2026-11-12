@@ -1051,3 +1051,20 @@
 :global([data-window-mode="maximized"]) .tubeContainer :where(p, li, label, input, textarea, select, button, td, th, span:not([aria-hidden="true"])) {
   font-size: max(13px, 1em) !important;
 }
+
+
+/* ---------- 2006-era look ---------- */
+.tubeContainer { background: #fff; font-family: Arial, Helvetica, sans-serif; }
+.tubeHeader { background: #fff; color: #333; border-bottom: 1px solid #ccc; box-shadow: none; padding: 10px 16px 6px; }
+.logo2006 { display: inline-flex; align-items: center; gap: 1px; font-family: Arial, Helvetica, sans-serif; font-size: 26px; font-weight: 900; letter-spacing: -1.5px; color: #222; }
+.logoBox { padding: 0 5px; border-radius: 7px; background: linear-gradient(180deg, #ff3b3b, #c40000); color: #fff; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.2); }
+.tubeHeader .brandSubtitle { color: #666; font-size: 12px; margin-left: 8px; }
+.tubeHeader .simulationTag { background: #f6f6f6; color: #666; border-color: #ddd; }
+.tabNav { background: #fff; border-bottom: 2px solid #c40000; padding-top: 4px; }
+.tabButton { background: #eef3fb; border-color: #c9d6ea; color: #0033cc; text-decoration: underline; border-radius: 6px 6px 0 0; }
+.tabButton:hover { background: #fff; color: #c40000; }
+.tabButtonActive { background: #c40000; border-color: #c40000; color: #fff; text-decoration: none; margin-bottom: 0; }
+.tabButtonActive:hover { background: #c40000; color: #fff; }
+.tryStrip { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; padding: 0; list-style: none; }
+.tryStrip li { padding: 3px 9px; border: 1px solid #f3c2c2; border-radius: 12px; background: #fff6f6; color: #8a1d1d; font-size: 11px; }
+.recThumb video { object-fit: cover; }

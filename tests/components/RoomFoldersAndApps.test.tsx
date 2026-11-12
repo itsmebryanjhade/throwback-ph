@@ -20,13 +20,15 @@ describe("Phase 2 — Room Folders and App Registrations Integration", () => {
       expect(windows.value.windows.friendster.isOpen).toBe(true);
       expect(windows.value.windows["chat-archives"].isOpen).toBe(true);
       expect(Object.keys(localStorage).filter((key) => key.startsWith("throwback-ph:app:"))).toHaveLength(9);
-    });
+    }, { timeout: 8000 });
 
     view.unmount();
     render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
     expect(screen.getByRole("dialog", { name: "Friendster PH" })).toBeInTheDocument();
     expect(screen.getByRole("dialog", { name: /Chat Archives/i })).toBeInTheDocument();
-  });
+    // Heaviest test in the suite (renders all 9 apps twice); it can exceed the default
+    // 15s only when every test file runs in parallel on a busy machine.
+  }, 30_000);
 
   it("exposes all 9 desktop app shortcuts and 3 room folders on the desktop", () => {
     render(<DesktopShell state={initialMuseumState} dispatch={() => {}} />);
@@ -46,7 +48,14 @@ describe("Phase 2 — Room Folders and App Registrations Integration", () => {
     expect(screen.getByRole("button", { name: /Open TV Tambayan/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Open Chat Archives/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Open P-pop Passport/i })).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "Friendster PH desktop artifact icon" })).toBeInTheDocument();
+
+    // Each room row groups its exhibit, folder, and three apps
+    const technologyRow = screen.getByRole("region", { name: /Technology room/i });
+    expect(within(technologyRow).getByRole("button", { name: /Open Technology exhibit/i })).toBeInTheDocument();
+    expect(within(technologyRow).getByRole("button", { name: /Browse Technology Folder/i })).toBeInTheDocument();
+    expect(within(technologyRow).getByRole("button", { name: /Open Nokia Messages/i })).toBeInTheDocument();
+    const globalizationRow = screen.getByRole("region", { name: /Globalization room/i });
+    expect(within(globalizationRow).getByRole("button", { name: /Open P-pop Passport/i })).toBeInTheDocument();
   });
 
   it("opens a room folder and launches an app from its curated directory", () => {
@@ -62,7 +71,6 @@ describe("Phase 2 — Room Folders and App Registrations Integration", () => {
 
     // The 3 apps are visible in the folder
     expect(within(folderDialog).getByRole("heading", { name: "Friendster PH" })).toBeInTheDocument();
-    expect(within(folderDialog).getByRole("img", { name: "Friendster PH artifact icon" })).toBeInTheDocument();
     expect(within(folderDialog).getByRole("heading", { name: "Nokia Messages" })).toBeInTheDocument();
     expect(within(folderDialog).getByRole("heading", { name: "Net Café Manager" })).toBeInTheDocument();
 

@@ -127,6 +127,49 @@ export function realityTvReducer(
       return INITIAL_REALITY_TV_STATE;
     }
 
+    case "ADD_CROWD_VOTES": {
+      const added = Object.values(action.votes).reduce((sum, value) => sum + value, 0);
+      return {
+        ...state,
+        nominees: recalculateRisks(
+          state.nominees.map((n) => ({ ...n, currentVotes: n.currentVotes + (action.votes[n.id] ?? 0) })),
+        ),
+        totalSimulatedVotes: state.totalSimulatedVotes + added,
+      };
+    }
+
+    case "SEND_GM": {
+      const nominee = state.nominees.find((n) => n.id === action.nomineeId);
+      if (!nominee || state.prepaidLoad < action.costPesos) return state;
+      const record: VoteRecord = {
+        id: `gm-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        nomineeId: nominee.id,
+        nomineeName: nominee.name,
+        keyword: `GM: ${nominee.voteKeyword} (textmates)`,
+        voteCount: action.bonusVotes,
+        costPesos: action.costPesos,
+        shortcode: "Phonebook",
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      };
+      return {
+        ...state,
+        prepaidLoad: Math.max(0, state.prepaidLoad - action.costPesos),
+        nominees: recalculateRisks(
+          state.nominees.map((n) => (n.id === nominee.id ? { ...n, currentVotes: n.currentVotes + action.bonusVotes } : n)),
+        ),
+        totalSimulatedVotes: state.totalSimulatedVotes + action.bonusVotes,
+        voteHistory: [record, ...state.voteHistory],
+      };
+    }
+
+    case "NEW_EPISODE": {
+      return {
+        ...state,
+        nominees: INITIAL_REALITY_TV_STATE.nominees,
+        totalSimulatedVotes: INITIAL_REALITY_TV_STATE.totalSimulatedVotes,
+      };
+    }
+
     default:
       return state;
   }

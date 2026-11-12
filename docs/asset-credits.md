@@ -1,12 +1,12 @@
-# Throwback PH Research and Asset Credits
+# ASL Research and Asset Credits
 
 Access date for all sources: October 14, 2026.
 
 ## Visual assets
 
-The submission build does not contain third-party photographs, logos, audio, video, screenshots, or illustrations. Its phone, chat, social-profile, television, music-player, karaoke, browser, passport, desktop, taskbar, and window visuals are original HTML/CSS interface recreations made for Throwback PH. Brand names appear only as historical subjects of commentary.
+The submission build does not contain third-party photographs, logos, audio, video, screenshots, or illustrations. Its phone, chat, social-profile, television, music-player, karaoke, browser, passport, desktop, taskbar, and window visuals are original HTML/CSS interface recreations made for ASL. Brand names appear only as historical subjects of commentary.
 
-The four boot-screen PNG tiles in `public/museum/` were rendered from original Throwback PH HTML/CSS artwork. They do not reproduce third-party screenshots or logos.
+The four boot-screen PNG tiles in `public/museum/` were rendered from original ASL HTML/CSS artwork. They do not reproduce third-party screenshots or logos.
 
 ## Research references
 

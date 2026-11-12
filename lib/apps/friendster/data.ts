@@ -17,6 +17,7 @@ export const FRIENDSTER_THEMES: FriendsterTheme[] = [
     surface: "#ffffff",
     text: "#2c1704",
     border: "#fcd7b2",
+    pattern: "linear-gradient(180deg, #dcecff 0%, #f4f9ff 240px)",
   },
   {
     id: "cyber-neon",
@@ -27,6 +28,7 @@ export const FRIENDSTER_THEMES: FriendsterTheme[] = [
     surface: "#1b263b",
     text: "#e0f2fe",
     border: "#415a77",
+    pattern: "linear-gradient(rgba(0,255,163,.07) 1px, transparent 1px) 0 0 / 22px 22px, linear-gradient(90deg, rgba(0,255,163,.07) 1px, transparent 1px) 0 0 / 22px 22px, #0d1b2a",
   },
   {
     id: "glitter-star",
@@ -37,6 +39,7 @@ export const FRIENDSTER_THEMES: FriendsterTheme[] = [
     surface: "#27272a",
     text: "#fdf2f8",
     border: "#831843",
+    pattern: "radial-gradient(circle at 20% 30%, rgba(244,114,182,.55) 0 1.5px, transparent 2px) 0 0 / 34px 34px, radial-gradient(circle at 70% 70%, rgba(255,255,255,.4) 0 1px, transparent 1.5px) 0 0 / 26px 26px, #18181b",
   },
   {
     id: "sunset-pastel",
@@ -47,6 +50,7 @@ export const FRIENDSTER_THEMES: FriendsterTheme[] = [
     surface: "#ffffff",
     text: "#2e1065",
     border: "#ddd6fe",
+    pattern: "linear-gradient(180deg, #fbd3a8 0%, #f6b6d2 45%, #c9b6f2 100%)",
   },
   {
     id: "denim-sparkle",
@@ -57,11 +61,12 @@ export const FRIENDSTER_THEMES: FriendsterTheme[] = [
     surface: "#ffffff",
     text: "#1e3a8a",
     border: "#bfdbfe",
+    pattern: "repeating-linear-gradient(45deg, rgba(37,99,235,.08) 0 2px, transparent 2px 6px), repeating-linear-gradient(-45deg, rgba(37,99,235,.06) 0 2px, transparent 2px 6px), #dbe8fb",
   },
 ];
 
 export const INITIAL_USER_PROFILE: UserProfile = {
-  displayName: "Miguel (Throwback PH)",
+  displayName: "Miguel (ASL)",
   status: "listening to Sponge Cola · tambay sa comp shop 🎧",
   aboutMe:
     "Mabuhay! Welcome to my Friendster page. 2000s kid loving OPM rock bands (Hale, Rivermaya, Kamikazee), weekend LAN games at the corner cyber café, and collecting testimonials from true barkada. Mag-iwan ka ng testi ha bago ka umalis! :D",
@@ -73,6 +78,10 @@ export const INITIAL_USER_PROFILE: UserProfile = {
   avatar: "🧑‍💻",
   portraitSrc: "/museum/phase-9/images/friendster-kiko.jpg",
   portraitPosition: "50% 32%",
+  interests: ["OPM gigs", "LAN games", "Burning mix CDs", "Photography"],
+  favoriteMusic: "Sponge Cola, Hale, Kamikazee, Orange & Lemons",
+  whoIWantToMeet: "Fellow rakista, DotA teammates, and anyone who still writes testis back :)",
+  profileSong: "Jeepney – Sponge Cola",
 };
 
 export const FICTIONAL_PROFILES: FictionalFriend[] = [

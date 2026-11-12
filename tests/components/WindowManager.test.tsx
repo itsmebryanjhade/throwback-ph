@@ -280,3 +280,39 @@ describe("WindowManager Component Integration", () => {
     expect(alphaDialog.style.height).toBe("300px");
   });
 });
+
+describe("restoring a saved window layout", () => {
+  it("keeps saved positions but refreshes titles from current registrations", async () => {
+    const { saveRecord } = await import("@/lib/persistence/storage");
+    const { createInitialWindowManagerState } = await import("@/lib/window-system/reducer");
+    const saved = createInitialWindowManagerState(testRegistrations);
+    saved.windows["app-alpha"] = {
+      ...saved.windows["app-alpha"],
+      title: "Old Alpha Name",
+      isOpen: true,
+      bounds: { x: 222, y: 111, width: 400, height: 300 },
+    };
+    saved.windowOrder = ["app-alpha"];
+    saveRecord("throwback-ph:windows", 1, saved);
+
+    const seen: ReturnType<typeof useWindowManager>["state"][] = [];
+    function Probe() {
+      const { state } = useWindowManager();
+      React.useEffect(() => {
+        seen.push(state);
+      });
+      return null;
+    }
+    render(
+      <WindowManagerProvider registrations={testRegistrations}>
+        <Probe />
+      </WindowManagerProvider>,
+    );
+
+    const alpha = seen[seen.length - 1].windows["app-alpha"];
+    expect(alpha.title).toBe("Alpha App");
+    expect(alpha.isOpen).toBe(true);
+    expect(alpha.bounds.x).toBe(222);
+    localStorage.clear();
+  });
+});

@@ -7,7 +7,24 @@ import type {
 } from "./types";
 import { INITIAL_NETCAFE_STATE } from "./data";
 
-export function netCafeReducer(
+const STAT_FOR_ACTION: Partial<Record<NetCafeAction["type"], keyof NetCafeState["stats"]>> = {
+  START_SESSION: "seated",
+  ORDER_SNACK: "snacksSold",
+  EXTEND_SESSION: "extensions",
+  QUEUE_PRINT_JOB: "prints",
+  END_SESSION: "checkouts",
+};
+
+/** Applies an action, then counts it toward the Missions checklist if it changed anything. */
+export function netCafeReducer(state: NetCafeState, action: NetCafeAction): NetCafeState {
+  const next = applyAction(state, action);
+  const stat = STAT_FOR_ACTION[action.type];
+  if (!stat || next === state) return next;
+  const stats = next.stats ?? INITIAL_NETCAFE_STATE.stats;
+  return { ...next, stats: { ...stats, [stat]: stats[stat] + 1 } };
+}
+
+function applyAction(
   state: NetCafeState,
   action: NetCafeAction,
 ): NetCafeState {

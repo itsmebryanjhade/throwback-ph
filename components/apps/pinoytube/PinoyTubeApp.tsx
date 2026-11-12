@@ -103,13 +103,11 @@ export function PinoyTubeApp() {
         {/* Retro Header Bar */}
         <header className={styles.tubeHeader}>
           <div className={styles.brandArea}>
-            <div className={styles.tubeLogoBadge}>
-              ▶ PinoyTube
-            </div>
-            <div>
-              <span className={styles.brandTitle}>PinoyTube Broadcast</span>
-              <span className={styles.brandSubtitle}>Broadcast Yourself · PH Edition</span>
-            </div>
+            <span className={styles.logo2006} aria-label="PinoyTube">
+              <span aria-hidden="true">Pinoy</span>
+              <span className={styles.logoBox} aria-hidden="true">Tube</span>
+            </span>
+            <span className={styles.brandSubtitle}>Broadcast Yourself · PH Edition</span>
           </div>
 
           <div className={styles.headerMetrics}>

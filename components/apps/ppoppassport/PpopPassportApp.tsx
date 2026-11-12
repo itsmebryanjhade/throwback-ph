@@ -40,7 +40,7 @@ export function PpopPassportApp() {
   };
 
   const win = windowManager.state.windows["ppop-passport"];
-  const bounds = win?.bounds || { x: 160, y: 40, width: 750, height: 550 };
+  const bounds = win?.bounds || { x: 110, y: 20, width: 1000, height: 690 };
   const zIndex = win?.zIndex || 1;
   const isActive = windowManager.state.activeWindowId === "ppop-passport";
   const isMinimized = !!win?.isMinimized;

@@ -1,6 +1,6 @@
 import React from "react";
-import { describe, expect, it } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { act, render, screen, fireEvent } from "@testing-library/react";
 import { WindowManagerProvider } from "@/lib/window-system/WindowContext";
 import { NotificationProvider } from "@/lib/notification-system/NotificationContext";
 import { allAppRegistrations } from "@/lib/apps/catalog";
@@ -201,5 +201,29 @@ describe("Phase 7 — TV Tambayan Application", () => {
     expect(
       screen.getByText(/Curatorial Citations & Reference Sources:/i),
     ).toBeInTheDocument();
+  });
+
+  it("tunes channels by typing numbers on the remote's number pad", () => {
+    vi.useFakeTimers();
+    renderWithProviders();
+
+    // Two digits tune immediately: 2 then 3 → CH 23
+    fireEvent.click(screen.getByRole("button", { name: "Remote digit 2" }));
+    expect(screen.getByText("2-")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Remote digit 3" }));
+    expect(screen.getByText(/CH 23 KARAOKE TAMBAYAN/i)).toBeInTheDocument();
+
+    // One digit tunes after a short pause: 7 → CH 07
+    fireEvent.click(screen.getByRole("button", { name: "Remote digit 7" }));
+    act(() => {
+      vi.advanceTimersByTime(1300);
+    });
+    expect(screen.getByText(/CH 07 HAPON ANIME BLOCK/i)).toBeInTheDocument();
+
+    // A channel that doesn't exist just shows static and stays put
+    fireEvent.click(screen.getByRole("button", { name: "Remote digit 9" }));
+    fireEvent.click(screen.getByRole("button", { name: "Remote digit 9" }));
+    expect(screen.getByText(/CH 07 HAPON ANIME BLOCK/i)).toBeInTheDocument();
+    vi.useRealTimers();
   });
 });

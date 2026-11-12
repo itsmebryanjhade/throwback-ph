@@ -14,6 +14,8 @@ export type FriendsterTheme = {
   surface: string;
   text: string;
   border: string;
+  /** CSS background for the page behind the profile (the "skin"). */
+  pattern: string;
 };
 
 export type FictionalFriend = {
@@ -72,6 +74,10 @@ export type UserProfile = {
   avatar: string;
   portraitSrc: string;
   portraitPosition: string;
+  interests: string[];
+  favoriteMusic: string;
+  whoIWantToMeet: string;
+  profileSong: string;
 };
 
 export type FriendsterTab =

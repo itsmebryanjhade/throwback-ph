@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { pickMircReply } from "@/lib/apps/chatarchives/replies";
 import type {
   ChatArchivesAction,
   ChatArchivesState,
@@ -27,14 +28,28 @@ export function MircView({ state, dispatch }: MircViewProps) {
     }
   }, [messages.length]);
 
+  // The channel answers back after you speak.
+  const replyCounts = useRef<Record<string, number>>({});
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
+    const channelId = state.activeChannelId;
     dispatch({
       type: "SEND_MIRC_MESSAGE",
-      channelId: state.activeChannelId,
+      channelId,
       text: inputText,
     });
     setInputText("");
+    timers.current.push(
+      setTimeout(() => {
+        const count = replyCounts.current[channelId] ?? 0;
+        replyCounts.current[channelId] = count + 1;
+        const reply = pickMircReply(channelId, count);
+        dispatch({ type: "RECEIVE_MESSAGE", service: "mirc", targetId: channelId, sender: reply.nick, text: reply.text });
+      }, 1300),
+    );
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

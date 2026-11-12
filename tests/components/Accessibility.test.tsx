@@ -15,7 +15,7 @@ describe("museum accessibility contract", () => {
 
     expect(screen.getAllByRole("main")).toHaveLength(1);
     expect(screen.getByRole("link", { name: /skip to museum rooms/i })).toHaveAttribute("href", "#museum-rooms");
-    expect(screen.getByRole("heading", { level: 1, name: /throwback ph virtual museum/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /ASL: A tour of 2000–2010 virtual museum/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /minimize museum/i })).toHaveAccessibleName();
     expect(screen.getByRole("button", { name: /close museum/i })).toHaveAccessibleName();
     expect(screen.queryByRole("button", { name: /sound/i })).not.toBeInTheDocument();

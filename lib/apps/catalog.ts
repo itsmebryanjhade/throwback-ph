@@ -11,7 +11,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "FRND",
     tagline: "Design your profile, collect testimonials, and connect with barkada.",
     isFlagship: true,
-    defaultBounds: { x: 70, y: 40, width: 780, height: 560 },
+    defaultBounds: { x: 70, y: 30, width: 940, height: 640 },
     minSize: { width: 520, height: 400 },
     description:
       "A recreation of early social networking in the Philippines featuring customizable profile themes, testimonials, and network browsing.",
@@ -33,7 +33,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "SMS",
     tagline: "Multi-tap texting, forwarded jokes, GM announcements, and mobile history.",
     isFlagship: true,
-    defaultBounds: { x: 130, y: 50, width: 680, height: 560 },
+    defaultBounds: { x: 120, y: 20, width: 860, height: 690 },
     minSize: { width: 480, height: 420 },
     description:
       "Candy-bar phone simulator with inbox, outbox, multi-tap typing, ringtone picker, and historical EDSA II forwarded SMS simulation.",
@@ -55,7 +55,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "CAFE",
     tagline: "Rent a terminal, manage prepaid time, and relive computer-shop barkada rituals.",
     isFlagship: true,
-    defaultBounds: { x: 170, y: 60, width: 760, height: 540 },
+    defaultBounds: { x: 90, y: 20, width: 1040, height: 690 },
     minSize: { width: 500, height: 380 },
     description:
       "Terminal session simulator featuring hourly rates, time countdowns, desktop apps, and printing simulation.",
@@ -77,7 +77,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "VOTE",
     tagline: "Simulate SMS voting, browse nominee profiles, and see participatory television.",
     isFlagship: false,
-    defaultBounds: { x: 110, y: 50, width: 700, height: 520 },
+    defaultBounds: { x: 100, y: 20, width: 1000, height: 690 },
     minSize: { width: 480, height: 380 },
     description:
       "Television voting console showing how viewers shaped reality-show outcomes via mobile participation.",
@@ -99,7 +99,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "OPM",
     tagline: "Retro digital media player celebrating 2000s Pinoy band culture and homemade playlists.",
     isFlagship: false,
-    defaultBounds: { x: 210, y: 70, width: 640, height: 480 },
+    defaultBounds: { x: 110, y: 20, width: 980, height: 690 },
     minSize: { width: 460, height: 360 },
     description:
       "Authentic digital audio player with simulated visualizer, playlist curation, and curatorial liner notes on the 2000s band scene.",
@@ -165,7 +165,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "CHAT",
     tagline: "Switch between Yahoo Messenger and mIRC interfaces to read barkada conversations.",
     isFlagship: false,
-    defaultBounds: { x: 190, y: 50, width: 700, height: 520 },
+    defaultBounds: { x: 150, y: 30, width: 900, height: 640 },
     minSize: { width: 480, height: 380 },
     description:
       "Dual-interface instant chat archive featuring Yahoo Messenger and mIRC rooms with BUZZ! feedback, statuses, and historical transcripts.",
@@ -187,7 +187,7 @@ export const APP_CATALOG: Record<AppId, AppMetadata> = {
     symbol: "PASS",
     tagline: "Interactive cultural map tracing the evolution from foreign influences to modern P-pop.",
     isFlagship: false,
-    defaultBounds: { x: 140, y: 50, width: 750, height: 520 },
+    defaultBounds: { x: 110, y: 20, width: 1000, height: 690 },
     minSize: { width: 500, height: 380 },
     description:
       "Visual timeline and passport stamp collection tracing regional pop influences and localized Filipino musical performance.",
@@ -265,16 +265,16 @@ export function getAppsForRoom(roomId: RoomId): AppMetadata[] {
 export const allAppRegistrations: WindowRegistration[] = [
   {
     id: "welcome",
-    title: "Welcome to Throwback PH",
+    title: "Welcome to ASL",
     icon: "🇵🇭",
-    defaultBounds: { x: 160, y: 60, width: 720, height: 430 },
-    minSize: { width: 480, height: 350 },
+    defaultBounds: { x: 160, y: 40, width: 760, height: 580 },
+    minSize: { width: 360, height: 320 },
   },
   {
     id: "museum",
-    title: "Throwback PH",
+    title: "ASL",
     icon: "🏛️",
-    defaultBounds: { x: 100, y: 30, width: 880, height: 570 },
+    defaultBounds: { x: 90, y: 20, width: 1040, height: 660 },
     minSize: { width: 500, height: 380 },
   },
   ...ROOM_FOLDER_LIST.map((folder) => ({

@@ -180,7 +180,13 @@ export function nokiaReducer(state: NokiaState, action: NokiaAction): NokiaState
           ...state.prepaid,
           balance: state.prepaid.balance + action.amount,
         },
+        stats: { ...state.stats, reloads: state.stats.reloads + 1 },
       };
+    }
+
+    case "RECORD_SNAKE_SCORE": {
+      if (action.score <= state.stats.snakeBest) return state;
+      return { ...state, stats: { ...state.stats, snakeBest: action.score } };
     }
 
     case "SET_EDSA_STEP": {

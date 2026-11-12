@@ -1,0 +1,192 @@
+/* Welcome window. Layout adapts to the window's own width (container query),
+   so it reflows whether the browser or the window itself is resized. */
+
+.scroller {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  container-type: inline-size;
+  background: #ece9d8;
+}
+
+.content {
+  display: grid;
+  gap: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 20px 20px;
+}
+
+.header {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid #d4cfb8;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b14222;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(24px, 6cqi, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: #10284f;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #34405a;
+}
+
+.sectionLabel {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5b6478;
+}
+
+/* Rooms: stacked rows on narrow windows, three columns on wide ones. */
+.rooms {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.room {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: #fbfaf3;
+  border: 1px solid #d4cfb8;
+}
+
+.roomSymbol {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 44px;
+  border: 2px solid #fff;
+  outline: 1px solid #c4bfa6;
+  font-size: 12px;
+  font-weight: 900;
+  color: #0d2142;
+}
+
+.toneTechnology { background: #f5a623; }
+.tonePerformance { background: #ef7d6b; }
+.toneGlobalization { background: #6db3ea; }
+
+.roomText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #4a5368;
+}
+
+.roomText strong {
+  font-size: 14px;
+  color: #172033;
+}
+
+/* Start choices */
+.choices {
+  display: grid;
+  gap: 12px;
+}
+
+.choice {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 42px;
+  width: 100%;
+  border: 2px outset #fff;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: #2f7d32;
+  color: #fff;
+}
+
+.primaryButton:hover { background: #378f3b; }
+
+.secondaryButton {
+  background: #e8e5d5;
+  color: #172033;
+}
+
+.secondaryButton:hover { background: #f3f1e6; }
+
+.primaryButton:active,
+.secondaryButton:active {
+  border-style: inset;
+  transform: translateY(1px);
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 2px dotted #10284f;
+  outline-offset: 2px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #4a5368;
+}
+
+.footnote {
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid #d4cfb8;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #5b6478;
+}
+
+@container (min-width: 520px) {
+  .content { padding: 30px 32px 24px; }
+  .choices { grid-template-columns: 1fr 1fr; }
+}
+
+@container (min-width: 640px) {
+  .rooms { grid-template-columns: repeat(3, 1fr); }
+  .room {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton:active,
+  .secondaryButton:active { transform: none; }
+}

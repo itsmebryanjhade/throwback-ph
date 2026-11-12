@@ -418,3 +418,57 @@
 .complete div {
   margin-top: 20px;
 }
+
+/* Room progress + explored marks */
+.exploredMeter {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 12px !important;
+}
+
+.exploredText {
+  font-size: 11px;
+  font-weight: 800;
+  color: #172033;
+}
+
+.exploredTrack {
+  display: block;
+  height: 10px;
+  border: 2px inset #fff;
+  background: #fff;
+}
+
+.exploredBar {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--room-color) 0 7px, transparent 7px 9px);
+  transition: width .3s;
+}
+
+.exhibitList button { position: relative; padding-right: 40px; }
+
+.visitMark {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .05em;
+  padding: 2px 4px;
+  background: #f5a623;
+  color: #172033;
+}
+
+.exhibitList button[data-visited="true"] .visitMark {
+  font-size: 13px;
+  padding: 0 4px;
+  background: transparent;
+  color: #2f7d32;
+}
+
+.exhibitList button[aria-current="page"] .visitMark { color: #fff; }
+
+@media (prefers-reduced-motion: reduce) { .exploredBar { transition: none; } }

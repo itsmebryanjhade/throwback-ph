@@ -75,6 +75,15 @@ describe("Phase 8 — P-pop Passport Application", () => {
     });
     fireEvent.click(stampBtn);
 
+    // The immigration officer asks about the era first
+    const desk = screen.getByRole("region", { name: "Immigration check" });
+    expect(desk).toHaveTextContent(/Which 2003 Taiwanese drama/);
+    fireEvent.click(screen.getByRole("button", { name: "Full House" }));
+    expect(screen.getByText(/Hmm, check your notes first/)).toBeInTheDocument();
+    expect(screen.getAllByText(/1 \/ 6 Stamps/i).length).toBeGreaterThanOrEqual(1);
+    fireEvent.click(screen.getByRole("button", { name: "Meteor Garden" }));
+    expect(screen.queryByRole("region", { name: "Immigration check" })).not.toBeInTheDocument();
+
     // Progress updates to 2 stamps
     expect(screen.getAllByText(/2 \/ 6 Stamps/i).length).toBeGreaterThanOrEqual(1);
   });

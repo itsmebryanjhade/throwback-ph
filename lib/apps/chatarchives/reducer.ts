@@ -152,6 +152,38 @@ export function chatArchivesReducer(
       };
     }
 
+    case "RECEIVE_MESSAGE": {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? "0" : ""}${minutes} ${hours >= 12 ? "PM" : "AM"}`;
+      const incoming: ChatMessage = {
+        id: `in-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        sender: action.isBuzz ? "System" : action.sender,
+        text: action.isBuzz ? `*** ${action.sender} sent you a BUZZ! *** ${action.text}` : action.text,
+        timestamp: formattedTime,
+        isBuzz: action.isBuzz,
+        isSystem: action.isBuzz,
+      };
+      if (action.service === "yahoo") {
+        return {
+          ...state,
+          isBuzzing: action.isBuzz ? true : state.isBuzzing,
+          yahooMessages: {
+            ...state.yahooMessages,
+            [action.targetId]: [...(state.yahooMessages[action.targetId] || []), incoming],
+          },
+        };
+      }
+      return {
+        ...state,
+        mircMessages: {
+          ...state.mircMessages,
+          [action.targetId]: [...(state.mircMessages[action.targetId] || []), incoming],
+        },
+      };
+    }
+
     case "CLEAR_BUZZ": {
       return {
         ...state,

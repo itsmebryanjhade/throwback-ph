@@ -174,6 +174,11 @@ export function CrtScreenPanel({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isCommercialBreak, setIsCommercialBreak] = useState(false);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
+  // Channel-change static: bumping the key replays the CSS snow burst.
+  const [staticKey, setStaticKey] = useState(0);
+  // Digits typed on the remote's number pad, e.g. "2" then "3" → CH 23.
+  const [typed, setTyped] = useState("");
+  const typeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const currentChannel =
     state.channels.find((c) => c.id === state.currentChannelId) || state.channels[0];
   const currentProgram =
@@ -191,16 +196,49 @@ export function CrtScreenPanel({
     if (!state.isPoweredOn) video.pause();
   }, [state.volume, state.isMuted, state.isPoweredOn, currentChannel.id]);
 
-  const handleChannelSelect = (chId: ChannelId) => {
+  // A TV shows the programme as soon as you tune in: start the channel's footage.
+  useEffect(() => {
+    if (!state.isPoweredOn) return;
+    videoRef.current?.play()?.catch(() => undefined);
+  }, [state.isPoweredOn, currentChannel.id, isCommercialBreak]);
+
+  useEffect(() => () => {
+    if (typeTimer.current) clearTimeout(typeTimer.current);
+  }, []);
+
+  const tune = (chId: ChannelId) => {
+    setStaticKey((key) => key + 1);
     setIsCommercialBreak(false);
     dispatch({ type: "CHANGE_CHANNEL", channelId: chId });
     const ch = state.channels.find((c) => c.id === chId);
-    if (ch) {
-      onChannelToast(ch.name, ch.channelNumber);
-    }
+    if (ch) onChannelToast(ch.name, ch.channelNumber);
   };
 
+  const commitTyped = (digits: string) => {
+    if (typeTimer.current) clearTimeout(typeTimer.current);
+    typeTimer.current = null;
+    setTyped("");
+    const match = state.channels.find((c) => Number(c.channelNumber) === Number(digits));
+    if (match) tune(match.id);
+    else setStaticKey((key) => key + 1);
+  };
+
+  const pressDigit = (digit: string) => {
+    if (!state.isPoweredOn) return;
+    const next = (typed + digit).slice(-2);
+    if (typeTimer.current) clearTimeout(typeTimer.current);
+    if (next.length === 2) {
+      commitTyped(next);
+      return;
+    }
+    setTyped(next);
+    typeTimer.current = setTimeout(() => commitTyped(next), 1200);
+  };
+
+  const handleChannelSelect = (chId: ChannelId) => tune(chId);
+
   const handleChannelUp = () => {
+    setStaticKey((key) => key + 1);
     setIsCommercialBreak(false);
     dispatch({ type: "CHANNEL_UP" });
     const idx = state.channels.findIndex((c) => c.id === state.currentChannelId);
@@ -209,6 +247,7 @@ export function CrtScreenPanel({
   };
 
   const handleChannelDown = () => {
+    setStaticKey((key) => key + 1);
     setIsCommercialBreak(false);
     dispatch({ type: "CHANNEL_DOWN" });
     const idx = state.channels.findIndex((c) => c.id === state.currentChannelId);
@@ -236,6 +275,14 @@ export function CrtScreenPanel({
   }
 
   return (
+    <>
+    <ol className={styles.tryStrip} aria-label="Try this">
+      <li>Change channels with ▲ CH ▼</li>
+      <li>Type 7 on the number pad</li>
+      <li>Switch Tagalog dub / subtitles</li>
+      <li>Press AD BREAK</li>
+      <li>⭐ Add a show to your Watchlist</li>
+    </ol>
     <div className={styles.tvMainLayout}>
       {/* Left Column: CRT Television Screen & Info Card */}
       <div className={styles.crtColumn}>
@@ -245,6 +292,12 @@ export function CrtScreenPanel({
               <>
                 <div className={styles.scanlineOverlay} aria-hidden="true" />
                 <div className={styles.vignetteGlow} aria-hidden="true" />
+                {staticKey > 0 && <div key={staticKey} className={styles.staticBurst} aria-hidden="true" />}
+                {typed && (
+                  <div className={styles.typedOsd} aria-live="polite">
+                    {typed}-
+                  </div>
+                )}
 
                 {/* On-Screen Display (OSD) */}
                 {state.showOsd && (
@@ -412,6 +465,7 @@ export function CrtScreenPanel({
       {/* Right Column: Retro Television Remote Control */}
       <div className={styles.remoteColumn}>
         <div className={styles.remoteCard} aria-label="TV Remote Control">
+          <span className={styles.remoteIr} aria-hidden="true" />
           <h4 className={styles.remoteTitle}>TV Remote</h4>
 
           {/* Power Button */}
@@ -419,7 +473,10 @@ export function CrtScreenPanel({
             <button
               type="button"
               className={styles.remotePowerBtn}
-              onClick={() => dispatch({ type: "TOGGLE_POWER" })}
+              onClick={() => {
+                if (!state.isPoweredOn) setStaticKey((key) => key + 1);
+                dispatch({ type: "TOGGLE_POWER" });
+              }}
               aria-label={state.isPoweredOn ? "Turn off television" : "Turn on television"}
             >
               ⏻ POWER
@@ -485,6 +542,20 @@ export function CrtScreenPanel({
             </button>
           </div>
 
+          {/* Number pad: type a channel number like a real remote */}
+          <div className={styles.numberPad} role="group" aria-label="Number pad">
+            {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", ""].map((digit, index) =>
+              digit ? (
+                <button key={digit} type="button" onClick={() => pressDigit(digit)} aria-label={`Remote digit ${digit}`}>
+                  {digit}
+                </button>
+              ) : (
+                <span key={`gap-${index}`} />
+              ),
+            )}
+          </div>
+          <p className={styles.padHint}>Type 7 for CH 07, or 2 then 3 for CH 23</p>
+
           {/* Direct Channel Selection Keypad */}
           <div style={{ marginTop: "6px" }}>
             <div style={{ fontSize: "10px", color: "#a1a1aa", marginBottom: "4px", textAlign: "center" }}>
@@ -511,5 +582,6 @@ export function CrtScreenPanel({
         </div>
       </div>
     </div>
+    </>
   );
 }

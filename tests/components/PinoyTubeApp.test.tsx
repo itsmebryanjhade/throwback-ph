@@ -21,7 +21,8 @@ describe("Phase 7 — PinoyTube Application", () => {
     renderWithProviders();
 
     expect(screen.getByTestId("app-shell-pinoytube")).toBeInTheDocument();
-    expect(screen.getByText("PinoyTube Broadcast")).toBeInTheDocument();
+    expect(screen.getByText("Tube")).toBeInTheDocument();
+    expect(screen.getByText(/Broadcast Yourself · PH Edition/)).toBeInTheDocument();
     expect(
       screen.getAllByText("Campus Dance Practice")[0],
     ).toBeInTheDocument();
@@ -43,7 +44,8 @@ describe("Phase 7 — PinoyTube Application", () => {
     expect(thumbnail).toHaveAttribute("preload", "metadata");
     Object.defineProperty(thumbnail, "duration", { configurable: true, value: 30 });
     fireEvent.loadedMetadata(thumbnail!);
-    expect(thumbnail).toHaveProperty("currentTime", 0.1);
+    // Thumbnails show a frame a third of the way in, not the (often black) first frame.
+    expect(thumbnail).toHaveProperty("currentTime", 9.9);
   });
 
   it("handles playback transport controls and simulation buffering", () => {
@@ -55,15 +57,19 @@ describe("Phase 7 — PinoyTube Application", () => {
     fireEvent.click(playBtn);
     expect(screen.getByRole("button", { name: /Play video/i })).toBeInTheDocument();
 
-    // Simulate buffer
-    const bufferBtn = screen.getByRole("button", { name: /Simulate Buffer/i });
-    fireEvent.click(bufferBtn);
-
+    // Pressing Play the first time buffers like 2006 internet, then plays
+    fireEvent.click(screen.getByRole("button", { name: /Play video/i }));
     expect(screen.getAllByText(/Buffering/i).length).toBeGreaterThanOrEqual(1);
-
     act(() => {
       vi.advanceTimersByTime(2500);
     });
+    expect(screen.queryByText(/Buffering\.\.\./i)).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Pause video/i })).toBeInTheDocument();
+
+    // Once buffered, pause and play resume immediately
+    fireEvent.click(screen.getByRole("button", { name: /Pause video/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Play video/i }));
+    expect(screen.queryByText(/Buffering\.\.\./i)).not.toBeInTheDocument();
 
     vi.useRealTimers();
   });

@@ -6,8 +6,7 @@ import { useWindowManager } from "@/lib/window-system/WindowContext";
 import { WindowFrame } from "@/components/desktop/WindowFrame";
 import { realityTvReducer } from "@/lib/apps/realitytv/reducer";
 import { INITIAL_REALITY_TV_STATE } from "@/lib/apps/realitytv/data";
-import { VoteDeskPanel } from "./VoteDeskPanel";
-import { LiveStandingsPanel } from "./LiveStandingsPanel";
+import { EvictionNight, GM_BONUS_VOTES, GM_COST, type EvictionHandlers } from "./EvictionNight";
 import { VoteHistoryPanel } from "./VoteHistoryPanel";
 import { TvImpactPanel } from "./TvImpactPanel";
 import { RealityTvMuseumInfo } from "./RealityTvMuseumInfo";
@@ -16,7 +15,7 @@ import { matchesStateShape, usePersistentReducer } from "@/lib/persistence/usePe
 
 export function RealityTvVoteApp() {
   const [state, dispatch] = usePersistentReducer(realityTvReducer, INITIAL_REALITY_TV_STATE, {
-    key: "throwback-ph:app:reality-tv-vote", version: 3, validate: matchesStateShape(INITIAL_REALITY_TV_STATE),
+    key: "throwback-ph:app:reality-tv-vote", version: 4, validate: matchesStateShape(INITIAL_REALITY_TV_STATE),
   });
   const windowManager = useWindowManager();
   const toast = useToast();
@@ -54,18 +53,27 @@ export function RealityTvVoteApp() {
     );
   };
 
-  const handleSimulateSurge = () => {
-    dispatch({ type: "SIMULATE_CROWD_SURGE" });
 
-    toast.notify.info(
-      "Crowd Surge Simulated",
-      "Over 1,300 simulated incoming SMS votes registered! Live rankings have updated.",
-      { appId: "reality-tv-vote", appName: "Reality TV Vote" },
-    );
+
+  const evictionHandlers: EvictionHandlers = {
+    select: (id) => dispatch({ type: "SELECT_NOMINEE", nomineeId: id }),
+    vote: handleCastVote,
+    gm: (id) => {
+      const nominee = state.nominees.find((n) => n.id === id);
+      dispatch({ type: "SEND_GM", nomineeId: id, bonusVotes: GM_BONUS_VOTES, costPesos: GM_COST });
+      toast.notify.success(
+        "GM Sent to Phonebook",
+        `Your textmates are voting for ${nominee?.nickname ?? "your housemate"}: about +${GM_BONUS_VOTES} votes.`,
+        { appId: "reality-tv-vote", appName: "Reality TV Vote" },
+      );
+    },
+    reload: handleReloadPrepaid,
+    crowd: (votes) => dispatch({ type: "ADD_CROWD_VOTES", votes }),
+    newEpisode: () => dispatch({ type: "NEW_EPISODE" }),
   };
 
   const win = windowManager.state.windows["reality-tv-vote"];
-  const bounds = win?.bounds || { x: 110, y: 50, width: 700, height: 520 };
+  const bounds = win?.bounds || { x: 100, y: 20, width: 1000, height: 690 };
   const zIndex = win?.zIndex || 1;
   const isActive = windowManager.state.activeWindowId === "reality-tv-vote";
   const isMinimized = !!win?.isMinimized;
@@ -127,23 +135,12 @@ export function RealityTvVoteApp() {
           <button
             type="button"
             role="tab"
-            aria-selected={state.activeTab === "vote"}
-            className={`${styles.navTab} ${state.activeTab === "vote" ? styles.navTabActive : ""}`}
+            aria-selected={state.activeTab === "vote" || state.activeTab === "standings"}
+            className={`${styles.navTab} ${state.activeTab === "vote" || state.activeTab === "standings" ? styles.navTabActive : ""}`}
             onClick={() => dispatch({ type: "SET_TAB", tab: "vote" })}
           >
-            🗳️ Vote Desk
+            🔴 Eviction Night
           </button>
-
-          <button
-            type="button"
-            role="tab"
-            aria-selected={state.activeTab === "standings"}
-            className={`${styles.navTab} ${state.activeTab === "standings" ? styles.navTabActive : ""}`}
-            onClick={() => dispatch({ type: "SET_TAB", tab: "standings" })}
-          >
-            📊 Live Standings
-          </button>
-
           <button
             type="button"
             role="tab"
@@ -180,35 +177,9 @@ export function RealityTvVoteApp() {
 
         {/* Main Content Area */}
         <div className={styles.scrollArea}>
-          {state.activeTab === "vote" && (
-            <section className={styles.broadcastStage} aria-label="Eviction night broadcast">
-            <VoteDeskPanel
-              nominees={state.nominees}
-              selectedNomineeId={state.selectedNomineeId}
-              prepaidLoad={state.prepaidLoad}
-              costPerVote={state.costPerVote}
-              shortcode={state.shortcode}
-              totalVotes={state.totalSimulatedVotes}
-              onSelectNominee={(id) => dispatch({ type: "SELECT_NOMINEE", nomineeId: id })}
-              onCastVote={handleCastVote}
-              onReloadPrepaid={handleReloadPrepaid}
-              onNavigateToStandings={() => dispatch({ type: "SET_TAB", tab: "standings" })}
-            />
-            </section>
+          {(state.activeTab === "vote" || state.activeTab === "standings") && (
+            <EvictionNight state={state} handlers={evictionHandlers} />
           )}
-
-          {state.activeTab === "standings" && (
-            <LiveStandingsPanel
-              nominees={state.nominees}
-              totalVotes={state.totalSimulatedVotes}
-              onSimulateSurge={handleSimulateSurge}
-              onSelectNominee={(id) => {
-                dispatch({ type: "SELECT_NOMINEE", nomineeId: id });
-                dispatch({ type: "SET_TAB", tab: "vote" });
-              }}
-            />
-          )}
-
           {state.activeTab === "history" && (
             <VoteHistoryPanel
               voteHistory={state.voteHistory}

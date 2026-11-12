@@ -11,9 +11,12 @@ import { NotificationProvider } from "@/lib/notification-system/NotificationCont
 import {
   allAppRegistrations,
   APP_LIST,
+  getAppsForRoom,
+  getRoomFolder,
   ROOM_FOLDER_LIST,
 } from "@/lib/apps/catalog";
 import { DesktopIcon } from "./DesktopIcon";
+import { DesktopGlyph, ROOM_COLORS } from "./DesktopGlyph";
 import { Taskbar } from "./Taskbar";
 import { WelcomeWindow } from "./WelcomeWindow";
 import { MuseumWindow } from "@/components/museum/MuseumWindow";
@@ -30,17 +33,10 @@ import { ChatArchivesApp } from "@/components/apps/chatarchives/ChatArchivesApp"
 import { PpopPassportApp } from "@/components/apps/ppoppassport/PpopPassportApp";
 import { ToastContainer } from "./ToastContainer";
 import { NotificationHistory } from "./NotificationHistory";
-import { getAppArtwork } from "@/lib/apps/artwork";
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog";
 import { MUSEUM_STORAGE_KEYS } from "@/lib/persistence/keys";
 import { removeMuseumRecords, removeRecord } from "@/lib/persistence/storage";
 import styles from "./desktop.module.css";
-
-const roomSymbols = {
-  technology: "TXT",
-  performance: "PLAY",
-  globalization: "WWW",
-} as const;
 
 function DesktopShellContent({
   state,
@@ -80,13 +76,13 @@ function DesktopShellContent({
   useEffect(() => {
     if (state.activeRoom && state.museumVisibility === "open") {
       const room = museumRooms.find((candidate) => candidate.id === state.activeRoom);
-      const title = room ? `Throwback PH — ${room.shortTitle}` : "Throwback PH";
+      const title = room ? `ASL — ${room.shortTitle}` : "ASL";
 
       registerWindow({
         id: "museum",
         title,
         icon: "🏛️",
-        defaultBounds: { x: 100, y: 30, width: 880, height: 570 },
+        defaultBounds: { x: 90, y: 20, width: 1040, height: 660 },
         minSize: { width: 500, height: 380 },
       });
       openWindow("museum");
@@ -112,62 +108,101 @@ function DesktopShellContent({
       <a className={styles.skipLink} href="#museum-rooms">
         Skip to museum rooms
       </a>
-      <h1 className="sr-only">Throwback PH Virtual Museum</h1>
+      <h1 className="sr-only">ASL: A tour of 2000–2010 virtual museum</h1>
       <div className={styles.brandStamp} aria-hidden="true">
-        <strong>Throwback</strong>
-        <span>PH · 2000–2010</span>
+        <strong>ASL</strong>
+        <span>Archive · Share · Learn</span>
+        <span>A tour of 2000–2010</span>
       </div>
 
-      <div className={styles.desktopGrid}>
-        {/* Museum Rooms and Room Folders Navigation */}
-        <nav
-          className={styles.icons}
-          id="museum-rooms"
-          aria-label="Museum rooms"
-        >
-          {museumRooms.map((room) => (
-            <DesktopIcon
+      <aside className={styles.stickyNote} aria-label="How to use this desktop">
+        <p className={styles.stickyTitle}>Paano gamitin? 📌</p>
+        <ol>
+          <li>
+            <strong>Exhibit</strong> — read the story of a room.
+          </li>
+          <li>
+            <strong>Folder</strong> — see that room&apos;s 3 apps with notes.
+          </li>
+          <li>
+            <strong>Apps</strong> — click to open and play.
+          </li>
+        </ol>
+        <p className={styles.stickyFoot}>Each row is one room. Single-click opens.</p>
+      </aside>
+
+      <nav className={styles.desktopGrid} id="museum-rooms" aria-label="Museum rooms">
+        <div className={styles.startRow}>
+          <DesktopIcon
+            label="Start Here"
+            glyph={<DesktopGlyph kind="start-here" />}
+            ariaLabel="Start Here: open the museum welcome"
+            tip="New here? Open the welcome guide."
+            onOpen={() => {
+              dispatch({ type: "OPEN_WELCOME" });
+              openWindow("welcome");
+              focusWindow("welcome");
+            }}
+          />
+        </div>
+
+        {museumRooms.map((room) => {
+          const folder = getRoomFolder(room.id);
+          const apps = getAppsForRoom(room.id);
+          const headingId = `desktop-room-${room.id}`;
+          return (
+            <section
               key={room.id}
-              label={room.shortTitle}
-              symbol={roomSymbols[room.id]}
-              onOpen={() => dispatch({ type: "OPEN_ROOM", roomId: room.id })}
-            />
-          ))}
-          {ROOM_FOLDER_LIST.map((folder) => (
-            <DesktopIcon
-              key={folder.id}
-              label={folder.title}
-              symbol={folder.icon}
-              ariaLabel={`Browse ${folder.title}`}
-              onOpen={() => {
-                openWindow(folder.id);
-                focusWindow(folder.id);
-              }}
-            />
-          ))}
-        </nav>
-
-        {/* Immediate Nine Applications Access */}
-        <nav
-          className={styles.appsGrid}
-          id="museum-apps"
-          aria-label="Museum applications"
-        >
-          {APP_LIST.map((app) => (
-            <DesktopIcon
-              key={app.id}
-              label={app.title}
-              symbol={app.icon}
-              imageSrc={getAppArtwork(app.id)}
-              imageAlt={`${app.title} desktop artifact icon`}
-              onOpen={() => {
-                openWindow(app.id);
-                focusWindow(app.id);
-              }}
-            />
-          ))}
-        </nav>
-      </div>
+              className={styles.roomRow}
+              aria-labelledby={headingId}
+              data-room={room.id}
+            >
+              <h2 id={headingId} className={styles.roomRowLabel}>
+                <span
+                  className={styles.roomRowSwatch}
+                  style={{ background: ROOM_COLORS[room.id].main }}
+                  aria-hidden="true"
+                />
+                {room.shortTitle} room
+              </h2>
+              <div className={styles.roomRowIcons}>
+                <DesktopIcon
+                  label={`${room.shortTitle} Exhibit`}
+                  glyph={<DesktopGlyph kind="exhibit" room={room.id} />}
+                  ariaLabel={`Open ${room.shortTitle} exhibit`}
+                  tip={`Read the ${room.shortTitle} room exhibits`}
+                  onOpen={() => dispatch({ type: "OPEN_ROOM", roomId: room.id })}
+                />
+                {folder && (
+                  <DesktopIcon
+                    label={folder.title}
+                    glyph={<DesktopGlyph kind="folder" room={room.id} />}
+                    ariaLabel={`Browse ${folder.title}`}
+                    tip={`All ${room.shortTitle} apps in one window`}
+                    onOpen={() => {
+                      openWindow(folder.id);
+                      focusWindow(folder.id);
+                    }}
+                  />
+                )}
+                <span className={styles.roomRowDivider} aria-hidden="true" />
+                {apps.map((app) => (
+                  <DesktopIcon
+                    key={app.id}
+                    label={app.title}
+                    glyph={<DesktopGlyph kind={app.id} room={room.id} />}
+                    tip={app.tagline}
+                    onOpen={() => {
+                      openWindow(app.id);
+                      focusWindow(app.id);
+                    }}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </nav>
 
       {/* Windows Layer */}
       {isWelcomeOpen && <WelcomeWindow dispatch={dispatch} />}

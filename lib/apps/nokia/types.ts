@@ -76,6 +76,8 @@ export type NokiaState = {
   composeReplyToId: string | null;
   edsaStepIndex: number;
   keypadMode: "abc" | "ABC" | "123";
+  /** Progress the Guide's missions read from. */
+  stats: { reloads: number; snakeBest: number };
 };
 
 export type NokiaAction =
@@ -96,4 +98,5 @@ export type NokiaAction =
   | { type: "SET_RINGTONE"; ringtoneId: string }
   | { type: "RELOAD_PREPAID"; amount: number }
   | { type: "SET_EDSA_STEP"; stepIndex: number }
-  | { type: "INJECT_EDSA_BROADCAST" };
+  | { type: "INJECT_EDSA_BROADCAST" }
+  | { type: "RECORD_SNAKE_SCORE"; score: number };

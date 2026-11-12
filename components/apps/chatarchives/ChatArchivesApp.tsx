@@ -44,7 +44,7 @@ export function ChatArchivesApp() {
   };
 
   const win = windowManager.state.windows["chat-archives"];
-  const bounds = win?.bounds || { x: 140, y: 50, width: 750, height: 540 };
+  const bounds = win?.bounds || { x: 150, y: 30, width: 900, height: 640 };
   const zIndex = win?.zIndex || 1;
   const isActive = windowManager.state.activeWindowId === "chat-archives";
   const isMinimized = !!win?.isMinimized;
@@ -153,7 +153,25 @@ export function ChatArchivesApp() {
         {/* Tab Panel Content */}
         <div className={styles.mainArea}>
           {state.activeTab === "chat" && (
-            <>
+            <div className={styles.chatStack}>
+              <ol className={styles.tryStrip} aria-label="Try this">
+                {state.serviceMode === "yahoo" ? (
+                  <>
+                    <li>💬 Say hi to xX_angel_Xx and wait for her reply</li>
+                    <li>⚡ Send a BUZZ!</li>
+                    <li>😊 Add an emoticon</li>
+                    <li>Change your status message</li>
+                    <li>Switch to mIRC (top right)</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Type “hello” in #pinoytambayan</li>
+                    <li>Try /me waves</li>
+                    <li>Join another channel on the left</li>
+                    <li>Switch back to Yahoo! Messenger</li>
+                  </>
+                )}
+              </ol>
               {state.serviceMode === "yahoo" ? (
                 <YahooMessengerView
                   state={state}
@@ -163,7 +181,7 @@ export function ChatArchivesApp() {
               ) : (
                 <MircView state={state} dispatch={dispatch} />
               )}
-            </>
+            </div>
           )}
 
           {state.activeTab === "transcripts" && (

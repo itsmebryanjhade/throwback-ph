@@ -172,6 +172,9 @@ export function VideoPlayerPanel({
   const [commentText, setCommentText] = useState("");
   const [selectedPreset, setSelectedPreset] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [realDuration, setRealDuration] = useState<{ id: string; seconds: number }>({ id: "", seconds: 0 });
+  const [bufferedIds, setBufferedIds] = useState<string[]>([]);
+  const bufferTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentVideo =
     state.videos.find((v) => v.id === state.selectedVideoId) || state.videos[0];
@@ -188,16 +191,57 @@ export function VideoPlayerPanel({
     video.muted = state.isMuted;
   }, [state.volume, state.isMuted, currentVideo.id]);
 
+  const duration =
+    realDuration.id === currentVideo.id && realDuration.seconds > 0 ? Math.round(realDuration.seconds) : currentVideo.durationSeconds;
+
+  useEffect(() => () => {
+    if (bufferTimer.current) clearInterval(bufferTimer.current);
+  }, []);
+
+  const startPlayback = () => {
+    dispatch({ type: "PLAY_VIDEO" });
+    videoRef.current?.play()?.catch(() => undefined);
+  };
+
+  // The first play of each video buffers like 2006 internet: higher quality = longer wait.
   const handlePlayToggle = () => {
-    dispatch({ type: "TOGGLE_PLAYBACK" });
+    if (state.isBuffering) return;
     const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) video.play()?.catch(() => undefined);
-    else video.pause();
+    if (state.playbackState === "playing") {
+      dispatch({ type: "PAUSE_VIDEO" });
+      video?.pause();
+      return;
+    }
+    if (bufferedIds.includes(currentVideo.id)) {
+      startPlayback();
+      return;
+    }
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const step = state.selectedResolution === "240p" ? 25 : state.selectedResolution === "360p" ? 15 : 8;
+    let pct = 0;
+    dispatch({ type: "SET_BUFFERING", isBuffering: true, bufferPercentage: 0 });
+    onBufferingToast();
+    const finish = () => {
+      if (bufferTimer.current) clearInterval(bufferTimer.current);
+      bufferTimer.current = null;
+      dispatch({ type: "SET_BUFFERING", isBuffering: false, bufferPercentage: 100 });
+      setBufferedIds((ids) => [...ids, currentVideo.id]);
+      startPlayback();
+    };
+    if (reduce) {
+      finish();
+      return;
+    }
+    bufferTimer.current = setInterval(() => {
+      pct = Math.min(100, pct + step);
+      if (pct >= 100) finish();
+      else dispatch({ type: "SET_BUFFERING", isBuffering: true, bufferPercentage: pct });
+    }, 250);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
+    if (videoRef.current) videoRef.current.currentTime = val;
     dispatch({ type: "SEEK_TIME", seconds: val });
   };
 
@@ -210,13 +254,7 @@ export function VideoPlayerPanel({
     }, 1500);
   };
 
-  const handleSimulateBuffering = () => {
-    dispatch({ type: "SET_BUFFERING", isBuffering: true, bufferPercentage: 35 });
-    onBufferingToast();
-    setTimeout(() => {
-      dispatch({ type: "SET_BUFFERING", isBuffering: false, bufferPercentage: 70 });
-    }, 2000);
-  };
+
 
   const handleRate = (stars: number) => {
     dispatch({ type: "RATE_VIDEO", videoId: currentVideo.id, rating: stars });
@@ -253,6 +291,14 @@ export function VideoPlayerPanel({
   };
 
   return (
+    <>
+    <ol className={styles.tryStrip} aria-label="Try this">
+      <li>▶ Press Play and wait for it to buffer</li>
+      <li>Switch quality: 240p loads fastest</li>
+      <li>★ Rate the video</li>
+      <li>Post a comment</li>
+      <li>Click a related video</li>
+    </ol>
     <div className={styles.watchLayout}>
       {/* Primary Video Player and Details */}
       <div className={styles.playerColumn}>
@@ -288,8 +334,12 @@ export function VideoPlayerPanel({
                 key={currentVideo.id}
                 asset={mediaAsset}
                 mediaRef={videoRef}
+                controls={false}
                 className={styles.licensedVideo}
                 onStateChange={(snapshot) => {
+                  if (snapshot.duration > 0 && (realDuration.id !== currentVideo.id || Math.round(snapshot.duration) !== Math.round(realDuration.seconds))) {
+                    setRealDuration({ id: currentVideo.id, seconds: snapshot.duration });
+                  }
                   dispatch({ type: "SEEK_TIME", seconds: snapshot.currentTime });
                   if (snapshot.status === "playing" && state.playbackState !== "playing") {
                     dispatch({ type: "PLAY_VIDEO" });
@@ -317,16 +367,14 @@ export function VideoPlayerPanel({
                 <div
                   className={styles.playBar}
                   style={{
-                    width: `${
-                      (state.currentTimeSeconds / currentVideo.durationSeconds) * 100
-                    }%`,
+                    width: `${Math.min(100, (state.currentTimeSeconds / duration) * 100)}%`,
                   }}
                   aria-hidden="true"
                 />
                 <input
                   type="range"
                   min="0"
-                  max={currentVideo.durationSeconds}
+                  max={duration}
                   value={state.currentTimeSeconds}
                   onChange={handleSeek}
                   className={styles.scrubberInput}
@@ -346,7 +394,7 @@ export function VideoPlayerPanel({
                   {state.playbackState === "playing" ? "⏸ Pause" : "▶ Play"}
                 </button>
                 <span className={styles.timeDisplay}>
-                  {formatDuration(state.currentTimeSeconds)} / {currentVideo.durationFormatted}
+                  {formatDuration(Math.floor(state.currentTimeSeconds))} / {formatDuration(duration)}
                 </span>
               </div>
 
@@ -357,9 +405,9 @@ export function VideoPlayerPanel({
                   className={styles.resolutionSelect}
                   aria-label="Select video resolution"
                 >
-                  <option value="240p">240p (Dial-up)</option>
-                  <option value="360p">360p (DSL)</option>
-                  <option value="480p">480p (HQ)</option>
+                  <option value="240p">240p · loads fast (dial-up)</option>
+                  <option value="360p">360p · DSL</option>
+                  <option value="480p">480p · HQ, slow to load</option>
                 </select>
 
                 <button
@@ -395,14 +443,6 @@ export function VideoPlayerPanel({
                 {currentVideo.isFavorite ? "❤️ Favorited" : "🤍 Favorite"}
               </button>
 
-              <button
-                type="button"
-                className={styles.bufferTestBtn}
-                onClick={handleSimulateBuffering}
-                title="Experience mid-2000s video buffering pause"
-              >
-                ⏳ Simulate Buffer
-              </button>
             </div>
           </div>
 
@@ -560,7 +600,8 @@ export function VideoPlayerPanel({
                       playsInline
                       onLoadedMetadata={(event) => {
                         const video = event.currentTarget;
-                        if (video.duration > 0) video.currentTime = Math.min(0.1, video.duration);
+                        // A frame a third of the way in looks like a real thumbnail (the first frame is often black).
+                        if (video.duration > 0) video.currentTime = video.duration * 0.33;
                       }}
                     />
                   ) : (
@@ -582,5 +623,6 @@ export function VideoPlayerPanel({
         </div>
       </div>
     </div>
+    </>
   );
 }

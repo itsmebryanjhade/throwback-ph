@@ -34,7 +34,7 @@ export function PinoyTubeMuseumInfo() {
 
       <div className={styles.reconstructionNotice}>
         <strong>Educational Reconstruction Notice:</strong> PinoyTube is an original educational simulation
-        created for the Throwback PH Virtual Museum. All channel names, creator profiles, video titles,
+        created for the ASL Virtual Museum. All channel names, creator profiles, video titles,
         simulated view counts, 5-star ratings, comment threads, upload sequences, and graphic scenes are
         fictional period-inspired simulation values. The Creator Upload Studio is a metadata-only local
         simulation: no real video is selected, uploaded, transmitted, or converted to FLV. They are designed

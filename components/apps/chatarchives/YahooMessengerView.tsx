@@ -6,6 +6,7 @@ import type {
   UserPresenceStatus,
 } from "@/lib/apps/chatarchives/types";
 import { EMOTICONS, YAHOO_PRESETS } from "@/lib/apps/chatarchives/data";
+import { pickYahooReply, YAHOO_BUZZ_BACK } from "@/lib/apps/chatarchives/replies";
 import styles from "./chatarchives.module.css";
 
 type YahooMessengerViewProps = {
@@ -51,6 +52,16 @@ export function YahooMessengerView({
 }: YahooMessengerViewProps) {
   const [inputText, setInputText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Friends answer back: who is "typing…" right now, and how many replies each has sent.
+  const [typingId, setTypingId] = useState<string | null>(null);
+  const replyCounts = useRef<Record<string, number>>({});
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  const later = (ms: number, fn: () => void) => {
+    timers.current.push(setTimeout(fn, ms));
+  };
 
   const activeContact =
     state.contacts.find((c) => c.id === state.activeContactId) ||
@@ -77,12 +88,27 @@ export function YahooMessengerView({
 
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
+    const contact = activeContact;
     dispatch({
       type: "SEND_YAHOO_MESSAGE",
       contactId: state.activeContactId,
       text: inputText,
     });
     setInputText("");
+    if (!contact || !contact.isOnline) return;
+    later(500, () => setTypingId(contact.id));
+    later(1700, () => {
+      const count = replyCounts.current[contact.id] ?? 0;
+      replyCounts.current[contact.id] = count + 1;
+      setTypingId(null);
+      dispatch({
+        type: "RECEIVE_MESSAGE",
+        service: "yahoo",
+        targetId: contact.id,
+        sender: contact.username,
+        text: pickYahooReply(contact.id, count),
+      });
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -94,8 +120,20 @@ export function YahooMessengerView({
 
   const handleBuzzClick = () => {
     if (!activeContact) return;
+    const contact = activeContact;
     dispatch({ type: "TRIGGER_BUZZ", contactId: state.activeContactId });
-    onBuzzToast(activeContact.username);
+    onBuzzToast(contact.username);
+    if (!contact.isOnline) return;
+    later(1600, () =>
+      dispatch({
+        type: "RECEIVE_MESSAGE",
+        service: "yahoo",
+        targetId: contact.id,
+        sender: contact.username,
+        text: YAHOO_BUZZ_BACK[contact.id] ?? "haha bakit?",
+        isBuzz: true,
+      }),
+    );
   };
 
   const handlePresetSelect = (text: string) => {
@@ -273,6 +311,11 @@ export function YahooMessengerView({
               </div>
             );
           })}
+          {typingId === activeContact?.id && (
+            <div className={styles.typingLine} aria-live="polite">
+              ✎ {activeContact.username} is typing…
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
 

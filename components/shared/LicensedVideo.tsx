@@ -11,9 +11,11 @@ type Props = {
   onStateChange?: (state: MediaPlaybackSnapshot) => void;
   onLoadingChange?: (loading: boolean) => void;
   className?: string;
+  /** Set false when the page provides its own player controls. */
+  controls?: boolean;
 };
 
-export function LicensedVideo({ asset, mediaRef, onStateChange, onLoadingChange, className }: Props) {
+export function LicensedVideo({ asset, mediaRef, onStateChange, onLoadingChange, className, controls = true }: Props) {
   const [failed, setFailed] = useState(false);
   const [retryKey, setRetryKey] = useState(0);
 
@@ -43,7 +45,7 @@ export function LicensedVideo({ asset, mediaRef, onStateChange, onLoadingChange,
           key={retryKey}
           ref={mediaRef}
           className={`${styles.media} ${styles.video}`}
-          controls
+          controls={controls}
           preload="metadata"
           playsInline
           poster={asset.posterSrc}
@@ -52,6 +54,7 @@ export function LicensedVideo({ asset, mediaRef, onStateChange, onLoadingChange,
           onLoadStart={() => onLoadingChange?.(true)}
           onWaiting={() => onLoadingChange?.(true)}
           onCanPlay={() => onLoadingChange?.(false)}
+          onLoadedMetadata={(event) => report(event.currentTarget, "idle")}
           onPlay={(event) => { onLoadingChange?.(false); report(event.currentTarget, "playing"); }}
           onPause={(event) => report(event.currentTarget, "paused")}
           onTimeUpdate={(event) => report(event.currentTarget, event.currentTarget.paused ? "paused" : "playing")}

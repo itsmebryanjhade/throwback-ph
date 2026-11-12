@@ -92,4 +92,12 @@ export type ChatArchivesAction =
   | { type: "TRIGGER_BUZZ"; contactId: string }
   | { type: "CLEAR_BUZZ" }
   | { type: "TOGGLE_EMOTICON_PICKER" }
-  | { type: "SELECT_TRANSCRIPT"; transcriptId: string };
+  | { type: "SELECT_TRANSCRIPT"; transcriptId: string }
+  | {
+      type: "RECEIVE_MESSAGE";
+      service: ChatServiceMode;
+      targetId: string;
+      sender: string;
+      text: string;
+      isBuzz?: boolean;
+    };

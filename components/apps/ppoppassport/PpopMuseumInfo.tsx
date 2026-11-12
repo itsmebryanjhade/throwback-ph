@@ -36,7 +36,7 @@ export function PpopMuseumInfo() {
 
         <div className={styles.reconstructionNotice}>
           <strong>Educational Reconstruction Notice:</strong> P-pop Passport is an original educational
-          simulation created for the Throwback PH Virtual Museum. All passport graphics, visa stamps, cultural
+          simulation created for the ASL Virtual Museum. All passport graphics, visa stamps, cultural
           trails, musical archetypes, artist references, and influence routes are fictional period-inspired educational
           reconstructions representing curatorial interpretations rather than verified historical facts. They are designed
           to illustrate cultural exchange without reproducing copyrighted music, lyrics, sound recordings, trademarked

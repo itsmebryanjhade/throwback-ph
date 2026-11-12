@@ -34,7 +34,7 @@ export function NokiaMuseumInfo() {
 
       <div className={styles.reconstructionNotice}>
         <strong>Educational Reconstruction Notice:</strong> This software is an educational
-        historical museum artifact developed for Throwback PH. It recreates early-2000s
+        historical museum artifact developed for ASL. It recreates early-2000s
         candy-bar cellular phone interaction patterns (such as multi-tap keypad entry and
         monophonic beeps) without using any proprietary Nokia logos, copyrighted ringtone
         recordings, or brand-trademarked interfaces.
