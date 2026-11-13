@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useRef } from "react";
 import { resizeFromHandle } from "@/lib/window-system/geometry";
@@ -45,7 +45,7 @@ export type WindowFrameProps = {
 export function WindowFrame({
   id,
   title,
-  icon = "ðŸ—”",
+  icon = "🗔",
   bounds,
   zIndex = 1,
   isActive = true,
@@ -328,7 +328,7 @@ export function WindowFrame({
                 }
               }}
             >
-              {isMaximized ? "â" : "â–¡"}
+              {isMaximized ? "❐" : "□"}
             </button>
           )}
 
@@ -342,7 +342,7 @@ export function WindowFrame({
                 onClose();
               }}
             >
-              Ã—
+              ×
             </button>
           )}
         </div>
