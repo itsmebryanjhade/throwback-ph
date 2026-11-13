@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#071936"/>
+  <g font-family="Verdana, Tahoma, Arial, sans-serif" font-weight="900" font-size="27" text-anchor="middle">
+    <text x="13.5" y="38" fill="#ffffff">A</text>
+    <text x="32" y="38" fill="#60b6f2">S</text>
+    <text x="50" y="38" fill="#f5a623">L</text>
+  </g>
+  <rect x="9" y="45" width="46" height="4" rx="2" fill="#f5a623"/>
+</svg>

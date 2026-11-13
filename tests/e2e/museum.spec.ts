@@ -71,11 +71,17 @@ test("free exploration preserves a minimized room and exposes signature interact
   await expect(page.getByText(/joined #pinoytambayan/i)).toBeVisible();
 });
 
-test("small screens receive the desktop recommendation", async ({ page }, testInfo) => {
+test("phones get the full museum with full-screen windows", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "narrow-screen", "Narrow-screen behavior has its own project.");
-  await page.goto("/");
-  await expect(page.getByText(/desktop or laptop/i)).toBeVisible();
-  await expect(page.getByTestId("museum-desktop")).toBeHidden();
+  await openWelcome(page);
+  await page.getByRole("button", { name: "Explore Freely" }).click();
+  await expect(page.getByTestId("museum-desktop")).toBeVisible();
+
+  await page.getByRole("button", { name: /Open Nokia Messages/i }).click();
+  const phoneWindow = page.getByRole("dialog", { name: "Nokia Messages" });
+  await expect(phoneWindow).toHaveAttribute("data-window-mode", "phone");
+  await expect(phoneWindow.getByRole("button", { name: "Maximize Nokia Messages" })).toHaveCount(0);
+  await expectNoDocumentOverflow(page);
 });
 
 test("visitor opens Friendster PH, switches skin, posts bulletin, and receives OS toast notification", async ({ page }, testInfo) => {

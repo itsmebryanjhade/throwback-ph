@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useCallback, useRef } from "react";
 import { resizeFromHandle } from "@/lib/window-system/geometry";
@@ -45,7 +45,7 @@ export type WindowFrameProps = {
 export function WindowFrame({
   id,
   title,
-  icon = "🗔",
+  icon = "ðŸ—”",
   bounds,
   zIndex = 1,
   isActive = true,
@@ -72,6 +72,11 @@ export function WindowFrame({
   headerExtra,
   children,
 }: WindowFrameProps) {
+  // Phones can't juggle floating windows: below 768px every window fills the
+  // screen like a phone app, with no dragging or resizing.
+  const isPhone = desktopArea.width > 0 && desktopArea.width < 768;
+  const fillsScreen = isMaximized || isPhone;
+
   const dragRef = useRef<{
     startX: number;
     startY: number;
@@ -89,7 +94,7 @@ export function WindowFrame({
   // Dragging logic
   const handleTitlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // Only drag with primary mouse button / touch
-    if (e.button !== 0 || isMaximized) return;
+    if (e.button !== 0 || fillsScreen) return;
     if ((e.target as HTMLElement).closest("button")) return;
 
     onFocus?.();
@@ -226,10 +231,11 @@ export function WindowFrame({
     ...style,
     zIndex,
     display: isMinimized ? "none" : undefined,
-    left: isMaximized ? 0 : bounds.x,
-    top: isMaximized ? 0 : bounds.y,
-    width: isMaximized ? "100%" : bounds.width,
-    height: isMaximized ? "100%" : bounds.height,
+    left: fillsScreen ? 0 : bounds.x,
+    top: fillsScreen ? 0 : bounds.y,
+    width: fillsScreen ? "100%" : bounds.width,
+    // Stop above the taskbar so Start and open apps stay reachable.
+    height: isMaximized ? "100%" : isPhone ? desktopArea.height : bounds.height,
   };
 
   const handles: ResizeHandle[] = [
@@ -249,12 +255,12 @@ export function WindowFrame({
       role="dialog"
       aria-label={ariaLabelledBy ? undefined : (ariaLabel || title)}
       aria-labelledby={ariaLabelledBy}
-      data-window-mode={isMaximized ? "maximized" : "standard"}
+      data-window-mode={isMaximized ? "maximized" : isPhone ? "phone" : "standard"}
       data-window-active={isActive ? "true" : "false"}
       hidden={isMinimized}
       className={`${styles.windowFrame} ${
         isActive ? styles.windowFrameActive : styles.windowFrameInactive
-      } ${isMaximized ? styles.windowFrameMaximized : ""} ${className}`}
+      } ${fillsScreen ? styles.windowFrameMaximized : ""} ${className}`}
       style={windowStyle}
       onPointerDownCapture={() => {
         if (!isActive) onFocus?.();
@@ -302,7 +308,7 @@ export function WindowFrame({
             </button>
           )}
 
-          {(onMaximize || onRestore || onToggleMaximize) && (
+          {!isPhone && (onMaximize || onRestore || onToggleMaximize) && (
             <button
               type="button"
               className={styles.controlButton}
@@ -322,7 +328,7 @@ export function WindowFrame({
                 }
               }}
             >
-              {isMaximized ? "❐" : "□"}
+              {isMaximized ? "â" : "â–¡"}
             </button>
           )}
 
@@ -336,7 +342,7 @@ export function WindowFrame({
                 onClose();
               }}
             >
-              ×
+              Ã—
             </button>
           )}
         </div>
@@ -345,7 +351,7 @@ export function WindowFrame({
       <div className={styles.windowBody}>{children}</div>
 
       {/* Resize handles - only active when not maximized */}
-      {!isMaximized &&
+      {!fillsScreen &&
         onResize &&
         handles.map((h) => {
           const classNameKey = `handle${h.toUpperCase()}` as keyof typeof styles;

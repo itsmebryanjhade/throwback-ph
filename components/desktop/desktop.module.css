@@ -107,3 +107,33 @@
 .iconLabel { padding: 1px 3px; font-size: 12px; font-weight: 700; line-height: 1.25; text-align: center; text-shadow: 1px 1px 1px #000, 0 0 3px rgba(0,0,0,.5); }
 @media (prefers-reduced-motion: reduce) { .iconGlyph { transition: none; } }
 @media (max-width: 1180px) { .stickyNote { display: none; } }
+
+/* ==========================================================================
+   Phones (< 768px): the desktop becomes a home screen of icons; windows open
+   full-screen (handled in WindowFrame).
+   ========================================================================== */
+@media (max-width: 767px) {
+  .desktop { padding: 10px 8px 56px; }
+  .brandStamp { display: none; }
+  .desktopGrid { width: 100%; max-height: calc(100svh - 66px); justify-items: stretch; }
+  .roomRow { width: 100%; box-sizing: border-box; }
+  .roomRowIcons { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 2px; }
+  .roomRowDivider { display: none; }
+  .desktopIcon { width: 100%; min-height: 80px; padding: 4px 2px; }
+  .iconLabel { font-size: 11px; }
+
+  .startButton { min-width: 72px; font-size: 16px; }
+  .taskItems { gap: 4px; padding: 4px; }
+  .taskItem { min-width: 0; max-width: 140px; padding: 0 6px; font-size: 12px; }
+  .clock { min-width: 58px; font-size: 12px; }
+  .systemTray { padding: 0 4px; gap: 4px; }
+  .startMenu { width: min(310px, calc(100vw - 8px)); max-height: calc(100svh - 56px); }
+
+  /* Splash: stack the title above the four tiles */
+  .boot { padding: 20px 16px; }
+  .bootComposition { grid-template-columns: 1fr; gap: 20px; width: 100%; justify-items: center; }
+  .bootMark { justify-items: center; }
+  .bootTitle { font-size: clamp(72px, 26vw, 110px); }
+  .bootObjects { width: min(280px, 80vw); }
+  .loadingTrack { width: min(300px, 80vw); }
+}

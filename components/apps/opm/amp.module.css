@@ -259,3 +259,25 @@
   .marquee span[data-playing="true"] { animation: none; }
   .vis[data-playing="true"] .bars i { height: 60%; }
 }
+
+/* Let columns shrink below their content (the long marquee text was
+   stretching the player wider than a phone screen). */
+.amp,
+.stack { grid-template-columns: minmax(0, 1fr); }
+.main,
+.nowPlaying,
+.playlist { min-width: 0; }
+.display { grid-template-columns: 150px minmax(0, 1fr); }
+.nowPlaying { grid-template-columns: 120px minmax(0, 1fr); }
+
+@container (min-width: 820px) {
+  .stack { grid-template-columns: minmax(380px, 1fr) minmax(300px, 0.9fr); }
+}
+
+@container (max-width: 420px) {
+  .display { grid-template-columns: 118px minmax(0, 1fr); }
+  .time { font-size: 20px; }
+  .nowPlaying { grid-template-columns: 84px minmax(0, 1fr); }
+  .jewel { width: 84px; height: 84px; }
+  .transport button { min-width: 30px; }
+}

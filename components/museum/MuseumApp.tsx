@@ -3,7 +3,6 @@
 import { useCallback, useReducer } from "react";
 import { BootScreen } from "@/components/desktop/BootScreen";
 import { DesktopShell } from "@/components/desktop/DesktopShell";
-import { DesktopRecommendation } from "@/components/shared/DesktopRecommendation";
 import { initialMuseumState, museumReducer } from "@/lib/museum-state";
 
 export function MuseumApp() {
@@ -13,14 +12,11 @@ export function MuseumApp() {
 
   return (
     <>
-      <DesktopRecommendation />
-      <div className="desktop-only">
-        {state.bootComplete ? (
-          <DesktopShell state={state} dispatch={dispatch} />
-        ) : (
-          <BootScreen onFinish={finishBoot} onSkip={skipBoot} />
-        )}
-      </div>
+      {state.bootComplete ? (
+        <DesktopShell state={state} dispatch={dispatch} />
+      ) : (
+        <BootScreen onFinish={finishBoot} onSkip={skipBoot} />
+      )}
     </>
   );
 }
